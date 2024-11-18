@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
   <head>
+
     <meta charset="utf-8">
+
     <title></title>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link href = "/css/navbar.css" rel="stylesheet">
+    <link href = "/css/showcase.css" rel="stylesheet">
+    <link href = "/css/tester.css" rel="stylesheet">
+    <link href = "/css/footer.css" rel="stylesheet">
+    <link href = "/css/about.css" rel="stylesheet">
+
   </head>
+
   <body>
+
     <main class="main_container">
 
-      <%- include("./index/navbar.ejs") %>
-      <%- include("./index/showcase.ejs") %>
-      <%- include("./index/color_tester.ejs") %>
-
-      <%- include("./footer.ejs") %>
+      <%- include("./index/layouts/navbar.ejs") %>
+      <%- include("./index/layouts/showcase.ejs") %>
+      <%- include("./index/layouts/color_tester.ejs") %>
+      <%- include("./index/layouts/about.ejs") %>
+      <%- include("./index/layouts/footer.ejs") %>
 
     </main>
-    <script src = "/js/art_creator.js"></script>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/canvas.js"></script>
+
   </body>
+
 </html>

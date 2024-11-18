@@ -1,0 +1,93 @@
+nav {
+  background:transparent;
+  color:white;
+  overflow: hidden;
+  position: relative;
+  z-index:9999;
+
+  width:100%;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+  margin-top:-35px;
+  padding-top:35px !important;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+.nav_container--logo{
+  float:left;
+  width:30%;
+}
+
+.nav_container{
+  padding:5px;
+  overflow: hidden;
+}
+
+.nav_container--divider{
+  margin-left:25%;
+  float:left;
+  height:1px;
+  width:40%;
+}
+
+.choice_container{
+  float:left;
+  width:50%;
+}
+
+.choice_container .title{
+  font-size:20px;
+  letter-spacing: 2px;
+  text-align: center;
+  position: relative;
+  z-index:9999;
+  font-size:200;
+  font-family: "Oswald"
+}
+
+.nav_container--logo img{
+  width:20%;
+  float:left;
+}
+
+.choice_container:hover .overlay{
+  height:100%;
+}
+
+.choice_container .overlay{
+  height:0px;
+  position: absolute;
+  border-radius: 10px;
+  left:0%;
+  bottom:0%;
+  width:100%;
+  background-image: linear-gradient(to right bottom,  purple,violet,orangered,violet,purple);
+  transition: all .4s;
+}
+
+.choice_container{
+  list-style-type: none;
+  position: relative;
+}
+
+.nav_container--choice ul li{
+  list-style-type: none;
+}
+
+.nav_container--choice{
+  float:left;
+  width:30%;
+  margin-left:35%;
+}
+
+.nav_container--logo .title{
+  font-size:25px;
+  float:left;
+  background-image: linear-gradient(to right bottom,  purple,violet,orangered,violet,purple);
+    color: transparent;
+    background-clip: text;
+  font-weight:200;
+  font-family: "Ga Maamli"
+}

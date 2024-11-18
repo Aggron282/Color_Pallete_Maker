@@ -111,7 +111,7 @@ window.addEventListener("mousemove",function(e){
 window.addEventListener("mousedown",function(e){
   isDrawing = true;
 
-  for(var i =0; i <10; i++){
+  for(var i =0; i <1000; i++){
     var root = new Root(e.x ,e.y)
     root.update();
   }

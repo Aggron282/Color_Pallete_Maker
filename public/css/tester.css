@@ -1,0 +1,59 @@
+.tester_container{
+  background: black;
+  color:white;
+  font-family: "Oswald";
+  padding:10px;
+  position: relative;
+  padding-bottom:10px;
+  overflow: hidden;
+}
+
+.tester_container .title{
+  font-size:45px;
+  font-weight:700;
+}
+
+.tester_container .text-container {
+  float:left;
+  width:45%;
+  position: relative;
+  z-index: 999;
+  padding:20px;
+  padding:20px;
+}
+
+.test_graphic{
+  width:80%;
+  height:500px;
+  transform: skewY(60deg);
+  background:#1a1a1a;
+  position: absolute;
+  top:0%;
+  right:-20%
+}
+
+.tester_container .subtitle{
+  font-size:45px;
+  font-weight:400;
+  margin-top:-20px;
+  background-image: linear-gradient(to right bottom,  yellow,purple);
+  color: transparent;
+  background-clip: text;
+}
+
+.tester_container .paragraph{
+  font-size:18px;
+  letter-spacing: 2px;
+  font-weight:400;
+}
+
+.tester_container .underline{
+  height:2px;
+  background:white;
+  position: absolute;
+  z-index: 9999999999999;
+  border-radius:5px;
+  width:50%;
+  left:25%;
+  top: 100%;
+}
