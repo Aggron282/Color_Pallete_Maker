@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href = "/css/auth.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="login_container">
+        <p class="title">
+            Login
+        </p>
+        <form action = "/login" method = "POST" class="auth_form">
+            <label> Username </label>
+            <input class="auth_input" name="username" placeholder="Enter username" >
+            <label> Password </label>
+            <input class="auth_input" type="password" name="password" placeholder="Enter password" >
+            <button class="auth_button" > Submit </button>
+        </form>
+        <p class="no_account">
+            Dont have an account?
+            <a href ="/create_account"> Click Here! </a>
+        </p>
+
+        <p>
+            <a href ="/"> Go to Home Page </a>
+        </p>
+
+    </div>
+  </body>
+</html>

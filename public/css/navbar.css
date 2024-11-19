@@ -11,6 +11,11 @@ nav {
   padding-top:35px !important;
 }
 
+nav a {
+  color:white;
+  text-decoration: none;
+}
+
 *{
   box-sizing: border-box;
 }

@@ -12,3 +12,18 @@ function distance(x1, y1, x2, y2) {
 
   return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
 }
+
+
+function ExtractFormData(form){
+  var new_form = new FormData(form);
+
+  var data = {};
+
+  for([key,value] in new_form){
+    console.log(key,value);
+    data[key] = value;
+  }
+
+  return form;
+
+}

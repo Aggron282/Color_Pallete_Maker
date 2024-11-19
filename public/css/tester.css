@@ -3,6 +3,7 @@
   color:white;
   font-family: "Oswald";
   padding:10px;
+  padding-top:30px;
   position: relative;
   padding-bottom:10px;
   overflow: hidden;
@@ -11,6 +12,31 @@
 .tester_container .title{
   font-size:45px;
   font-weight:700;
+}
+
+.image_form_container{
+  padding:20px;
+  margin-top:10%;
+  overflow: hidden;
+  background:#1a1a1a;
+
+}
+
+.image_form_container form label{
+  font-size:23px;
+  color:white;
+  font-family: "Oswald";
+  width:120%;
+  clear:both;
+}
+
+.image_input{
+  width:50%;
+  height:30px;
+  margin-top:50px;
+  border-radius:5px;
+  font-size:13px;
+  margin-top:10px;
 }
 
 .tester_container .text-container {
@@ -42,7 +68,7 @@
 }
 
 .tester_container .paragraph{
-  font-size:18px;
+  font-size:20px;
   letter-spacing: 2px;
   font-weight:400;
 }
@@ -56,4 +82,66 @@
   width:50%;
   left:25%;
   top: 100%;
+}
+
+.submit_image_button{
+  background:black;
+  color:white;
+  font-size:18px;
+  font-family: "Oswald";
+  border-color:black;
+  border-radius:5px;
+  width:30%;
+  float: right;
+  margin-right:5%;;
+  margin-top:0px;
+}
+
+.display_container{
+  float:left;
+  position: relative;
+  z-index:9999999999999;
+  width:50%;
+  overflow: hidden;
+  padding-top:5%;
+}
+
+.img_display_continer{
+  width:80%;
+  margin-left:15%;
+}
+
+.img_display{
+  animation: img_appear .5s ease-in 1;
+  width:100%;
+  max-width:450px;
+  max-height: 500px;
+}
+
+.color_blob{
+  animation: img_appear 1s ease-in 1;
+}
+
+@keyframes img_appear{
+  0%{
+    filter:brightness(0);
+  }
+  100%{
+    filter: brightness(1);
+  }
+}
+
+.color_pallete_container{
+  width:100%;
+  margin-left:17.5%;
+  overflow: hidden;
+  padding:20px;
+}
+
+.color_blob{
+  width:50px;
+  height:50px;
+  float:left;
+  border-radius:50%;
+  margin-left:20px;
 }

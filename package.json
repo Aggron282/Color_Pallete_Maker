@@ -1,9 +1,12 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-validator": "^7.2.0",
     "extract-colors": "^4.1.0",
+    "formidable": "^3.5.2",
+    "get-image-colors": "^4.0.1",
     "get-pixels": "^3.3.3",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.4",

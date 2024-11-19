@@ -12,19 +12,60 @@
       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Aenean iaculis cursus interdum.
        Fusce scelerisque mauris nec orci rutrum,
-       in facilisis orci bibendum.
-       Nulla in vestibulum ipsum,
-       ac dictum neque.
-       Phasellus dictum, dui aliquet vehicula finibus,
-       velit mi interdum nisl,
-       eu pretium diam neque cursus nisl.
-       Pellentesque efficitur quam vitae ultricies dapibus.
-       Nam aliquet lorem felis, at pulvinar nunc dictum non. Donec hendrerit,
-       est eu eleifend rhoncus, purus diam pharetra massa, id dignissim mi
-       turpis congue urna. Maecenas mi orci,
-       elementum sed varius in, viverra sed quam.
+
     </p>
 
+    <div class="image_form_container">
+
+      <form  class="img_upload_form" action = "/extract" method = "POST" enctype="multipart/form-data">
+
+        <label>Select an Image</label>
+
+        <br />
+
+        <input type="file"  name = "image" class="image_input"/>
+
+        <button type="submit" class="submit_image_button img_upload_button">Submit</button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <div class="display_container">
+
+    <div class="inner-container">
+
+      <div class="img_display_continer">
+        <img class="img_display" src = "/imgs/example.png">
+      </div>
+
+      <div class="color_pallete_container">
+
+        <div class="color_blob" style="background:#282410">
+
+        </div>
+        <div class="color_blob" style="background:#BD7740">
+
+        </div>
+        <div class="color_blob" style="background:#D7DBD9">
+
+        </div>
+        <div class="color_blob" style="background:#E7CF92">
+
+        </div>
+        <div class="color_blob" style="background:#584334">
+
+        </div>
+        <div class="color_blob" style="background:#52605C">
+
+        </div>
+
+      </div>
+
+    </div>
+    
   </div>
 
   <div class="underline"></div>
