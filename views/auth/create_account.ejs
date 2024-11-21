@@ -26,22 +26,25 @@
 
             <div class="input_group--auth">
               <label> Full Name </label>
+              <div id = "name_error" class="error_container"></div>
               <input class="auth_input" name="name" placeholder="Enter username" >
             </div>
 
             <div class="input_group--auth">
               <label> Username </label>
+              <div id = "username_error"class="error_container"></div>
               <input class="auth_input" name="username" placeholder="Enter username" >
            </div>
 
             <div class="input_group--auth">
               <label> Password </label>
+              <div id = "password_error"class="error_container"></div>
               <input class="auth_input" type="password" name="password" placeholder="Enter password" >
             </div>
 
             <div class="input_group--auth">
               <label> Profile Img </label>
-              <input class="auth_input profile_img_input"  type="file" name="profileImg"  accept="image/*" >
+              <input class="auth_input profile_img_input"  type="file" name="image" accept="image/*" >
             </div>
 
             <div class="profile_img_display_container">
@@ -62,6 +65,8 @@
     </div>
 
   </div>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+
     <script src = "/js/auth/global_var.js"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/img_upload.js"></script>

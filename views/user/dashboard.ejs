@@ -15,33 +15,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
 
-    <link href = "/css/navbar.css" rel="stylesheet">
-    <link href = "/css/showcase.css" rel="stylesheet">
-    <link href = "/css/tester.css" rel="stylesheet">
+    <link href = "/css/user/navbar.css" rel="stylesheet">
+    <link href = "/css/user/add_pallete.css" rel="stylesheet">
+    <link href = "/css/user/dashboard.css" rel="stylesheet">
+    <link href = "/css/user/pallete_box.css" rel="stylesheet">
     <link href = "/css/footer.css" rel="stylesheet">
-    <link href = "/css/about.css" rel="stylesheet">
 
   </head>
 
   <body>
 
-    <main class="main_container">
+    <main class="dashboard_container">
 
-      <%- include("./index/layouts/navbar.ejs") %>
-      <%- include("./index/layouts/showcase.ejs") %>
-      <%- include("./index/layouts/color_tester.ejs") %>
-      <%- include("./index/layouts/about.ejs") %>
-      <%- include("./index/layouts/footer.ejs") %>
+      <img class="logo_watermark" src = "/imgs/logo.png"/>
 
+      <%- include("./layouts/navbar.ejs") %>
+      <%- include("./layouts/my_palletes.ejs") %>
     </main>
 
-
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
-    <script src="/js/index_global_vars.js"></script>
+
     <script src="/js/utils.js"></script>
-    <script src="/js/canvas.js"></script>
-    <script src="/js/color_pallete.js"></script>
-    <script src="/js/img_upload.js"></script>
 
   </body>
 

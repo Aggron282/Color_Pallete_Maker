@@ -1,21 +1,31 @@
 var mysql = require("mysql2");
 var db = require("./db.js");
 
-function InsertInto(table_name,data){
+async function InsertInto(table_name,data){
 
   var cols = CreateSQLTuple(data,true)
   var values = CreateSQLTuple(data,false)
-
+  console.log(cols,values);
   var insertion = `INSERT INTO ${table_name} ${cols} VALUES ${values}`
 
    db.execute(insertion).then((r)=>{
      console.log(r)
-     return true;
+     return r;
    }).catch((err)=>{
      console.log(err);
      return false;
    });
 
+}
+
+async function findUser(username,cb){
+
+  db.execute(`SELECT * FROM user WHERE username = ${JSON.stringify(username)}`).then((response)=>{
+    cb(response[0])
+  }).catch((err)=>{
+    console.log(err);
+    cb([])
+  })
 }
 
 function CreateSQLTuple(data,isCol){
@@ -58,3 +68,5 @@ function CreateTuple(data){
 }
 
 module.exports.InsertInto = InsertInto;
+
+module.exports.findUser = findUser;

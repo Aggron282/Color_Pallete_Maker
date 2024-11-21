@@ -1,0 +1,146 @@
+nav{
+  background:none;
+  background: #27294c;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+  overflow: hidden;
+  width:100%;
+  padding:0px;
+  position: absolute;
+  top:0%;
+  left:0%;
+  padding-top:20px;
+  z-index:99999999;
+  padding:10px;
+  padding-bottom:0px;
+}
+
+.add--active{
+  opacity:1 !important;
+}
+
+body{
+  overflow-x: hidden;
+}
+*{
+  box-sizing: border-box;
+}
+.user_nav_container{
+  float:left;
+  width:20%;
+  margin-right:5%;
+  padding:20px;
+}
+
+.user_nav_container .title{
+    font-size:17px;
+    letter-spacing: 2px;
+    text-align: left;
+    padding-left:10px;
+    position: relative;
+    margin-top:0px;
+    color:white;
+    z-index:9999;
+    font-size:200;
+    font-family: "Oswald"
+}
+
+.choice_user_nav_container_group{
+  width:10%;
+  float:left;
+  margin-top:10px;
+  margin-left:5%;
+
+}
+
+.choice_user_container{
+  float:right;
+  width:30px;
+  height:30px;
+  margin-left:10px;
+  position: relative;
+}
+
+.choice_user_container .icon{
+  opacity:.3;
+  width:100%;
+  transition: all .4s;
+}
+
+.choice_user_container .icon:hover{
+  opacity:1;
+}
+
+.choice_user_container .icon--active{
+  opacity:1;
+}
+
+.choice_user_container .add{
+  text-align: center;
+  color:white;
+  opacity:.4;
+  transition: all .3s;
+  font-size: 30px;
+  border:1px solid none;
+}
+
+.choice_user_container:hover .add{
+  opacity:1;
+  border-color:white;
+}
+
+.choice_user_container .underline{
+  width:0%;
+  border-radius: 5px;
+  position: absolute;
+  bottom:-10px;
+  height:2px;
+  background:lightblue;
+  transition: all .4s;
+  z-index: 99;
+}
+
+.choice_user_container .underline--active{
+  width:100%;
+}
+
+.search_nav_container{
+  width:40%;
+  float:left;
+  margin-top:15px;
+}
+
+.search_nav {
+  width:100%;
+  border-radius:10px;
+  border:none;
+  background:#1e2040;
+  color:white;
+  padding:10px;
+  font-family: "Oswald";
+}
+
+.choice_user_container:hover .underline{
+  width:100%;
+}
+
+.profile_user_container{
+  float:right;
+  width:15%;
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+  border-radius:20px;
+  color:white;
+  margin-top:5px;
+  font-size: 15px;
+  font-family: "Oswald";
+  text-transform: capitalize;
+  padding-left:20px;
+}
+
+.profile_user_container .icon{
+  border-radius:50%;
+  overflow: hidden;
+  width:50px;
+  height:50px;
+  float:right;
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+}

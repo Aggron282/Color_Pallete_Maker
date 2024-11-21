@@ -3,6 +3,7 @@
     "bcrypt": "^5.1.1",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "express-validator": "^7.2.0",
     "extract-colors": "^4.1.0",
     "formidable": "^3.5.2",

@@ -1,0 +1,132 @@
+
+.add_pallete_container{
+  background: #1e2040;
+  padding:30px;
+  color:white;
+  height:100%;
+  padding-top:10%;
+  margin-top:0%;
+  width:100%;
+  position: relative;
+  left:0;
+  top:0;
+  z-index:9999;
+  overflow: hidden;
+  transition: all .4s;
+  font-family: "Oswald";
+}
+
+body{
+  padding:0px;
+}
+
+.color_display_container{
+  float:left;
+  width:50%;
+  height:100%;
+  padding: 40px;
+}
+
+.display_color{
+  filter:brightness(.89);
+  opacity:.5;
+  margin-left:35%;
+  width:30%;
+}
+
+.display_container .title{
+  font-size:40px;
+  text-align: center;
+}
+
+.add_pallete_button {
+  position: absolute;
+  right:30px;
+  top:50px;
+  font-family: "Oswald";
+  background:black;
+  color:white;
+  pointer-events: none;
+  opacity:.5;
+  border:none;
+  padding:5px;
+  border-radius:10px;
+  font-size:20px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.6);
+  z-index: 9999999999;
+}
+
+
+.add_pallete_button--active{
+  opacity:1 !important;
+  pointer-events: all !important;
+}
+
+.image_input{
+  width:20%;
+  height:30px;
+  margin-top:50px;
+  border-radius:5px;
+  font-size:13px;
+  margin-top:10px;
+}
+
+.display_section{
+  position: relative;
+}
+
+
+.save_pallete_button{
+  position: absolute;
+  right:100px;
+  top:50px;
+  font-family: "Oswald";
+  background:black;
+  color:white;
+  pointer-events: none;
+  opacity:.5;
+  border:none;
+  padding:5px;
+  border-radius:10px;
+  font-size:20px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.6);
+  z-index: 9999999999;
+}
+
+.save_pallete_button--active{
+  opacity:1;
+  pointer-events: all !important;
+}
+
+.add_pallete_container .display_section{
+  width:100%;
+  margin-top:-5%;
+  padding-top:5%;
+}
+
+
+.color_display_container .color_blob{
+  border-radius:10px;
+  float:left;
+  width:30%;
+  margin-top:10px;
+  margin-left:10px;
+  height:50px;
+}
+
+.image_display_container{
+  float:left;
+  width:50%;
+  height:100vh;
+
+  padding:5%;
+  border-left:5px solid #27294c;
+}
+
+.image_display_container .img_display{
+  width:70%;
+}
+
+.image_display_container{
+  padding:20px;
+}

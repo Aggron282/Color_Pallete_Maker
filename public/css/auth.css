@@ -11,6 +11,18 @@
   font-size:18px;
 }
 
+.auth_container--login{
+  padding: 0px;
+  margin-top:0%;
+  padding:0px !important;
+}
+
+.validation_errror{
+  color:orangered;
+  font-size:11px;
+  font-family: "monospace";
+}
+
 body{
   overflow: hidden;
   background:black;
@@ -28,6 +40,21 @@ body{
   background: #111926;
   border-radius:5px;
   box-shadow:0px 0px 10px rgba(0,0,0,.5);
+}
+
+.login_container{
+  margin-left:-2%;
+  background: #111926;
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+  width:50%;
+  margin-top:-2%;
+  height:105vh;
+  padding:2%;
+}
+
+.login_container .title{
+  font-size: 40px;
+  text-align: center;
 }
 
 .profile_img_display_container{
@@ -85,10 +112,9 @@ body{
   color:white;
   margin-top:10px;
   border-bottom:white 1px solid;
-
 }
 
-.profile_img{
+.profile_img_display_container .img_display{
   width:100px;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0,0,0,.5);
@@ -99,6 +125,7 @@ body{
   text-align: center;
   color:white;
 }
+
 .no_account a {
   color:white;
 }
@@ -107,5 +134,8 @@ body{
   font-size:30px;
   font-family: "Oswald";
   text-align: center;
+}
 
+.input_group--login{
+  width: 90% ;
 }

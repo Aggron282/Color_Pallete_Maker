@@ -1,0 +1,46 @@
+<nav>
+
+    <div class="user_nav_container">
+      <p class="title"> Color Pallete Maker </p>
+    </div>
+
+    <div class="search_nav_container">
+      <form id = "search_colors_form">
+        <input class="search_nav" placeholder= "Enter a color or multiple colors (Seperate by comma)"/>
+      </form>
+    </div>
+
+    <div class="choice_user_nav_container_group">
+
+        <div class="choice_user_container">
+          <img class="icon" src = "/imgs/rainbow.png"/>
+          <div class="underline underline"></div>
+        </div>
+
+        <% isActive = path == "/add" ? "add add--active" : "add" %>
+        <% isUActive = path == "/add" ? "underline underline--active" : "underline" %>
+
+      <a href = "/add">  <div class="choice_user_container">
+          <div class="<%= isActive %>" >+</div>
+          <div class="<%= isUActive %>" ></div>
+        </div> </a>
+
+        <% isActive = path == "/dashboard" ? "icon icon--active" : "icon" %>
+        <% isUActive = path == "/dashboard" ? "underline underline--active" : "underline" %>
+        <a href = "/dashboard">
+        <div class="choice_user_container">
+          <img class="<%= isActive %>"  src = "/imgs/home.png"/>
+          <div class="<%= isUActive %>" ></div>
+        </div></a>
+
+    </div>
+
+    <div class="profile_user_container">
+      <% var img_src = user.profileImg ? user.profileImg : "/imgs/profile.png" %>
+      <img class="icon icon--active" src = "<%= img_src %>" />
+
+      <p> <%= user.name %> </p>
+
+    </div>
+
+</nav>
