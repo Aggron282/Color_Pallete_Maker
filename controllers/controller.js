@@ -19,7 +19,13 @@ const GetCreateAccountPage = (req,res) => {
 }
 
 const GetDashboardPage = (req,res) => {
-  res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard"});
+
+  mysql_util.findUserPallets(req.user.user_id,async (colors)=>{
+    var pallets = await color_util.ConfigurePallets(colors);
+
+    res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",pallets:pallets});
+  })
+
 }
 
 const GetAddPage = (req,res) => {
@@ -42,6 +48,7 @@ const Login = async (req,res) => {
         res.json({feedback:false,err_msg:"Incorrect User/Password"})
       }else{
         req.session.user = user;
+        console.log(user)
         res.json({feedback:true,err_msg:null,user});
       }
     }
@@ -73,7 +80,7 @@ const CreateAccount = async (req,res) => {
 
     var encrypt = await bcrypt.hash(password,12);
 
-    var profileImg = req.file ? req.file.path : "";
+    var profileImg = req.file ? req.file.originalname : "";
     name = name ? name : ""
 
     var data = [
@@ -107,9 +114,6 @@ const CreateAccount = async (req,res) => {
 const PostExtractColor = async (req,res) => {
 
   var img_file = req.file;
-  var dirname = path.join(rootDir,"images");
-  var src_name = "";
-  var image_name = "";
 
   if(img_file){
     const color_data = await color_util.ExtractColorFromImage(img_file.path);
@@ -123,6 +127,45 @@ const PostExtractColor = async (req,res) => {
 
 }
 
+
+const GetUserPallets = async (req,res)=>{
+
+  mysql_util.findUserPalletes(async (colors)=>{
+    var palletes = await color_util.ConfigurePallets(colors);
+    res.json({pallets:palletes})
+  })
+}
+
+const AddPallete = async (req,res) => {
+
+  const img_file = req.file;
+
+  const img_src = path.join("/images",img_file.filename);
+
+
+    var data = [
+      {
+        col:"user_id",
+        value:req.user.user_id
+      },
+      {
+        col:"image",
+        value:img_file.path
+      }
+    ];
+
+
+    const insert_exec = await mysql_util.InsertInto("pallete",data);
+
+    if(insert_exec){
+      res.json({feedback:true,err_msg:null})
+    }else{
+      res.json({feedback:true,err_msg:null})
+    }
+
+}
+module.exports.AddPallete = AddPallete;
+module.exports.GetUserPallets = GetUserPallets;
 module.exports.GetAddPage = GetAddPage;
 module.exports.GetDashboardPage = GetDashboardPage;
 module.exports.CreateAccount = CreateAccount;

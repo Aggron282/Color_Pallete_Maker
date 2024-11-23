@@ -1,11 +1,12 @@
 const ReturnPalleteHTML=(color)=>{
   var {r,g,b} = color
   var rgb = `rgba(${r},${g},${b})`
+
   return(
     `
     <div class="color_blob" style="background:${rgb}"></div>
-    `
-  )
+    `)
+    
 }
 
 const RenderPallete = (container,colors) => {

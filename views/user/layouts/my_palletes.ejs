@@ -2,26 +2,29 @@
 <div class="my_palletes_container">
 
   <p class="title"> My Palletes </p>
+  <% if(pallets.length > 0) {%>
+    <div class="inner-container">
 
-  <div class="inner-container">
+      <% for(var i =0; i < pallets.length; i ++) {%>
 
-    <% for(var i =0; i < 5; i ++) {%>
+        <div class="pallete_box">
+              <% var src_name = pallets[i].image %>
+              <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+              <% console.log(src) %>
+          <div class="img_holder">
+            <img src ="/<%= src %>"/>
+          </div>
 
-      <div class="pallete_box">
+          <div class="color_box">
+              <% for(var x =0; x < pallets[i].colors.length; x ++) {%>
+                <% var rgb = `rgb(${pallets[i].colors[x].r},${pallets[i].colors[x].g},${pallets[i].colors[x].b})` %>
+                <div class="pallete"style="background:<%=rgb %>"></div>
+              <%}%>
+          </div>
 
-        <div class="img_holder">
-          <img src = "/imgs/example.png"/>
         </div>
 
-        <div class="color_box">
-          <div class="pallete"style="background:orangered"></div>
-          <div class="pallete"style="background:orangered"></div>
-          <div class="pallete"style="background:orangered"></div>
-          <div class="pallete"style="background:orangered"></div>
-          <div class="pallete"style="background:orangered"></div>
-        </div>
-
-      </div>
+      <%}%>
 
     <%}%>
 

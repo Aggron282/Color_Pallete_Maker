@@ -5,7 +5,7 @@ async function InsertInto(table_name,data){
 
   var cols = CreateSQLTuple(data,true)
   var values = CreateSQLTuple(data,false)
-  console.log(cols,values);
+
   var insertion = `INSERT INTO ${table_name} ${cols} VALUES ${values}`
 
    db.execute(insertion).then((r)=>{
@@ -19,13 +19,29 @@ async function InsertInto(table_name,data){
 }
 
 async function findUser(username,cb){
-
+  if(!username){
+    cb([])
+    return;
+  }
   db.execute(`SELECT * FROM user WHERE username = ${JSON.stringify(username)}`).then((response)=>{
     cb(response[0])
   }).catch((err)=>{
     console.log(err);
     cb([])
   })
+
+}
+
+
+async function findUserPallets(user_id,cb){
+
+  db.execute(`SELECT * FROM pallete WHERE user_id = ${JSON.stringify(user_id)}`).then((response)=>{
+    cb(response[0])
+  }).catch((err)=>{
+    console.log(err);
+    cb([])
+  })
+
 }
 
 function CreateSQLTuple(data,isCol){
@@ -53,6 +69,7 @@ function CreateTuple(data){
   var tuple = "("
 
   for(var i =0; i < data.length; i ++){
+
     if(i == data.length - 1){
       tuple += data[i];
     }else{
@@ -68,5 +85,5 @@ function CreateTuple(data){
 }
 
 module.exports.InsertInto = InsertInto;
-
 module.exports.findUser = findUser;
+module.exports.findUserPallets = findUserPallets;

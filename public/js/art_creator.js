@@ -1,18 +1,21 @@
 //  @type {HTMLCanvasElement}
- var canvas = document.querySelector("#csv");
+var canvas = document.querySelector("#csv");
 var isDrawing = false;
 
 csv = canvas.getContext("2d");
+
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 canvas.style.width = "100%";
 canvas.style.height = "100%";
+
 csv.fillStyle = "#FFF5DE"
 csv.shadowOffsetX = 10;
 csv.shadowOffsetY = 10;
 csv.shadowBlur = 10;
 csv.shadowColor = 'rgba(10,10,10,.3)';
 csv.globalCompositeOperation = "source-over"
+
 function RandomEvenNumber(min,max){
   var min = Math.ceil(min / 2) * 2;
   var max = Math.floor(max / 2) * 2;
@@ -26,9 +29,6 @@ function RandomOddNumber(min,max){
 
   return Math.floor(Math.random() * ((max - min) / 3 + 1)) * 3 + min;
 }
-
-
-
 
 
 class Root {
@@ -79,12 +79,7 @@ class Root {
           csv.strokeRect(0 - triple / 2,0 - triple /2,triple,triple);
 
           csv.restore();
-        //  csv.beginPath()
-        //  csv.arc(this.x,this.y,this.size,0, Math.PI * 2)
-        // csv.fillStyle = `rgba(${Math.ceil(Math.random() * 254)},${Math.ceil(Math.random() * 254)},${Math.ceil(Math.random() * 254)},.9)`
-          // csv.fillStyle = `hsl(140,100%,50%)`
-      //    csv.fill();
-        //  csv.stroke();
+    
           requestAnimationFrame(this.update.bind(this))
         }
 

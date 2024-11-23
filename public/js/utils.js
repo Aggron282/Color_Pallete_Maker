@@ -13,6 +13,27 @@ function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
 }
 
+async function CreatePopup (message,type){
+
+  var container = document.querySelector(".popup_container");
+  var type = type ? "popup--"+type : "";
+
+  var html = `
+  <div class="popup ${type}">
+    ${message}
+  </div>
+  `
+  container.innerHTML = html;
+
+  var remove_class = "popup--remove";
+
+  await Delay(4000);
+
+  var popup = document.querySelector(".popup");
+
+  popup.classList.add(remove_class);
+
+}
 
 function ExtractFormData(form){
   var new_form = new FormData(form);
@@ -26,4 +47,8 @@ function ExtractFormData(form){
 
   return form;
 
+}
+
+async function Delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

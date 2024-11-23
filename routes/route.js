@@ -16,6 +16,8 @@ router.post("/login",controller.Login);
 router.get("/dashboard",isAuth,controller.GetDashboardPage);
 router.get("/add",isAuth,controller.GetAddPage);
 router.post("/extract",controller.PostExtractColor);
+router.post("/save",controller.AddPallete);
+router.get("/user/pallets",controller.GetUserPallets);
 
 
 module.exports = router;

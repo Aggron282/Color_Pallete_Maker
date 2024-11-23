@@ -44,8 +44,6 @@ async function SubmitAccount(form,url,redirect){
     error_containers[w].innerHTML = "";
   }
 
-   console.log(data);
-   
   if(data.validation_errors){
 
     if(data.validation_errors){

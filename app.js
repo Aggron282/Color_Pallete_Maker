@@ -7,6 +7,9 @@ var rootDir = path.dirname(require.main.filename);
 var port = 3000;
 var app = express();
 var session = require("express-session");
+const image_handler = require("./util/image_handler.js");
+
+app.use(express.static("images"));
 
 app.use(session({
   resave:false,
@@ -14,22 +17,24 @@ app.use(session({
   secret:"39iri3290ie3r2ir3209jdfiewcmod12",
   cookie:{
     secure:false,
-    maxAge: 180 * 60 * 1000
+    maxAge: 1800 * 60 * 1000
   }
 }))
 
 app.use((req,res,next)=>{
+
   if(req.session.user){
     req.user = req.session.user;
   }else{
     req.user = null
   }
   next();
+
 })
 
 var storage = multer.diskStorage({
   destination: (req,file,cb) => {
-    cb(null,path.join(rootDir,"images/"))
+    cb(null,path.join(rootDir,"images"))
   },
   filename: (req,file,cb) => {
     cb(null,new Date().toISOString().replace(/:/g, '-')+"-"+file.originalname)
@@ -39,10 +44,11 @@ var storage = multer.diskStorage({
 
 app.set("view engine","ejs");
 
-app.use(multer({dest:"images",storage}).single("image"));
-
+app.use(multer({storage:storage,fileFilter: function(req,file, cb) {
+    console.log(req,file)
+    image_handler.checkFileType(file, cb);
+}}).single("image"));
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static("images"));
 
 app.use(express.static("public"));
 

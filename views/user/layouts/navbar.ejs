@@ -36,7 +36,7 @@
     </div>
 
     <div class="profile_user_container">
-      <% var img_src = user.profileImg ? user.profileImg : "/imgs/profile.png" %>
+      <% var img_src = user.profileImg ? "/images/"+user.profileImg : "/imgs/profile.png" %>
       <img class="icon icon--active" src = "<%= img_src %>" />
 
       <p> <%= user.name %> </p>

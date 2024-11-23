@@ -1,0 +1,57 @@
+.popup_container{
+  position: absolute;
+  top: 0%;
+  left:0%;
+  width:100%;
+  z-index: 9999999999999999999999999999999999999999999999;
+
+}
+
+.popup{
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+  padding:10px;
+  font-size:18px;
+  z-index: 9999;
+  position: absolute;
+  top:0%;
+  left:0%;
+  background:#1e2040;
+  text-align: center;
+  color:white;
+  font-family: "Oswald";
+  width:100%;
+  opacity:1;
+  transform:translateY(0px);
+  animation: popup_appear .5s ease-in 1;
+}
+
+.popup--remove{
+  animation: popup_remove .5s ease-in 1 !important;
+  opacity:0;
+  transform:translateY(-100px);
+}
+
+
+@keyframes popup_appear
+{
+  0%{
+    opacity:0;
+    transform:translateY(-100px)
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0px)
+  }
+}
+
+@keyframes popup_remove
+{
+  0%{
+    opacity:1;
+    transform:translateY(0px)
+  }
+  100%{
+    opacity:0;
+    transform:translateY(-100px)
+  }
+}
