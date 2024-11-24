@@ -2,7 +2,7 @@ nav{
   background:none;
   background: #27294c;
   box-shadow: 0px 0px 10px rgba(0,0,0,.5);
-  overflow: hidden;
+  overflow:visible;
   width:100%;
   padding:0px;
   position: absolute;
@@ -14,6 +14,61 @@ nav{
   padding-bottom:0px;
 }
 
+.profile_choice_container:hover{
+  color:white;
+
+  background:#1e2040;
+
+}
+.profile_choice_container{
+  color:white;
+  transition: all .4s;
+  font-family: "Oswald";
+  font-size: 17px;
+  text-align: center;
+  background:#27294c;
+  padding:10px;
+  border-bottom:1px solid #1e2040;
+
+}
+.profile_dropdown_container{
+  transform: scaleY(0);
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: all .4s;
+  z-index: 99999999999;
+}
+
+.profile_choice_container--exit{
+  color:white;
+  font-size:15px;
+}
+
+.profile_user_container--inactive{
+  pointer-events: none;
+  height:0px;
+}
+
+.profile_dropdown_container--dropped{
+  transform: scaleY(1) !important;
+  visibility: visible !important;
+  opacity:1 !important;
+  pointer-events: all !important;
+}
+
+.profile_choice_container--logout{
+  color:red;
+  font-family: "Oswald";
+}
+
+.profile_choice_container--delete_account{
+  color:maroon;
+  font-family: "Oswald";
+  font-size: 14px;
+  font-weight: 300;
+}
+
 .add--active{
   opacity:1 !important;
 }
@@ -21,9 +76,11 @@ nav{
 body{
   overflow-x: hidden;
 }
+
 *{
   box-sizing: border-box;
 }
+
 .user_nav_container{
   float:left;
   width:20%;
@@ -83,6 +140,48 @@ body{
   border:1px solid none;
 }
 
+.delete_pallets_container{
+  margin-top:5%;
+}
+
+ #delete-pallets{
+  text-align: right;
+  color:white;
+  opacity:.4;
+  float: right;
+  transition: all .3s;
+  font-size: 13px;
+  font-family: "oswald";
+  position: relative;
+  border:1px solid none;
+  display: inline;
+}
+
+ #delete-pallets:hover {
+   opacity:1;
+ }
+
+.delete_pallets_container{
+  float:right;
+  width:40%;
+}
+
+ #delete-pallets:hover .underline{
+   width:100%;
+ }
+
+ #delete-pallets .underline{
+   width:0%;
+   border-radius: 5px;
+   position: absolute;
+   bottom:0px;
+   height:2px;
+   background:lightblue;
+   transition: all .4s;
+   z-index: 99;
+ }
+
+
 .choice_user_container:hover .add{
   opacity:1;
   border-color:white;
@@ -119,6 +218,14 @@ body{
   font-family: "Oswald";
 }
 
+.profile_dropdown_container{
+  position: absolute;
+  width:20%;
+  right:0%;
+  height:100%;
+  top:200px;
+}
+
 .choice_user_container:hover .underline{
   width:100%;
 }
@@ -126,6 +233,7 @@ body{
 .profile_user_container{
   float:right;
   width:15%;
+  position: relative;
   box-shadow:0px 0px 10px rgba(0,0,0,.5);
   border-radius:20px;
   color:white;

@@ -30,7 +30,6 @@ function RandomOddNumber(min,max){
   return Math.floor(Math.random() * ((max - min) / 3 + 1)) * 3 + min;
 }
 
-
 class Root {
 
   constructor(x,y){
@@ -79,7 +78,7 @@ class Root {
           csv.strokeRect(0 - triple / 2,0 - triple /2,triple,triple);
 
           csv.restore();
-    
+
           requestAnimationFrame(this.update.bind(this))
         }
 
@@ -102,8 +101,8 @@ window.addEventListener("mousemove",function(e){
 
 })
 
-
 window.addEventListener("mousedown",function(e){
+
   isDrawing = true;
 
   for(var i =0; i <1000; i++){

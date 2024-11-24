@@ -1,25 +1,67 @@
 
 <div class="my_palletes_container">
 
+  <div class="options_container">
+
+           <div class="delete_pallets_container">
+              <div class="delete_pallets"  id="delete-pallets">Delete Pallets</div>
+              <div class="underline" ></div>
+            </div>
+
+  </div>
+
   <p class="title"> My Palletes </p>
+
   <% if(pallets.length > 0) {%>
+
     <div class="inner-container">
 
       <% for(var i =0; i < pallets.length; i ++) {%>
 
-        <div class="pallete_box">
-              <% var src_name = pallets[i].image %>
-              <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
-              <% console.log(src) %>
-          <div class="img_holder">
-            <img src ="/<%= src %>"/>
+        <div class="flip-card pallet_card" _id = "<%= pallets[i].pallete_id %>" >
+
+          <div class="exit" _id = "<%= pallets[i].pallete_id %>" >
+              X
           </div>
 
-          <div class="color_box">
+          <div class="flip-card-inner">
+
+            <div class="flip-card-front">
+
+              <% var src_name = pallets[i].image %>
+              <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+
+              <p class="pallet_title"> <%= pallets[i].name %></p>
+
+              <div class="img_holder">
+                 <img src = "<%= src %>"/>
+              </div>
+
+              <br />
+
               <% for(var x =0; x < pallets[i].colors.length; x ++) {%>
+
                 <% var rgb = `rgb(${pallets[i].colors[x].r},${pallets[i].colors[x].g},${pallets[i].colors[x].b})` %>
-                <div class="pallete"style="background:<%=rgb %>"></div>
+
+                <div class="color_blob" style="background:<%= rgb %>">  </div>
+
               <%}%>
+            </div>
+
+            <div class="flip-card-back">
+
+              <% for(var x =0; x < pallets[i].colors.length; x ++) {%>
+
+                <% var rgb = `rgb(${pallets[i].colors[x].r},${pallets[i].colors[x].g},${pallets[i].colors[x].b})` %>
+
+                <div class="color_stripe" style="background:<%= rgb %>">
+                  <p><%= rgb %></p>
+                </div>
+
+              <%}%>
+
+            </div>
+
           </div>
 
         </div>
@@ -29,5 +71,3 @@
     <%}%>
 
   </div>
-
-</div>

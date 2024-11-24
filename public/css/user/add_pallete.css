@@ -16,6 +16,15 @@
   font-family: "Oswald";
 }
 
+#add-pallete-user input{
+  height:30px;
+  background:none;
+  width:50%;
+  margin-top:20px;
+  border:none;
+  border-bottom:2px solid white;
+}
+
 body{
   padding:0px;
 }

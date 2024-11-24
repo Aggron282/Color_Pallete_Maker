@@ -35,11 +35,23 @@ save_pallete_button.addEventListener("click",async (e)=>{
 
   if(save_pallete_button.classList.contains("save_pallete_button--active")){
 
-      var new_form = new FormData(img_upload_form);
-      const {data} = await axios.post("/save",new_form);
+    var new_form = new FormData(img_upload_form);
+    const {data} = await axios.post("/save",new_form);
+    console.log(data)
+
+    if(data.feedback){
       CreatePopup("Created Image","success");
-  }else{
+      await Delay(500)
+      window.location.assign("/dashboard");
+    }else{
+      CreatePopup(data.err_msg,"alert");
+      RenderValidationErrors(data.validation_errors);
+    }
+
+  }
+  else{
     CreatePopup("You must extract image!","alert");
   }
+
 
 })

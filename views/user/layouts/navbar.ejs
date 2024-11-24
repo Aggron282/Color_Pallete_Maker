@@ -20,27 +20,56 @@
         <% isActive = path == "/add" ? "add add--active" : "add" %>
         <% isUActive = path == "/add" ? "underline underline--active" : "underline" %>
 
-      <a href = "/add">  <div class="choice_user_container">
+        <a href = "/add">  <div class="choice_user_container">
           <div class="<%= isActive %>" >+</div>
           <div class="<%= isUActive %>" ></div>
         </div> </a>
 
+
         <% isActive = path == "/dashboard" ? "icon icon--active" : "icon" %>
         <% isUActive = path == "/dashboard" ? "underline underline--active" : "underline" %>
+
         <a href = "/dashboard">
-        <div class="choice_user_container">
-          <img class="<%= isActive %>"  src = "/imgs/home.png"/>
-          <div class="<%= isUActive %>" ></div>
-        </div></a>
+          <div class="choice_user_container">
+            <img class="<%= isActive %>"  src = "/imgs/home.png"/>
+            <div class="<%= isUActive %>" ></div>
+          </div>
+        </a>
 
-    </div>
+     </div>
 
-    <div class="profile_user_container">
-      <% var img_src = user.profileImg ? "/images/"+user.profileImg : "/imgs/profile.png" %>
-      <img class="icon icon--active" src = "<%= img_src %>" />
+     <div class="profile_user_container relative">
+
+       <% var src_name = user.profileImg %>
+       <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+
+       <img class="icon icon--active" src = "<%= src %>" />
 
       <p> <%= user.name %> </p>
 
+    </div>
+
+    <div class="profile_dropdown_container">
+
+      <div class="profile_choice_container profile_choice_container--main">
+          <p> Go to Main Site </p>
+      </div>
+
+      <a href ="/profile">
+        <div class="profile_choice_container profile_choice_container--profile">
+          <p> Profile Settings </p>
+      </div>
+      </a>
+
+      <a href ="/logout"><div class="profile_choice_container profile_choice_container--logout">
+          <p> Logout </p>
+      </div></a>
+      <div class="profile_choice_container profile_choice_container--delete_account">
+          <p> Delete Account </p>
+      </div>
+      <div class="profile_choice_container profile_choice_container--exit" id="exit-nav">
+          <p> Exit </p>
+      </div>
     </div>
 
 </nav>

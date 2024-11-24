@@ -6,7 +6,11 @@
       <button class="save_pallete_button">Save & Exit</button>
 
       <form id ="add-pallete-user">
+          <div id = "image_error"class="error_container"></div>
           <input type = "file" name = "image"  id="pallete-image-input" class="image_input" accept="image/*"/>
+          <div id = "name_error"class="error_container"></div>
+          <input placeholder = "Enter name of pallet" name = "name" />
+          <input placeholder = "Enter catagory of pallet" name = "catagory" />
       </form>
 
       <div class="color_display_container display_container">

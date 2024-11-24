@@ -1,0 +1,63 @@
+<div class="profile_edit_container">
+
+  <div class="form_container">
+
+    <p class="title"> Profile Settings </p>
+
+    <form id = "profile-edit-form">
+
+      <div class="input_group input_group--half">
+        <label>
+            Name
+        </label>
+
+        <input name="name" class="profile_input half_input" placeholder="Change Name" value= <%= user.name %>/>
+      </div>
+
+      <div class="input_group input_group--half">
+        <label>
+            Username
+        </label>
+
+        <input name="username" class="profile_input half_input"placeholder="Change Username" value= <%= user.username %>/>
+      </div>
+
+      <div class="input_group input_group--full">
+        <label>
+            Profile Photo
+        </label>
+
+        <input name="image" type="file" class="profile_input profile_input--file" placeholder="Change Profile Picture" />
+      </div>
+
+
+
+        <div class="input_group input_group--full">
+          <label>
+              Password
+          </label>
+
+          <input name="password" class="profile_input" type="password" placeholder="Change Password" />
+        </div>
+
+        <div class="input_group">
+          <label>
+              Confirm Password
+          </label>
+
+          <input class="profile_input"   type="password"  placeholder="Confirm Password" />
+        </div>
+
+        <button class="submit_edit_profile" id="profile-edit-btn">Submit </button>
+
+    </form>
+  </div>
+
+  <div class="profile_img_container">
+    <% var src_name = user.profileImg %>
+    <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+    <img src = "<%= src %>" />
+
+  </div>
+
+</div>

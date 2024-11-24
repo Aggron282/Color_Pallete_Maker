@@ -6,8 +6,69 @@ const bcrypt = require("bcrypt")
 const mysql_util = require("./../util/mysql.js");
 const {validationResult} = require("express-validator");
 
+const DeleteUser = (req,res) =>{
+
+  mysql_util.deleteUser(req.user.user_id,(r)=>{
+
+    if(r){
+      res.json({feedback:true,err_msg:null});
+    }else{
+      res.json({feedback:false,err_msg:"Could not delete"});
+    }
+
+  });
+
+}
+
+const Logout = (req,res) => {
+  req.user = null;
+  req.session.destroy();
+  res.redirect("/")
+}
+
 const GetMainPage = (req,res) => {
   res.render(path.join(rootDir,"views","index.ejs"));
+}
+
+const EditUser = async (req,res) => {
+  var {name,username,password,confirm} = req.body
+  var img_file = req.file;
+
+  var new_name = name != req.user.name ? name : req.user.name;
+  var new_username = username != req.user.username ? username : req.user.username;
+  var new_password = password.length > 6 ? password : req.user.password;
+  var img_file = req.file ? req.file.path : null;
+  var profileImg = img_file != req.user.profileImg && img_file != null ? req.file.path : req.user.profileImg;
+  var encrypt = await bcrypt.hash(new_password,12);
+
+  var config = {
+    user_id:req.user.user_id,
+    name : new_name,
+    username: new_username,
+    password:encrypt,
+    profileImg:profileImg
+  }
+
+  mysql_util.editUser(config,(data)=>{
+
+      if(data){
+
+        req.session.user.name = config.name;
+        req.session.user.username = config.username;
+        req.session.user.password = config.password;
+        req.session.user.profileImg = config.profileImg;
+
+        res.json({feedback:true,err_msg:"Edited User"})
+      }else{
+        res.json({feedback:false,err_msg:"Could not Edit"})
+      }
+
+    });
+
+}
+
+const GetProfilePage = (req,res) => {
+  res.render(path.join(rootDir,"views","user","profile.ejs"),{user:req.user,path:"/dashboard"});
 }
 
 const GetLoginPage = (req,res) => {
@@ -21,10 +82,12 @@ const GetCreateAccountPage = (req,res) => {
 const GetDashboardPage = (req,res) => {
 
   mysql_util.findUserPallets(req.user.user_id,async (colors)=>{
+
     var pallets = await color_util.ConfigurePallets(colors);
 
     res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",pallets:pallets});
-  })
+
+  });
 
 }
 
@@ -32,26 +95,32 @@ const GetAddPage = (req,res) => {
   res.render(path.join(rootDir,"views","user","add.ejs"),{user:req.user,path:"/add"});
 }
 
-
 const Login = async (req,res) => {
 
     var {username,password} = req.body;
-    mysql_util.findUser(username,(data) => {
-    if(data.length <= 0){
-      res.json({feedback:false,err_msg:"No User Found"});
-      return;
-    }else{
-      var user = data[0];
-      console.log(password,user.password)
 
-      if(password !== user.password){
-        res.json({feedback:false,err_msg:"Incorrect User/Password"})
-      }else{
-        req.session.user = user;
-        console.log(user)
-        res.json({feedback:true,err_msg:null,user});
+    mysql_util.findUser(username,(data) => {
+
+      if(data.length <= 0){
+        res.json({feedback:false,err_msg:"No User Found"});
+        return;
       }
-    }
+      else{
+
+         var user = data[0];
+
+         bcrypt.compare(password,user.password).then((isFound)=>{
+
+           if(!isFound){
+              res.json({feedback:false,err_msg:"Incorrect User/Password"})
+            }else{
+              req.session.user = user;
+              res.json({feedback:true,err_msg:null,user});
+            }
+
+        });
+
+      }
 
   });
 
@@ -71,16 +140,15 @@ const CreateAccount = async (req,res) => {
   }
 
   mysql_util.findUser(username,async (found_user)=>{
-    console.log(found_user)
-    if(found_user[0].length > 0){
-      console.log("User Already Exists");
+
+    if(found_user.length > 0){
       res.json({feedback:false, err_msg: "User Already Exists"})
       return;
     }
 
     var encrypt = await bcrypt.hash(password,12);
+    var profileImg = req.file ? req.file.path : "";
 
-    var profileImg = req.file ? req.file.originalname : "";
     name = name ? name : ""
 
     var data = [
@@ -94,7 +162,7 @@ const CreateAccount = async (req,res) => {
       },
       {
         col:"password",
-        value:password.toString()
+        value:encrypt
       },
       {
         col:"profileImg",
@@ -102,12 +170,11 @@ const CreateAccount = async (req,res) => {
       }
     ];
 
-    mysql_util.InsertInto("user",data)
-    res.json({feedback:true,err_msg:null})
-  }).catch((err)=>{
+    mysql_util.InsertInto("user",data,(()=>{
+      res.json({feedback:true,err_msg:null})
+    }));
 
-    res.json({feedback:false,err_msg:"DB Error"})
-  })
+ });
 
 }
 
@@ -127,23 +194,48 @@ const PostExtractColor = async (req,res) => {
 
 }
 
-
 const GetUserPallets = async (req,res)=>{
 
   mysql_util.findUserPalletes(async (colors)=>{
     var palletes = await color_util.ConfigurePallets(colors);
     res.json({pallets:palletes})
   })
+
+}
+
+const DeletePallet =  (req,res)=> {
+
+  var pallet_id = req.body.pallet_id;
+  var user_id = req.user.user_id;
+
+  mysql_util.deletePallet(user_id,pallet_id,(response)=>{
+
+    if(response){
+      res.json({feedback:true,err_msg:null})
+    }else{
+      res.json({feedback:false,err_msg:"Could not delete"})
+    }
+
+  })
+
 }
 
 const AddPallete = async (req,res) => {
 
   const img_file = req.file;
 
+  if(!img_file){
+    res.json({feedback:false,err_msg:"File Empty"})
+    return;
+  }
+
+  var errors = validationResult(req);
+
+  errors = errors.array();
+
   const img_src = path.join("/images",img_file.filename);
 
-
-    var data = [
+  var data = [
       {
         col:"user_id",
         value:req.user.user_id
@@ -151,19 +243,39 @@ const AddPallete = async (req,res) => {
       {
         col:"image",
         value:img_file.path
+      },
+      {
+        col:"name",
+        value:req.body.name
+      },
+      {
+        col:"catagory",
+        value:req.body.catagory
       }
     ];
 
-
-    const insert_exec = await mysql_util.InsertInto("pallete",data);
-
-    if(insert_exec){
-      res.json({feedback:true,err_msg:null})
-    }else{
-      res.json({feedback:true,err_msg:null})
+    if(errors.length > 0){
+      res.json({feedback:false,err_msg:"Validation Error", validation_errors:errors})
+      return;
     }
 
-}
+    mysql_util.InsertInto("pallete",data,((insert)=>{
+
+      if(insert){
+        res.json({feedback:true,err_msg:null})
+      }
+      else {
+        res.json({feedback:false,err_msg:"Could not add pallet"})
+      }
+
+    }));
+
+  }
+
+module.exports.EditUser = EditUser;
+module.exports.GetProfilePage = GetProfilePage;
+module.exports.DeleteUser = DeleteUser;
+module.exports.DeletePallet = DeletePallet;
 module.exports.AddPallete = AddPallete;
 module.exports.GetUserPallets = GetUserPallets;
 module.exports.GetAddPage = GetAddPage;
@@ -172,5 +284,6 @@ module.exports.CreateAccount = CreateAccount;
 module.exports.GetMainPage = GetMainPage;
 module.exports.GetLoginPage = GetLoginPage;
 module.exports.Login = Login;
+module.exports.Logout = Logout;
 module.exports.GetCreateAccountPage = GetCreateAccountPage;
 module.exports.PostExtractColor = PostExtractColor;

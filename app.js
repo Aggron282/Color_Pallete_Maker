@@ -12,7 +12,7 @@ const image_handler = require("./util/image_handler.js");
 app.use(express.static("images"));
 
 app.use(session({
-  resave:false,
+  resave:true,
   saveUninitialized:false,
   secret:"39iri3290ie3r2ir3209jdfiewcmod12",
   cookie:{
@@ -45,10 +45,13 @@ var storage = multer.diskStorage({
 app.set("view engine","ejs");
 
 app.use(multer({storage:storage,fileFilter: function(req,file, cb) {
-    console.log(req,file)
     image_handler.checkFileType(file, cb);
 }}).single("image"));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(express.json());
 
 app.use(express.static("public"));
 
