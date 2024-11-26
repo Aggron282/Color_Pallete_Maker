@@ -17,68 +17,71 @@
 
       <% for(var i =0; i < organized_palletes.length; i ++) {%>
 
-        <div class="pallete_catagory_container">
+        <div class="pallete_category_container">
 
-          <p class="pallete_category_title"> <%= organized_palletes[i].category.length > 0 ? organized_palletes[i].category : "Other" %> </p>
+          <a href="<%= `/category/${organized_palletes[i].category}` %>">
+            <p class="pallete_category_title"> <%= organized_palletes[i].category.length > 0 ? organized_palletes[i].category : "Other" %> </p>
+          </a>
+            <% for(var z = 0; z < organized_palletes[i].palletes.length; z ++) {%>
 
-          <% for(var z = 0; z < organized_palletes[i].palletes.length; z ++) {%>
-            <% var pallete = organized_palletes[i].palletes[z] %>
-            <% console.log(pallete) %>
-            <div class="flip-card pallet_card" _id = "<%= pallete.pallete_id %>" >
+              <% var pallete = organized_palletes[i].palletes[z] %>
 
-              <div class="exit" _id = "<%= pallete.pallete_id %>" >
-                  X
-              </div>
+              <div class="flip-card pallet_card" _id = "<%= pallete.pallete_id %>" >
 
-              <div class="flip-card-inner">
-
-                <div class="flip-card-front">
-
-                  <% var src_name = pallete.image %>
-                  <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
-
-                  <p class="pallet_title"> <%= pallete.name %></p>
-
-                  <div class="img_holder">
-                     <img src = "<%= src %>"/>
-                  </div>
-
-                  <br />
-
-                  <% for(var x =0; x < pallete.colors.length; x ++) {%>
-
-                    <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
-
-                    <div class="color_blob" style="background:<%= rgb %>">  </div>
-
-                  <%}%>
+                <div class="exit" _id = "<%= pallete.pallete_id %>" >
+                    X
                 </div>
 
-                <div class="flip-card-back">
+                <div class="flip-card-inner">
 
-                  <% for(var x =0; x < pallete.colors.length; x ++) {%>
+                  <div class="flip-card-front">
 
-                    <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
+                    <% var src_name = pallete.image %>
+                    <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
 
-                    <div class="color_stripe" style="background:<%= rgb %>">
-                      <p> <%= rgb %> </p>
+                    <p class="pallet_title"> <%= pallete.name %></p>
+
+                    <div class="img_holder">
+                       <img src = "<%= src %>"/>
                     </div>
 
-                  <%}%>
+                    <br />
+
+                    <% for(var x =0; x < pallete.colors.length; x ++) {%>
+
+                      <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
+
+                      <div class="color_blob" style="background:<%= rgb %>">  </div>
+
+                    <%}%>
+
+                  </div>
+
+                  <div class="flip-card-back">
+
+                    <% for(var x =0; x < pallete.colors.length; x ++) {%>
+
+                      <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
+
+                      <div class="color_stripe" style="background:<%= rgb %>">
+                        <p> <%= rgb %> </p>
+                      </div>
+
+                    <%}%>
+
+                  </div>
 
                 </div>
 
               </div>
-
-            </div>
 
            <%}%>
 
          </div>
 
 
-          <%}%>
-
         <%}%>
+
+      <%}%>
 
   </div>

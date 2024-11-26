@@ -5,17 +5,28 @@
   padding-bottom:5%;
 
 }
-
-.pallete_catagory_container{
+.category_all_container{
+  margin-top:10%;
+}
+.pallete_category_container{
   width:100%;
   overflow: hidden;
   padding-top:0px;
+}
+
+a{
+  text-decoration: none;
 }
 
 .pallete_category_title{
   color:white;
   font-family: "Oswald";
   font-size:40px;
+}
+
+.pallete_category_title--big{
+  font-size:65px;
+  text-align: center;
 }
 
 body{

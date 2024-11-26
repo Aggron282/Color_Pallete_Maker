@@ -13,9 +13,9 @@ const DeleteUser = (req,res) =>{
   mysql_util.deleteUser(req.user.user_id,(r)=>{
 
     if(r){
-      res.json({feedback:true,err_msg:null});
+      res.json({feedback:true,msg:null});
     }else{
-      res.json({feedback:false,err_msg:"Could not delete"});
+      res.json({feedback:false,msg:"Could not delete"});
     }
 
   });
@@ -28,8 +28,20 @@ const Logout = (req,res) => {
   res.redirect("/")
 }
 
+
 const GetMainPage = (req,res) => {
   res.render(path.join(rootDir,"views","index.ejs"));
+}
+
+const GetAllInCatagoryPage = (req,res) => {
+  var category = req.params.category;
+  console.log(req.params)
+
+  mysql_util.findUserCatagoryPallets(req.user.user_id,category,async (colors)=>{
+    var all_palletes_in_category = await color_util.ConfigurePallets(colors);
+    res.render(path.join(rootDir,"views","user","all_in_category.ejs"),{category:category,user:req.user,path:req.url,all_palletes_in_category:all_palletes_in_category});
+  });
+
 }
 
 const EditUser = async (req,res) => {
@@ -60,9 +72,9 @@ const EditUser = async (req,res) => {
         req.session.user.password = config.password;
         req.session.user.profileImg = config.profileImg;
 
-        res.json({feedback:true,err_msg:"Edited User"})
+        res.json({feedback:true,msg:"Edited User"})
       }else{
-        res.json({feedback:false,err_msg:"Could not Edit"})
+        res.json({feedback:false,msg:"Could not Edit"})
       }
 
     });
@@ -105,7 +117,7 @@ const Login = async (req,res) => {
     mysql_util.findUser(username,(data) => {
 
       if(data.length <= 0){
-        res.json({feedback:false,err_msg:"No User Found"});
+        res.json({feedback:false,msg:"No User Found"});
         return;
       }
       else{
@@ -115,12 +127,15 @@ const Login = async (req,res) => {
          bcrypt.compare(password,user.password).then((isFound)=>{
 
            if(!isFound){
-              res.json({feedback:false,err_msg:"Incorrect User/Password"})
+              res.json({feedback:false,msg:"Incorrect User/Password"})
             }else{
               req.session.user = user;
-              res.json({feedback:true,err_msg:null,user});
+              res.json({feedback:true,msg:null,user});
             }
 
+        }).catch((err)=>{
+          console.log(err);
+          res.json({feedback:false,msg:"Crypto Error"})
         });
 
       }
@@ -138,14 +153,14 @@ const CreateAccount = async (req,res) => {
   errors = errors.array();
 
   if(errors.length > 0){
-    res.json({feedback:false,err_msg:"Validation Error", validation_errors:errors})
+    res.json({feedback:false,msg:"Validation Error", validation_errors:errors})
     return;
   }
 
   mysql_util.findUser(username,async (found_user)=>{
 
     if(found_user.length > 0){
-      res.json({feedback:false, err_msg: "User Already Exists"})
+      res.json({feedback:false, msg: "User Already Exists"})
       return;
     }
 
@@ -174,7 +189,7 @@ const CreateAccount = async (req,res) => {
     ];
 
     mysql_util.InsertInto("user",data,(()=>{
-      res.json({feedback:true,err_msg:null})
+      res.json({feedback:true,msg:null})
     }));
 
  });
@@ -214,9 +229,9 @@ const DeletePallet =  (req,res)=> {
   mysql_util.deletePallet(user_id,pallet_id,(response)=>{
 
     if(response){
-      res.json({feedback:true,err_msg:null})
+      res.json({feedback:true,msg:null})
     }else{
-      res.json({feedback:false,err_msg:"Could not delete"})
+      res.json({feedback:false,msg:"Could not delete"})
     }
 
   })
@@ -270,7 +285,7 @@ const AddPallete = async (req,res) => {
   const img_file = req.file;
 
   if(!img_file){
-    res.json({feedback:false,err_msg:"File Empty"})
+    res.json({feedback:false,msg:"File Empty"})
     return;
   }
 
@@ -317,17 +332,17 @@ const AddPallete = async (req,res) => {
     ];
 
     if(errors.length > 0){
-      res.json({feedback:false,err_msg:"Validation Error", validation_errors:errors})
+      res.json({feedback:false,msg:"Validation Error", validation_errors:errors})
       return;
     }
 
     mysql_util.InsertInto("pallete",data,((insert)=>{
 
       if(insert){
-        res.json({feedback:true,err_msg:null})
+        res.json({feedback:true,msg:null})
       }
       else {
-        res.json({feedback:false,err_msg:"Could not add pallet"})
+        res.json({feedback:false,msg:"Could not add pallet"})
       }
 
     }));
@@ -347,5 +362,6 @@ module.exports.GetMainPage = GetMainPage;
 module.exports.GetLoginPage = GetLoginPage;
 module.exports.Login = Login;
 module.exports.Logout = Logout;
+module.exports.GetAllInCatagoryPage = GetAllInCatagoryPage;
 module.exports.GetCreateAccountPage = GetCreateAccountPage;
 module.exports.PostExtractColor = PostExtractColor;

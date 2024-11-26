@@ -31,8 +31,8 @@ async function SubmitEdit(){
     CreatePopup("Edited User","success");
     await Delay(1000);
     window.location.assign("/dashboard");
-  }else if(data.err_msg){
-    CreatePopup(data.err_msg,"error");
+  }else if(data.msg){
+    CreatePopup(data.msg,"error");
   }
 
 }

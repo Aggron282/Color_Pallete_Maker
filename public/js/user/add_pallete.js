@@ -44,7 +44,7 @@ save_pallete_button.addEventListener("click",async (e)=>{
       await Delay(500)
       window.location.assign("/dashboard");
     }else{
-      CreatePopup(data.err_msg,"alert");
+      CreatePopup(data.msg,"alert");
       RenderValidationErrors(data.validation_errors);
     }
 

@@ -58,7 +58,7 @@ function Init(){
         if(data.feedback){
           window.location.assign(window.location.href);
         }else{
-          CreatePopup(data.err_msg,"error")
+          CreatePopup(data.msg,"error")
         }
 
       }

@@ -25,6 +25,6 @@ router.post("/save",
 check("name").isLength({min:1}).withMessage("Name is too short"),
 isAuth,controller.AddPallete);
 router.get("/user/pallets",controller.GetUserPallets);
-
+router.get("/category/:category",controller.GetAllInCatagoryPage);
 
 module.exports = router;

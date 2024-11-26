@@ -68,10 +68,20 @@ async function deleteUser(user_id,cb){
 
 }
 
-
 async function findUserPallets(user_id,cb){
 
   db.execute(`SELECT * FROM pallete WHERE user_id = ${JSON.stringify(user_id)}`).then((response)=>{
+    cb(response[0])
+  }).catch((err)=>{
+    console.log(err);
+    cb([])
+  })
+
+}
+
+async function findUserCatagoryPallets(user_id,category,cb){
+
+  db.execute(`SELECT * FROM pallete WHERE user_id = ${JSON.stringify(user_id)} and catagory = "${category}" `).then((response)=>{
     cb(response[0])
   }).catch((err)=>{
     console.log(err);
@@ -126,3 +136,4 @@ module.exports.deletePallet = deletePallet;
 module.exports.InsertInto = InsertInto;
 module.exports.findUser = findUser;
 module.exports.findUserPallets = findUserPallets;
+module.exports.findUserCatagoryPallets = findUserCatagoryPallets;

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <title></title>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link href = "/css/user/navbar.css" rel="stylesheet">
+    <link href = "/css/user/add_pallete.css" rel="stylesheet">
+    <link href = "/css/user/dashboard.css" rel="stylesheet">
+    <link href = "/css/user/pallete_box.css" rel="stylesheet">
+    <link href = "/css/footer.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <main class="dashboard_container">
+
+      <%- include ("./layouts/popup.ejs") %>
+
+      <img class="logo_watermark" src = "/imgs/logo.png"/>
+
+      <%- include("./layouts/navbar.ejs") %>
+      <div class="category_all_container">
+        <p class="pallete_category_title pallete_category_title--big"> <%= category %> </p>
+
+        <%- include("./layouts/all_pallete_boxes.ejs") %>
+      </div>
+    </main>
+
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+
+    <script src="/js/utils.js"></script>
+    <script src = '/js/user/delete_pallets.js'></script>
+    <script src = '/js/user/navbar.js'></script>
+    <script src = '/js/auth/delete_account.js'></script>
+  </body>
+
+</html>

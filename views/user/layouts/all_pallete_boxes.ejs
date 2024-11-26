@@ -1,0 +1,53 @@
+<% for(var z = 0; z < all_palletes_in_category.length; z ++) {%>
+
+  <% var pallete = all_palletes_in_category[z] %>
+
+
+  <div class="flip-card pallet_card" _id = "<%= pallete.pallete_id %>" >
+
+    <div class="exit" _id = "<%= pallete.pallete_id %>" >
+        X
+    </div>
+
+    <div class="flip-card-inner">
+
+      <div class="flip-card-front">
+
+        <% var src_name = pallete.image %>
+        <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+        <p class="pallet_title"> <%= pallete.name %></p>
+
+        <div class="img_holder">
+           <img src = "/../<%= src %>"/>
+        </div>
+
+        <br />
+
+        <% for(var x =0; x < pallete.colors.length; x ++) {%>
+
+          <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
+
+          <div class="color_blob" style="background:<%= rgb %>">  </div>
+
+        <%}%>
+      </div>
+
+      <div class="flip-card-back">
+
+        <% for(var x =0; x < pallete.colors.length; x ++) {%>
+
+          <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
+
+          <div class="color_stripe" style="background:<%= rgb %>">
+            <p> <%= rgb %> </p>
+          </div>
+
+        <%}%>
+
+      </div>
+
+    </div>
+
+  </div>
+
+ <%}%>

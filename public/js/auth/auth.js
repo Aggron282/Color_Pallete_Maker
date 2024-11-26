@@ -7,29 +7,33 @@ var login_form = document.querySelector(".auth_form--login")
 
 if(create_account_form){
 
-  create_account_form.addEventListener("submit",(e)=>{
+  create_account_form.addEventListener("submit",async (e)=>{
     e.preventDefault()
-    SubmitAccount(create_account_form,"/create_account","/login")
+    var {msg,feedback} =  await SubmitAccount(create_account_form,"/create_account","/login")
+    CreatePopup(msg,"normal");
   });
 
-  create_account_btn.addEventListener("click",(e)=>{
+  create_account_btn.addEventListener("click",async (e)=>{
     e.preventDefault()
-    SubmitAccount(create_account_form,"/create_account","/login")
+    var {msg,feedback} =  await SubmitAccount(create_account_form,"/create_account","/login")
+    CreatePopup(msg,"normal");
   });
 
 }
 
-
 if(login_form){
 
-  login_form.addEventListener("submit",(e)=>{
+  login_form.addEventListener("submit",async (e)=>{
     e.preventDefault()
-    SubmitAccount(create_account_form,"/login","/dashboard")
+    var {msg,feedback} =  await SubmitAccount(login_form,"/login","/dashboard");
+    CreatePopup(msg,"normal");
+
   });
 
-  login_btn.addEventListener("click",(e)=>{
+  login_btn.addEventListener("click",async (e)=>{
     e.preventDefault()
-    SubmitAccount(login_form,"/login","/dashboard")
+    var {msg,feedback} =  await SubmitAccount(login_form,"/login","/dashboard");
+    CreatePopup(msg,"normal");
   });
 
 }
@@ -38,6 +42,7 @@ async function SubmitAccount(form,url,redirect){
 
   var new_form = new FormData(form);
   const {data} = await axios.post(url,new_form);
+
   var error_containers = document.querySelectorAll(".error_container")
 
   for(var w =0; w < error_containers.length; w++){
@@ -56,6 +61,11 @@ async function SubmitAccount(form,url,redirect){
   else{
     var errors = ["username / password incorrect","username / password incorrect"]
     RenderValidationErrors(errors);
+  }
+
+  return {
+    msg:data.msg,
+    feedback:data.feedback
   }
 
 }
