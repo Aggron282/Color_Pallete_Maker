@@ -6,13 +6,26 @@
 
 }
 
+.pallete_catagory_container{
+  width:100%;
+  overflow: hidden;
+  padding-top:0px;
+}
+
+.pallete_category_title{
+  color:white;
+  font-family: "Oswald";
+  font-size:40px;
+}
 
 body{
   background:linear-gradient(to right,#27294c,#1e2040)
 }
+
 .pallet_card{
   position: relative;
 }
+
 .pallet_title{
   font-family: "Oswald";
   color:white;
@@ -217,7 +230,7 @@ body{
 }
 
 .my_palletes_container .inner-container{
-  margin-top:-10px;
+  margin-top:-40px;
 }
 
 .my_palletes_container .title{
@@ -255,7 +268,7 @@ body{
   top:0%;
   right:0%;
   width:100%;
-  
+
 }
 
 .flip-card {

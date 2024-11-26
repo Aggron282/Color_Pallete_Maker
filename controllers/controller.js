@@ -4,6 +4,8 @@ var color_util = require("./../util/colors.js");
 const formidable = require('formidable');
 const bcrypt = require("bcrypt")
 const mysql_util = require("./../util/mysql.js");
+const category_util = require("./../util/category_maker.js");
+
 const {validationResult} = require("express-validator");
 
 const DeleteUser = (req,res) =>{
@@ -83,9 +85,10 @@ const GetDashboardPage = (req,res) => {
 
   mysql_util.findUserPallets(req.user.user_id,async (colors)=>{
 
-    var pallets = await color_util.ConfigurePallets(colors);
-
-    res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",pallets:pallets});
+    var palletes = await color_util.ConfigurePallets(colors);
+    var organized_palletes = category_util.CreatePalleteCategories(palletes);
+    console.log(organized_palletes)
+    res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",organized_palletes:organized_palletes});
 
   });
 
@@ -219,6 +222,48 @@ const DeletePallet =  (req,res)=> {
   })
 
 }
+function FromArrayToRGBList(colors){
+  var rgbList = ""
+
+  for(var i =0; i < colors.length; i++){
+    var {r,g,b} = colors[i]
+    if(i < colors.length - 1){
+      rgbList+= `rgb(${r},${g},${b})` +  ",";
+    }else{
+      rgbList+= `rgb(${r},${g},${b})`;
+    }
+  }
+  return rgbList;
+}
+
+function FromRGBListToArray(rgbList){
+
+  var rgbListNew = []
+  var rgbList = rgbList.split(",");
+
+  for(var i =0; i < rgbList.length; i++){
+
+    var r,g,b;
+    var rgb_string = rgbList[i];
+    var rgb_array = rgbToArray(rgb_string);
+
+    r = rgb_array[0];
+    g = rgb_array[1];
+    b = rgb_array[2];
+
+    rgbListNew.push({r:r,g:g,b:b});
+
+  }
+
+  return rgbListNew;
+}
+
+function rgbToArray(rgbString) {
+
+  const matches = rgbString.match(/\d+/g);
+  return matches.map(Number);
+
+}
 
 const AddPallete = async (req,res) => {
 
@@ -233,7 +278,12 @@ const AddPallete = async (req,res) => {
 
   errors = errors.array();
 
-  const img_src = path.join("/images",img_file.filename);
+  const color_data = await color_util.ExtractColorFromImage(img_file.path);
+
+  var rgbList = FromArrayToRGBList(color_data)
+  var catagory = req.body.catagory  && req.body.catagory.length > 0 ? req.body.catagory : "";
+  //Not needed just in case
+  var name = req.body.name  && req.body.name.length > 0 ? req.body.name : "N/A";
 
   var data = [
       {
@@ -250,7 +300,19 @@ const AddPallete = async (req,res) => {
       },
       {
         col:"catagory",
-        value:req.body.catagory
+        value:catagory
+      },
+      {
+        col:"rgbList",
+        value:rgbList
+      },
+      {
+        col:"created_at",
+        value: new Date().toISOString().slice(0, 10)
+      },
+      {
+        col:"isViewable",
+        value:false
       }
     ];
 
