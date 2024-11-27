@@ -1,20 +1,23 @@
+
+
 function CreatePalleteCategories(palletes){
   var categorized_palletes = [];
 
   for(var i =0; i < palletes.length; i++){
     var pallete = palletes[i]
-    GenerateCatagory(pallete);
+    GenerateCategory(pallete,i);
   }
 
-  return categorized_palletes;
-
-  function GenerateCatagory(pallete,id){
+  function GenerateCategory(pallete,id){
 
     if(categorized_palletes.length <0){
+
       categorized_palletes.push({
-        category:pallete.catagory,
-        palletes:[pallete]
+        category:pallete.category,
+        palletes:[pallete],
+        id:id
       });
+
     }
 
     for(var i =0; i < categorized_palletes.length; i++){
@@ -27,12 +30,14 @@ function CreatePalleteCategories(palletes){
     }
 
     categorized_palletes.push({
-      category:pallete.catagory,
+      category:pallete.category,
       id:id,
       palletes:[pallete]
     });
 
   }
+
+  return categorized_palletes;
 
 }
 

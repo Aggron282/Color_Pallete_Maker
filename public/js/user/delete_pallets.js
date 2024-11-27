@@ -1,27 +1,29 @@
-var delete_pallets_btn = document.querySelector("#delete-pallets");
-var pallet_cards = document.querySelectorAll(".pallet_card");
+var delete_palletes_btn;
+var pallete_cards = document.querySelectorAll(".pallete_card");
 var isDeleting = false;
 
-delete_pallets_btn.addEventListener("click",(e)=>{
+if(document.querySelector("#delete-palletes")){
+  var delete_palletes_btn = document.querySelector("#delete-palletes");
+  delete_palletes_btn.addEventListener("click",(e)=>{
 
   isDeleting = !isDeleting;
 
-  for(var i =0; i < pallet_cards.length; i++){
+  for(var i =0; i < pallete_cards.length; i++){
 
-    var exit_button = pallet_cards[i].querySelector(".exit");
+    var exit_button = pallete_cards[i].querySelector(".exit");
     console.log(exit_button)
-    exit_button.setAttribute("canDelete",pallet_cards[i].getAttribute("canDelete"));
+    exit_button.setAttribute("canDelete",pallete_cards[i].getAttribute("canDelete"));
 
     if(isDeleting){
-      pallet_cards[i].classList.add("pallet_card--delete");
-      pallet_cards[i].setAttribute("canDelete",1);
-      exit_button.setAttribute("canDelete",pallet_cards[i].getAttribute("canDelete"))
+      pallete_cards[i].classList.add("pallete_card--delete");
+      pallete_cards[i].setAttribute("canDelete",1);
+      exit_button.setAttribute("canDelete",pallete_cards[i].getAttribute("canDelete"))
       exit_button.classList.add("exit--active");
     }
     else{
-      pallet_cards[i].classList.remove("pallet_card--delete")
-      pallet_cards[i].setAttribute("canDelete",0);
-      exit_button.setAttribute("canDelete",pallet_cards[i].getAttribute("canDelete"));
+      pallete_cards[i].classList.remove("pallete_card--delete")
+      pallete_cards[i].setAttribute("canDelete",0);
+      exit_button.setAttribute("canDelete",pallete_cards[i].getAttribute("canDelete"));
       exit_button.classList.remove("exit--active");
     }
 
@@ -29,44 +31,60 @@ delete_pallets_btn.addEventListener("click",(e)=>{
 
 
   if(isDeleting){
-    delete_pallets_btn.innerText = "Cancel";
-    delete_pallets_btn.classList.add("pallet_delete_btn--active")
+    delete_palletes_btn.innerText = "Cancel";
+    delete_palletes_btn.classList.add("pallete_delete_btn--active")
   }else{
-    delete_pallets_btn.innerText = "Delete Pallets";
-    delete_pallets_btn.classList.remove("pallet_delete_btn--active")
+    delete_palletes_btn.innerText = "Delete Palletes";
+    delete_palletes_btn.classList.remove("pallete_delete_btn--active")
 
   }
 
 });
+}
+
+async function Delete(pallete_id,url){
+
+  var url_ = !url ? window.location.href : url;
+  const {data} = await axios.post("/delete",{pallete_id: pallete_id });
+
+  if(data.feedback){
+    window.location.assign(url_);
+  }
+  else{
+    CreatePopup(data.msg,"error")
+  }
+
+}
 
 function Init(){
 
-  for(var i =0; i < pallet_cards.length; i++){
+  for(var i =0; i < pallete_cards.length; i++){
 
-    var exit_button = pallet_cards[i].querySelector(".exit");
+    var exit_button = pallete_cards[i].querySelector(".exit");
 
     exit_button.addEventListener("click",async (e)=>{
 
       var canDelete = e.target.getAttribute("canDelete");
-      var pallet_id = e.target.getAttribute("_id");
+      var pallete_id = e.target.getAttribute("_id");
+
       canDelete = parseInt(canDelete);
 
       if(canDelete == 1){
-  console.log({pallet_id: pallet_id })
-        const {data} = await axios.post("/delete",{pallet_id: pallet_id });
-
-        if(data.feedback){
-          window.location.assign(window.location.href);
-        }else{
-          CreatePopup(data.msg,"error")
-        }
-
+        Delete(pallete_id)
       }
 
     });
 
   }
 
+}
+
+if(document.querySelector("#delete-pallete")){
+  var delete_pallete_btn = document.querySelector("#delete-pallete");
+    delete_pallete_btn.addEventListener("click",async (e)=>{
+        var pallete_id = e.target.getAttribute("_id");
+        Delete(pallete_id,"/dashboard");
+    });
 }
 
 Init();

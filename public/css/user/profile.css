@@ -27,14 +27,17 @@
   margin-top:5%;
   margin-top:10px;
 }
+
 #profile-edit-form .input_group{
   width:100%;
 }
+
 #profile-edit-form .input_group--half{
   float: left;
   width:40%;
   margin-left:5%;
 }
+
 #profile-edit-form .input_group--full{
   clear: both;
   width:100%;
@@ -69,8 +72,8 @@
   width:40%;
   padding:30px;
   margin-top:5%;
-
 }
+
 .profile_img_container img{
   width:200px;
   object-fit: contain;

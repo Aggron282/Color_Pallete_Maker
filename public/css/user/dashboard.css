@@ -3,11 +3,12 @@
   position: relative;
   padding:10px;
   padding-bottom:5%;
-
 }
+
 .category_all_container{
   margin-top:10%;
 }
+
 .pallete_category_container{
   width:100%;
   overflow: hidden;
@@ -17,6 +18,8 @@
 a{
   text-decoration: none;
 }
+
+
 
 .pallete_category_title{
   color:white;
@@ -30,20 +33,25 @@ a{
 }
 
 body{
+  margin:0;
   background:linear-gradient(to right,#27294c,#1e2040)
 }
 
-.pallet_card{
+nav{
+  padding:20px;
+}
+
+.pallete_card{
   position: relative;
 }
 
-.pallet_title{
+.pallete_title{
   font-family: "Oswald";
   color:white;
   font-size:20px;
-
 }
-.pallet_card .exit{
+
+.pallete_card .exit{
   position: absolute;
   top:0%;
   visibility: hidden;
@@ -61,18 +69,18 @@ body{
   box-shadow: 0px 0px 10px rgba(0,0,0,.5);
 }
 
-.pallet_card .exit:hover{
+.pallete_card .exit:hover{
   transform:scale(1.1);
   border: 3px solid orangered
 }
 
-.pallet_card .exit--active{
+.pallete_card .exit--active{
   visibility: visible;
   pointer-events: all;
   opacity: 1;
 }
 
-.pallet_delete_btn--active{
+.pallete_delete_btn--active{
   border:1px solid white !important;
   padding:5px;
   display: inline;
@@ -132,7 +140,7 @@ body{
 }
 
 .backside--main{
-  transform: translateY(-50px);
+  transform: translateY(30px);
 }
 
 .frontside--main, .backside--main{
@@ -154,7 +162,6 @@ body{
   border-radius: 10px;
 }
 
-
 .color_stripe p{
   width:40%;
   text-align: left;
@@ -173,9 +180,10 @@ body{
   margin-left:15%;
 }
 
-.pallet_card--delete{
+.pallete_card--delete{
   /* animation:infinite .1s ease-in shake; */
 }
+
 @keyframes shake {
   0%{
   transform:translateX(1px) translateY(1px);
@@ -195,7 +203,6 @@ body{
   text-align: center;
 }
 
-
 .logo_watermark{
   width:1000px;
   position: fixed;
@@ -208,11 +215,12 @@ body{
 
 .my_palletes_container{
   padding-top:20px;
-  padding:10px;
+  padding:30px;
   position: relative;
   width:100%;
   margin-top:0%;
-  padding-top:5%;
+  padding-top:7.5%;
+
 }
 
 .color_box{

@@ -24,9 +24,9 @@ profile_edit_button.addEventListener("click",async(e)=>{
 async function SubmitEdit(){
 
   var new_form = new FormData(profile_edit_form);
-
+  console.log(new_form)
   const {data} = await axios.post("/profile/edit",new_form);
-
+  console.log(data);
   if(data.feedback){
     CreatePopup("Edited User","success");
     await Delay(1000);

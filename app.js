@@ -8,6 +8,8 @@ var port = 3000;
 var app = express();
 var session = require("express-session");
 const image_handler = require("./util/image_handler.js");
+var sequelize = require("sequelize");
+var sequelize_connection = require("./util/sequelize_connection.js")
 
 app.use(express.static("images"));
 
@@ -17,6 +19,7 @@ app.use(session({
   secret:"39iri3290ie3r2ir3209jdfiewcmod12",
   cookie:{
     secure:false,
+    expires: new Date(Date.now() + 18900000),
     maxAge: 1800 * 60 * 1000
   }
 }))
@@ -57,6 +60,8 @@ app.use(express.static("public"));
 
 app.use(routes);
 
-app.listen(port,()=>{
-  console.log("app listening");
+sequelize_connection.sync().then(()=>{
+  app.listen(port,()=>{
+    console.log("app listening");
+  })
 })

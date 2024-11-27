@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link href = "/css/user/util.css" rel="stylesheet">
+
+    <link href = "/css/user/navbar.css" rel="stylesheet">
+    <link href = "/css/user/dashboard.css" rel="stylesheet">
+    <link href = "/css/footer.css" rel="stylesheet">
+    <link href = "/css/user/detail.css" rel="stylesheet">
+    <link href = "/css/profile.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <main class="dashboard_container">
+
+      <%- include ("./layouts/popup.ejs") %>
+
+      <img class="logo_watermark" src = "/imgs/logo.png"/>
+
+      <%- include("./layouts/navbar.ejs") %>
+      <div class="edit_container">
+
+        <div class="edit_form_container">
+          <form id = "edit-pallete">
+            <div class="input_group input_group--half">
+              <label>
+                  Name
+              </label>
+
+              <input name="name" class="profile_input half_input" placeholder="Change Name" value= <%= pallete.name %>/>
+            </div>
+
+            <div class="input_group input_group--half">
+              <label>
+                  Category
+              </label>
+
+              <input name="category" class="profile_input half_input" style="z-index: 99999999" placeholder="Change Category" value= <%= pallete.category %>/>
+            </div>
+
+            <div class="input_group input_group--full">
+              <br />
+              <br>
+              <label>
+                  Image Upload
+              </label>
+              <input type="hidden" name = "pallete_id" value = "<%= pallete.pallete_id %>" />
+              <input name="image" type="file" class="profile_input pallete_input--file" placeholder="Change Profile Picture" />
+            </div>
+
+            <button class="submit_edit_button" id="pallete-edit-btn">Submit </button>
+
+          </form>
+        </div>
+        <div class="edit_img_container">
+          <img class="img_display"></div>
+        </div>
+      </div>
+
+      <div class="detail_container">
+
+        <div class="basic_data_container">
+
+          <p class="detail_title"> <%= pallete.name %> </p>
+          <p class="detail_title"> <%= pallete.category ? pallete.category : "Other" %> </p>
+          <% console.log(pallete) %>
+          <% var src_name = pallete.image %>
+          <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+
+          <img src = "/../../<%= src %>" class="detail_image" />
+
+          <div class="colors_detail_container">
+            <% for (var x =0; x < pallete.colors.length; x++) {%>
+
+              <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
+
+              <div class="color_blob" style="background:<%=  rgb %>"></div>
+
+            <%}%>
+
+        </div>
+
+      </div>
+
+        <div class="rgb_detail_container">
+
+        </div>
+
+
+      </div>
+      <button class="delete_pallete" _id = "<%= pallete.pallete_id %>" id="delete-pallete"> Delete Pallete </button>
+
+
+    </main>
+
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src = "/js/user/profile_global_var.js"></script>
+    <script src="/js/auth/auth.js"></script>
+    <script src="/js/img_upload.js"></script>
+    <script src = '/js/auth/delete_account.js'></script>
+    <script src = "/js/user/detail.js"></script>
+    <script src = "/js/user/delete_pallets.js"></script>
+    <script src = "/js/user/edit_pallete.js"></script>
+
+  </body>
+
+</html>

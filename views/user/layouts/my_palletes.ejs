@@ -2,8 +2,8 @@
 
   <div class="options_container">
 
-      <div class="delete_pallets_container">
-        <div class="delete_pallets"  id="delete-pallets">Delete Pallets</div>
+      <div class="delete_palletes_container">
+        <div class="delete_palletes"  id="delete-palletes">Delete Palletes</div>
         <div class="underline" ></div>
       </div>
 
@@ -26,20 +26,20 @@
 
               <% var pallete = organized_palletes[i].palletes[z] %>
 
-              <div class="flip-card pallet_card" _id = "<%= pallete.pallete_id %>" >
+              <div class="flip-card pallete_card" _id = "<%= pallete.pallete_id %>" >
 
                 <div class="exit" _id = "<%= pallete.pallete_id %>" >
                     X
                 </div>
 
-                <div class="flip-card-inner">
+              <a href="/pallete/<%= pallete.pallete_id %>">  <div class="flip-card-inner">
 
                   <div class="flip-card-front">
 
                     <% var src_name = pallete.image %>
                     <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
 
-                    <p class="pallet_title"> <%= pallete.name %></p>
+                    <p class="pallete_title"> <%= pallete.name %></p>
 
                     <div class="img_holder">
                        <img src = "<%= src %>"/>
@@ -72,6 +72,7 @@
                   </div>
 
                 </div>
+                </a>
 
               </div>
 

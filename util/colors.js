@@ -20,25 +20,36 @@ const ExtractColorFromImage = async (src) => {
 
 }
 
-const ConfigurePallets = async (pallets) => {
+const ConfigurePallete = async (pallete) =>{
 
-  var new_pallets = [];
-
-  for(var i =0; i < pallets.length; i++){
-
-    var colors = await ExtractColorFromImage(pallets[i].image);
-    var new_data = {...pallets[i]}
-
-    new_data.colors = colors;
-    new_pallets.push(new_data);
-
+  if(!pallete){
+    return null;
   }
 
-  return new_pallets;
+  var colors = await ExtractColorFromImage(pallete.image);
+  var new_data = {...pallete}
+
+  new_data.colors = colors;
+
+  return new_data;
+
+}
+
+const ConfigurePalletes = async (palletes) => {
+
+  var new_palletes = [];
+
+  for(var i =0; i < palletes.length; i++){
+    var new_data = await ConfigurePallete(palletes[i]);
+    new_palletes.push(new_data);
+  }
+
+  return new_palletes;
 
 }
 
 
+module.exports.ConfigurePallete  = ConfigurePallete;
 
-module.exports.ConfigurePallets  = ConfigurePallets;
+module.exports.ConfigurePalletes  = ConfigurePalletes;
 module.exports.ExtractColorFromImage  = ExtractColorFromImage;

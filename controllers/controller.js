@@ -3,14 +3,74 @@ var rootDir = path.dirname(require.main.filename);
 var color_util = require("./../util/colors.js");
 const formidable = require('formidable');
 const bcrypt = require("bcrypt")
-const mysql_util = require("./../util/mysql.js");
+const my_sequelize_util = require("./../util/my_sequelize.js");
 const category_util = require("./../util/category_maker.js");
 
 const {validationResult} = require("express-validator");
 
+const EditPallete = (req,res)=>{
+
+  var {name,category,pallete_id} = req.body
+  var img_file = req.file;
+
+  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (found_pallete)=>{
+
+    var new_name = name.length > 0 ? name : found_pallete.name;
+    var new_category = category ? category : "";
+    new_category = new_category.length ? new_category : found_pallete.category;
+    var src_file = req.file ? req.file.path : found_pallete.image;
+
+    var color_data = null;
+    var rgbList = null;
+
+    if(src_file){
+     color_data = await color_util.ExtractColorFromImage(src_file);
+    }
+    if(color_data){
+     rgbList = FromArrayToRGBList(color_data)
+   }
+
+    var config = {
+      name : new_name,
+      category:new_category,
+      image:src_file,
+      rgbList:rgbList,
+    }
+
+    my_sequelize_util.editPallete(req.user.user_id,pallete_id,config,(data)=>{
+
+      if(data){
+        res.json({feedback:true,msg:"Edited Pallete"})
+      }
+      else{
+        res.json({feedback:false,msg:"Could not Edit"})
+      }
+
+    });
+
+  })
+
+}
+
+const GetPalleteDetailPage = (req,res)=>{
+
+  var pallete_id = req.params.pallete;
+
+  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async(pallete)=>{
+
+    var pallete_ = await color_util.ConfigurePallete(pallete);
+
+    if(pallete_){
+      res.render(path.join(rootDir,"views","user","detail.ejs"),{pallete:pallete_,path:req.url,user:req.user});
+    }
+
+ });
+
+}
+
 const DeleteUser = (req,res) =>{
 
-  mysql_util.deleteUser(req.user.user_id,(r)=>{
+  my_sequelize_util.deleteUser(req.user.user_id,(r)=>{
 
     if(r){
       res.json({feedback:true,msg:null});
@@ -28,23 +88,23 @@ const Logout = (req,res) => {
   res.redirect("/")
 }
 
-
 const GetMainPage = (req,res) => {
   res.render(path.join(rootDir,"views","index.ejs"));
 }
 
-const GetAllInCatagoryPage = (req,res) => {
-  var category = req.params.category;
-  console.log(req.params)
+const GetAllInCategoryPage = (req,res) => {
 
-  mysql_util.findUserCatagoryPallets(req.user.user_id,category,async (colors)=>{
-    var all_palletes_in_category = await color_util.ConfigurePallets(colors);
+  var category = req.params.category;
+
+  my_sequelize_util.findUsercategoryPalletes(req.user.user_id,category,async (colors)=>{
+    var all_palletes_in_category = await color_util.ConfigurePalletes(colors);
     res.render(path.join(rootDir,"views","user","all_in_category.ejs"),{category:category,user:req.user,path:req.url,all_palletes_in_category:all_palletes_in_category});
   });
 
 }
 
 const EditUser = async (req,res) => {
+
   var {name,username,password,confirm} = req.body
   var img_file = req.file;
 
@@ -56,14 +116,13 @@ const EditUser = async (req,res) => {
   var encrypt = await bcrypt.hash(new_password,12);
 
   var config = {
-    user_id:req.user.user_id,
     name : new_name,
     username: new_username,
     password:encrypt,
     profileImg:profileImg
   }
 
-  mysql_util.editUser(config,(data)=>{
+  my_sequelize_util.editUser(req.user.user_id,config,(data)=>{
 
       if(data){
 
@@ -73,7 +132,8 @@ const EditUser = async (req,res) => {
         req.session.user.profileImg = config.profileImg;
 
         res.json({feedback:true,msg:"Edited User"})
-      }else{
+      }
+      else{
         res.json({feedback:false,msg:"Could not Edit"})
       }
 
@@ -95,11 +155,10 @@ const GetCreateAccountPage = (req,res) => {
 
 const GetDashboardPage = (req,res) => {
 
-  mysql_util.findUserPallets(req.user.user_id,async (colors)=>{
+  my_sequelize_util.findUserPalletes(req.user.user_id,async (colors)=>{
 
-    var palletes = await color_util.ConfigurePallets(colors);
+    var palletes = await color_util.ConfigurePalletes(colors);
     var organized_palletes = category_util.CreatePalleteCategories(palletes);
-    console.log(organized_palletes)
     res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",organized_palletes:organized_palletes});
 
   });
@@ -114,15 +173,13 @@ const Login = async (req,res) => {
 
     var {username,password} = req.body;
 
-    mysql_util.findUser(username,(data) => {
+    my_sequelize_util.findUser(username,(user) => {
 
-      if(data.length <= 0){
+      if(!user){
         res.json({feedback:false,msg:"No User Found"});
         return;
       }
       else{
-
-         var user = data[0];
 
          bcrypt.compare(password,user.password).then((isFound)=>{
 
@@ -134,7 +191,6 @@ const Login = async (req,res) => {
             }
 
         }).catch((err)=>{
-          console.log(err);
           res.json({feedback:false,msg:"Crypto Error"})
         });
 
@@ -157,7 +213,7 @@ const CreateAccount = async (req,res) => {
     return;
   }
 
-  mysql_util.findUser(username,async (found_user)=>{
+  my_sequelize_util.findUser(username,async (found_user)=>{
 
     if(found_user.length > 0){
       res.json({feedback:false, msg: "User Already Exists"})
@@ -169,27 +225,22 @@ const CreateAccount = async (req,res) => {
 
     name = name ? name : ""
 
-    var data = [
-      {
-        col:"name",
-        value:name
-      },
-      {
-        col:"username",
-        value:username
-      },
-      {
-        col:"password",
-        value:encrypt
-      },
-      {
-        col:"profileImg",
-        value:profileImg
-      }
-    ];
+    var config = {
+      name:name,
+      username:username,
+      password:encrypt,
+      profileImg:profileImg,
+      email:""
+    }
 
-    mysql_util.InsertInto("user",data,(()=>{
-      res.json({feedback:true,msg:null})
+    my_sequelize_util.addUser(config,((result)=>{
+
+      if(result){
+        res.json({feedback:true,msg:"Created Account"})
+      }else{
+        res.json({feedback:false,msg:"Could not Create Account"})
+      }
+
     }));
 
  });
@@ -212,25 +263,26 @@ const PostExtractColor = async (req,res) => {
 
 }
 
-const GetUserPallets = async (req,res)=>{
+const GetUserPalletes = async (req,res)=>{
 
-  mysql_util.findUserPalletes(async (colors)=>{
-    var palletes = await color_util.ConfigurePallets(colors);
-    res.json({pallets:palletes})
+  my_sequelize_util.findUserPalletes(async (colors)=>{
+    var palletes = await color_util.ConfigurePalletes(colors);
+    res.json({palletes:palletes})
   })
 
 }
 
-const DeletePallet =  (req,res)=> {
+const DeletePallete =  (req,res)=> {
 
-  var pallet_id = req.body.pallet_id;
+  var pallete_id = req.body.pallete_id;
   var user_id = req.user.user_id;
-
-  mysql_util.deletePallet(user_id,pallet_id,(response)=>{
+  console.log(req.body)
+  my_sequelize_util.deletePallete(user_id,pallete_id,(response)=>{
 
     if(response){
       res.json({feedback:true,msg:null})
-    }else{
+    }
+    else{
       res.json({feedback:false,msg:"Could not delete"})
     }
 
@@ -238,17 +290,24 @@ const DeletePallet =  (req,res)=> {
 
 }
 function FromArrayToRGBList(colors){
+
   var rgbList = ""
 
   for(var i =0; i < colors.length; i++){
+
     var {r,g,b} = colors[i]
+
     if(i < colors.length - 1){
       rgbList+= `rgb(${r},${g},${b})` +  ",";
-    }else{
+    }
+    else{
       rgbList+= `rgb(${r},${g},${b})`;
     }
+
   }
+
   return rgbList;
+
 }
 
 function FromRGBListToArray(rgbList){
@@ -296,65 +355,44 @@ const AddPallete = async (req,res) => {
   const color_data = await color_util.ExtractColorFromImage(img_file.path);
 
   var rgbList = FromArrayToRGBList(color_data)
-  var catagory = req.body.catagory  && req.body.catagory.length > 0 ? req.body.catagory : "";
+  var category = req.body.category  && req.body.category.length > 0 ? req.body.category : "";
   //Not needed just in case
   var name = req.body.name  && req.body.name.length > 0 ? req.body.name : "N/A";
 
-  var data = [
-      {
-        col:"user_id",
-        value:req.user.user_id
-      },
-      {
-        col:"image",
-        value:img_file.path
-      },
-      {
-        col:"name",
-        value:req.body.name
-      },
-      {
-        col:"catagory",
-        value:catagory
-      },
-      {
-        col:"rgbList",
-        value:rgbList
-      },
-      {
-        col:"created_at",
-        value: new Date().toISOString().slice(0, 10)
-      },
-      {
-        col:"isViewable",
-        value:false
-      }
-    ];
+  var config=  {
+    isViewable:false,
+    name:name,
+    user_id:req.user.user_id,
+    image:img_file.path,
+    category:category,
+    rgbList:rgbList
+  }
 
     if(errors.length > 0){
       res.json({feedback:false,msg:"Validation Error", validation_errors:errors})
       return;
     }
 
-    mysql_util.InsertInto("pallete",data,((insert)=>{
+    my_sequelize_util.addPallete(config,((insert)=>{
 
       if(insert){
         res.json({feedback:true,msg:null})
       }
       else {
-        res.json({feedback:false,msg:"Could not add pallet"})
+        res.json({feedback:false,msg:"Could not add pallete"})
       }
 
     }));
 
   }
 
+module.exports.EditPallete = EditPallete;
 module.exports.EditUser = EditUser;
 module.exports.GetProfilePage = GetProfilePage;
 module.exports.DeleteUser = DeleteUser;
-module.exports.DeletePallet = DeletePallet;
+module.exports.DeletePallete = DeletePallete;
 module.exports.AddPallete = AddPallete;
-module.exports.GetUserPallets = GetUserPallets;
+module.exports.GetUserPalletes = GetUserPalletes;
 module.exports.GetAddPage = GetAddPage;
 module.exports.GetDashboardPage = GetDashboardPage;
 module.exports.CreateAccount = CreateAccount;
@@ -362,6 +400,7 @@ module.exports.GetMainPage = GetMainPage;
 module.exports.GetLoginPage = GetLoginPage;
 module.exports.Login = Login;
 module.exports.Logout = Logout;
-module.exports.GetAllInCatagoryPage = GetAllInCatagoryPage;
+module.exports.GetPalleteDetailPage = GetPalleteDetailPage;
+module.exports.GetAllInCategoryPage = GetAllInCategoryPage;
 module.exports.GetCreateAccountPage = GetCreateAccountPage;
 module.exports.PostExtractColor = PostExtractColor;

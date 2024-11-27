@@ -16,10 +16,9 @@ nav{
 
 .profile_choice_container:hover{
   color:white;
-
   background:#1e2040;
-
 }
+
 .profile_choice_container{
   color:white;
   transition: all .4s;
@@ -29,8 +28,8 @@ nav{
   background:#27294c;
   padding:10px;
   border-bottom:1px solid #1e2040;
-
 }
+
 .profile_dropdown_container{
   transform: scaleY(0);
   visibility: hidden;
@@ -140,11 +139,11 @@ body{
   border:1px solid none;
 }
 
-.delete_pallets_container{
+.delete_palletes_container{
   margin-top:5%;
 }
 
- #delete-pallets{
+ #delete-palletes{
   text-align: right;
   color:white;
   opacity:.4;
@@ -157,20 +156,20 @@ body{
   display: inline;
 }
 
- #delete-pallets:hover {
+ #delete-palletes:hover {
    opacity:1;
  }
 
-.delete_pallets_container{
+.delete_palletes_container{
   float:right;
   width:40%;
 }
 
- #delete-pallets:hover .underline{
+ #delete-palletes:hover .underline{
    width:100%;
  }
 
- #delete-pallets .underline{
+ #delete-palletes .underline{
    width:0%;
    border-radius: 5px;
    position: absolute;
