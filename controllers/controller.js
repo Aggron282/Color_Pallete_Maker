@@ -8,6 +8,19 @@ const category_util = require("./../util/category_maker.js");
 
 const {validationResult} = require("express-validator");
 
+const SearchPalletes = (req,res)=> {
+  var search = req.body.search;
+  var terms = search.split(" ");
+  var found_palletes = [];
+  console.log(terms)
+  my_sequelize_util.findPalletesByArraySearch(req.user.user_id,terms,async(ps)=>{
+
+    // res.render(path.join(rootDir,"views","user","search.ejs"),{found_palletes:found_palletes,term:search});
+    res.json({found_palletes:ps,term:search})
+  })
+
+}
+
 const EditPallete = (req,res)=>{
 
   var {name,category,pallete_id} = req.body
@@ -52,6 +65,17 @@ const EditPallete = (req,res)=>{
 
 }
 
+const GetOrganizedPalletes = (req,res) => {
+
+
+    my_sequelize_util.findUserPalletes(req.user.user_id,async (colors)=>{
+
+      var palletes = await color_util.ConfigurePalletes(colors);
+      var organized_palletes = category_util.CreatePalleteCategories(palletes);
+      res.json({organized_palletes:organized_palletes})
+    });
+}
+
 const GetPalleteDetailPage = (req,res)=>{
 
   var pallete_id = req.params.pallete;
@@ -61,7 +85,7 @@ const GetPalleteDetailPage = (req,res)=>{
     var pallete_ = await color_util.ConfigurePallete(pallete);
 
     if(pallete_){
-      res.render(path.join(rootDir,"views","user","detail.ejs"),{pallete:pallete_,path:req.url,user:req.user});
+      res.render(path.join(rootDir,"views","user","detail.ejs"),{pallete:pallete_,path:'/detail',user:req.user});
     }
 
  });
@@ -142,7 +166,7 @@ const EditUser = async (req,res) => {
 }
 
 const GetProfilePage = (req,res) => {
-  res.render(path.join(rootDir,"views","user","profile.ejs"),{user:req.user,path:"/dashboard"});
+  res.render(path.join(rootDir,"views","user","profile.ejs"),{user:req.user,path:"/profile"});
 }
 
 const GetLoginPage = (req,res) => {
@@ -276,7 +300,7 @@ const DeletePallete =  (req,res)=> {
 
   var pallete_id = req.body.pallete_id;
   var user_id = req.user.user_id;
-  console.log(req.body)
+
   my_sequelize_util.deletePallete(user_id,pallete_id,(response)=>{
 
     if(response){
@@ -298,7 +322,7 @@ function FromArrayToRGBList(colors){
     var {r,g,b} = colors[i]
 
     if(i < colors.length - 1){
-      rgbList+= `rgb(${r},${g},${b})` +  ",";
+      rgbList+= `rgb(${r},${g},${b})` +  " ";
     }
     else{
       rgbList+= `rgb(${r},${g},${b})`;
@@ -361,10 +385,10 @@ const AddPallete = async (req,res) => {
 
   var config=  {
     isViewable:false,
-    name:name,
+    name:name.toLowerCase(),
     user_id:req.user.user_id,
     image:img_file.path,
-    category:category,
+    category:category.toLowerCase(),
     rgbList:rgbList
   }
 
@@ -400,7 +424,9 @@ module.exports.GetMainPage = GetMainPage;
 module.exports.GetLoginPage = GetLoginPage;
 module.exports.Login = Login;
 module.exports.Logout = Logout;
+module.exports.GetOrganizedPalletes = GetOrganizedPalletes;
 module.exports.GetPalleteDetailPage = GetPalleteDetailPage;
 module.exports.GetAllInCategoryPage = GetAllInCategoryPage;
 module.exports.GetCreateAccountPage = GetCreateAccountPage;
 module.exports.PostExtractColor = PostExtractColor;
+module.exports.SearchPalletes =SearchPalletes;

@@ -25,7 +25,9 @@ router.post("/save",
 check("name").isLength({min:1}).withMessage("Name is too short"),
 isAuth,controller.AddPallete);
 router.get("/user/palletes",isAuth,controller.GetUserPalletes);
+router.get("/user/palletes/organized",isAuth,controller.GetOrganizedPalletes);
 router.get("/category/:category",isAuth,controller.GetAllInCategoryPage);
 router.get("/pallete/:pallete",isAuth,controller.GetPalleteDetailPage);
 router.post("/pallete/edit/",isAuth,controller.EditPallete);
+router.post("/user/palletes/search",isAuth,controller.SearchPalletes);
 module.exports = router;

@@ -51,7 +51,7 @@ body{
 .add_pallete_button {
   position: absolute;
   right:30px;
-  top:50px;
+  top:90px;
   font-family: "Oswald";
   background:black;
   color:white;
@@ -86,7 +86,7 @@ body{
 .save_pallete_button{
   position: absolute;
   right:100px;
-  top:50px;
+  top:90px;
   font-family: "Oswald";
   background:black;
   color:white;

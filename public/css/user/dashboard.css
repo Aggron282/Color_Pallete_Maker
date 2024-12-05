@@ -15,16 +15,48 @@
   padding-top:0px;
 }
 
+.inner_category{
+  position: relative;
+
+  height:400px;
+}
+
+.paginate{
+  color:white;
+  margin-left:15px;
+  border:2px solid none;
+  font-size:18px;
+  padding-bottom:5px;
+}
+
+.paginate--active{
+  border-color:white !important;
+  text-decoration: underline;
+  text-decoration-color: yellow;
+  border-bottom:2px solid white !important;
+
+}
+
+body{
+  font-family:"Oswald";
+}
+
 a{
   text-decoration: none;
 }
-
-
 
 .pallete_category_title{
   color:white;
   font-family: "Oswald";
   font-size:40px;
+}
+
+.paginate_container{
+  margin: 0 auto;
+  width:50%;
+  text-align: center;
+  margin-left:25%;
+  margin-top:20px;
 }
 
 .pallete_category_title--big{
@@ -134,7 +166,7 @@ nav{
   animation: .5s ease-in 1 flip_close;
 }
 
-.pallete_box:hover .inner{
+.pallete_box--flipped .inner{
   transform: rotateY(180deg);
   animation: .5s ease-in 1 flip_open;
 }
@@ -152,7 +184,7 @@ nav{
 }
 
 .flip-card-back{
-  margin-top:-30px;
+  margin-top:10px;
 }
 
 .color_stripe {
@@ -252,10 +284,21 @@ nav{
   margin-top:-40px;
 }
 
+#category-scroll{
+  scrollbar-color: #27294c #1e2040;
+  scrollbar-width: thin;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
 .my_palletes_container .title{
   color:white;
   font-family: "Oswald";
   font-size:40px;
+}
+
+.my_palletes_container p{
+  text-transform: capitalize;
 }
 
 .img_holder{
@@ -287,7 +330,6 @@ nav{
   top:0%;
   right:0%;
   width:100%;
-
 }
 
 .flip-card {
@@ -310,13 +352,14 @@ nav{
   width: 100%;
   height: 100%;
   text-align: center;
+  margin-top:10px;
   transition: transform 0.8s;
   margin-bottom:80px;
   transform-style: preserve-3d;
 }
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card:hover .flip-card-inner {
+.flip-card--flipped .flip-card-inner {
   transform: rotateY(180deg);
 }
 

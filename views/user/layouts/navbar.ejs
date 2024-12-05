@@ -5,8 +5,8 @@
     </div>
 
     <div class="search_nav_container">
-      <form id = "search_colors_form">
-        <input class="search_nav" placeholder= "Enter a color or multiple colors (Seperate by comma)"/>
+      <form class = "search_colors_form">
+        <input class="search_nav" name="search" placeholder= "Enter a color or multiple colors (Seperate by comma)"/>
       </form>
     </div>
 
@@ -38,10 +38,13 @@
 
      </div>
 
-     <div class="profile_user_container relative">
+     <% var dropdown_active = path == "/profile" || path == "/detail" ? "profile_user_container--active" : ""  %>
 
-       <% var src_name = user.profileImg %>
-       <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+
+     <div class="profile_user_container relative <%= dropdown_active %> ">
+
+       <% var src_name = user.profileImg ? user.profileImg : "" %>
+       <% var src = src_name.length > 0 ? src_name.substring(src_name.lastIndexOf('\\') + 1) : "/imgs/profile.png" %>
 
        <img class="icon icon--active" src = "<%= src %>" />
 
@@ -49,7 +52,8 @@
 
     </div>
 
-    <div class="profile_dropdown_container">
+
+    <div class="profile_dropdown_container  ">
 
       <div class="profile_choice_container profile_choice_container--main">
           <p> Go to Main Site </p>

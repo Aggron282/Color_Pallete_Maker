@@ -30,9 +30,7 @@
         <input name="image" type="file" class="profile_input profile_input--file" placeholder="Change Profile Picture" />
       </div>
 
-
-
-        <div class="input_group input_group--full">
+        <div class="input_group input_group--half">
           <label>
               Password
           </label>
@@ -40,7 +38,7 @@
           <input name="password" class="profile_input" type="password" placeholder="Change Password" />
         </div>
 
-        <div class="input_group">
+        <div class="input_group input_group--half">
           <label>
               Confirm Password
           </label>
@@ -54,8 +52,10 @@
   </div>
 
   <div class="profile_img_container">
-    <% var src_name = user.profileImg %>
-    <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+
+    <% var src_name = user.profileImg ? user.profileImg : "" %>
+    <% var src = src_name.length > 0 ? src_name.substring(src_name.lastIndexOf('\\') + 1) : "/imgs/profile.png" %>
+    <% console.log(src_name) %>
     <img src = "<%= src %>" />
 
   </div>
