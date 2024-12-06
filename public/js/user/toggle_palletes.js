@@ -114,13 +114,13 @@ function ReturnPalletesInCategoryHTML(category){
     var src = src_name.substring(src_name.lastIndexOf('\\') + 1);
 
     html += `
-    <div class="flip-card pallete_card"  isFlipped = "0" _id = "${ pallete.pallete_id }" style="position:absolute;left:${x}%;top:${0}%;" >
+    <div class="flip-card pallete_card"  isFlipped = "0" _id = "${ pallete.pallete_id }" style="left:${x}%" >
 
       <div class="exit" _id = "${ pallete.pallete_id }" >
           X
       </div>
 
-    <a href="/pallete/${ pallete.pallete_id }">
+
 
       <div class="flip-card-inner">
 
@@ -141,7 +141,8 @@ function ReturnPalletesInCategoryHTML(category){
         </div>
 
        </div>
-
+      <a href="/pallete/${ pallete.pallete_id }">
+       See Details
       </a>
 
     </div>`
@@ -153,16 +154,19 @@ function ReturnPalletesInCategoryHTML(category){
 }
 
 function AddFlipEffectToCards(){
-  var pallete_cards = document.querySelector(".pallete_card");
+  var pallete_cards = document.querySelectorAll(".pallete_card");
+  console.log(pallete_cards)
   for(var i =0; i <pallete_cards.length; i++){
+    console.log(pallete_cards[i])
     pallete_cards[i].addEventListener("click",(e)=>{
+      console.log(e.target);
       var isFlipped = e.target.getAttribute("isFlipped");
       if(isFlipped == 0){
         e.target.classList.add("flip-card--flipped")
-        e.target.setAttribute("isFlipped","1")
+        e.target.setAttribute("isflipped","1")
       }else{
         e.target.classList.remove("flip-card--flipped")
-        e.target.setAttribute("isFlipped","0")
+        e.target.setAttribute("isflipped","0")
       }
     });
   }
@@ -198,6 +202,8 @@ function RenderMyPalletes(organized_palletes){
     var container = document.querySelector(".organized_palletes_section");
     container.innerHTML = html;
     var pages = document.querySelectorAll(".paginate_container");
+    AddFlipEffectToCards();
+
     for(var i =0; i < pages.length; i++ ){
 
       pages[i].addEventListener("click",(e)=>{
@@ -212,9 +218,10 @@ function RenderMyPalletes(organized_palletes){
 
           console.log(scrollbar,c);
           ScrollInElement(scrollbar,c);
-          AddFlipEffectToCards();
         }
       });
+
+
 
     }
 

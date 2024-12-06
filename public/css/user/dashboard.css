@@ -357,6 +357,10 @@ nav{
   margin-bottom:80px;
   transform-style: preserve-3d;
 }
+.pallete_card{
+  position: absolute;
+  top:0%;
+}
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
 .flip-card--flipped .flip-card-inner {
