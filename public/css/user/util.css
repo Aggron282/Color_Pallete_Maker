@@ -5,7 +5,9 @@
   width:100%;
   z-index: 9999999999999999999999999999999999999999999999;
 }
-
+.relative{
+  position: relative;
+}
 .popup{
   box-shadow:0px 0px 10px rgba(0,0,0,.5);
   padding:10px;

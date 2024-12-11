@@ -4,20 +4,171 @@
   padding:10px;
   padding-bottom:5%;
 }
-
+.menu{
+  position: absolute;
+  right:2.5%;
+  top:2.5%;
+}.menu img {
+  width:20px;
+color:white;
+  margin-left: 0%;
+}
+.color--i .color_box{
+  padding:1px;
+}
+.color--i .color_detail .title{
+  font-size:13px;
+  font-weight: 300;
+  text-align: center;
+}
 .category_all_container{
   margin-top:10%;
+  position: relative;
+
+}.palletes_in_category_container{
+  position: relative;
+  padding-bottom:50%;
+  margin-top:-5%;
 }
 
 .pallete_category_container{
   width:100%;
-  overflow: hidden;
+  margin-top:-5%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  position: relative;
   padding-top:0px;
+  padding-bottom: 15%;
+  scrollbar-color: #27294c  #1e2040!important;
+  scrollbar-width: thin;
+}
+
+
+.palletes_organized_container--hidden{
+  visibility: hidden;
+}
+
+.pallet_title{
+  color:white;font-size:25px;
+}
+@keyframes grow_in{
+  0%{
+    height:0%;
+
+  }
+  100%{
+    height:100%;
+
+  }
+}
+.choices{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  z-index: 99;
+  height:0%;
+  transition: .5s all;
+  background:#27294c !important;
+  color:white;
+  font-weight: 200;
+  pointer-events: none;
+ visibility: hidden;
+}
+.pallete_choice{
+
+}
+.pallete_choice:hover{
+  color:yellow;background:#1e2040;
+
+}
+.menu_in_choice{
+    width:100%;
+    padding:20px;
+    position: relative;
+
+  }
+  .menu_in_choice img {
+    width:20px;
+    color:white;
+    position: absolute;
+    transition:  all .5s;
+    margin-left: 0%;
+    right:2.5%;
+    top:10px;
+  }
+  .menu:hover img {
+     transform: rotate(720deg);
+  }
+ .menu_in_choice:hover img {
+    transform: rotate(720deg);
+ }
+
+.choices--active{
+  height:100%;
+  pointer-events: all !important;
+  visibility: visible;
+}
+.pallete_choice{
+  display: block;
+  width:100%;
+  transition: .5s ease-in;
+  padding:5px;
+  text-align: center;
+  border-bottom: 1px solid #1e2040;
+}
+.pallete_search_results_container{
+  visibility: hidden;
+  padding:5px;
+  background:linear-gradient(to right,#27294c,#1e2040) !important;
+  z-index: 999;
+  position: absolute;
+  top:5%;
+  padding-top:2.5%;
+  width:100%;
+}
+
+.exit--search{
+  position: relative;
+  text-align: right;
+  width:95%;
+  margin-top:-10px;
+  color:white;
+  font-size:30px;
+}
+.color_blob{
+  transition: .5s all;
+  box-shadow: 0px 0px 10px none;
+
+}
+
+.color_blob:hover{
+  box-shadow: 0px 0px 10px limegreen;
+
+}
+.color_blob--active{
+  box-shadow: 0px 0px 10px limegreen;
+  border:1px solid yellow;
+  padding:2px;
+  transition: all .5s;
+  border-radius:0px !important;
+
+}
+.color_detail_container .inner{
+  width:100%;
+  padding:2px;
+  padding-left:5px;
+  text-align: left;
+  color:white;
+  clear:both;
+}
+.pallete_search_results_container--active{
+  visibility: visible !important;
 }
 
 .inner_category{
   position: relative;
-
   height:400px;
 }
 
@@ -33,8 +184,6 @@
   border-color:white !important;
   text-decoration: underline;
   text-decoration-color: yellow;
-  border-bottom:2px solid white !important;
-
 }
 
 body{
@@ -51,12 +200,12 @@ a{
   font-size:40px;
 }
 
-.paginate_container{
+.page_number_container{
   margin: 0 auto;
   width:50%;
   text-align: center;
   margin-left:25%;
-  margin-top:20px;
+  margin-top:50px;
 }
 
 .pallete_category_title--big{
@@ -130,7 +279,7 @@ nav{
   margin-left:5px;
   transition: all .5s;
 }
-
+/*
 
 @keyframes flip_open{
 
@@ -154,8 +303,8 @@ nav{
     transform: rotateY(0deg);
   }
 
-}
-
+} */
+/*
 .pallete_box--flipped .inner {
   transform: rotateY(180deg);
   animation: .5s ease-in 1 flip_open;
@@ -169,7 +318,7 @@ nav{
 .pallete_box--flipped .inner{
   transform: rotateY(180deg);
   animation: .5s ease-in 1 flip_open;
-}
+} */
 
 .backside--main{
   transform: translateY(30px);
@@ -268,15 +417,15 @@ nav{
   margin-left:3px;
 }
 
-.pallete_box{
+.pallete_card{
   position: relative;
   float:left;
-  box-shadow: 0px 0px 5px rgba(0,0,0,.5);
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
   padding:10px;
-  height:200px;
+  height:100%;
   width:20%;
   margin-left:10px;
-  overflow: hidden;
+  /* max-height:400px; */
   margin-top:60px;
 }
 
@@ -285,10 +434,13 @@ nav{
 }
 
 #category-scroll{
-  scrollbar-color: #27294c #1e2040;
+  /* scrollbar-color: #27294c #1e2040;
   scrollbar-width: thin;
   white-space: nowrap;
   overflow-x: scroll;
+  padding:10px;
+  padding-bottom:100%; */
+
 }
 
 .my_palletes_container .title{
@@ -338,7 +490,7 @@ nav{
   margin-bottom:50px;
   height: 100%;
   max-height:400px;
-  height:300px;
+  height:400px;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 

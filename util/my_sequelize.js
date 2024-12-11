@@ -34,8 +34,12 @@ function hexToRgb(hex) {
   const g = parseInt(hex.slice(2, 4), 16);
   const b = parseInt(hex.slice(4, 6), 16);
 
-  return `rgb(${r},${g},${b})`;
-
+  var rgb= `rgb(${r},${g},${b})`;
+  if(isRGB(rgb)){
+    return rgb
+  }else{
+    return false;
+  }
 }
 
 
@@ -73,10 +77,9 @@ async function findPalletesByArraySearch(user_id,terms,cb){
 
   for(var i =0; i < terms.length; i++){
     var rgb = null
-      rgb = hexToRgb(terms[i]);
-
-
+    rgb = hexToRgb(terms[i]);
     var search_term = rgb ? rgb : terms[i];
+
     if(isRGB(search_term)){
 
       var search_by_rgb = await Pallete.findAll(  {
@@ -89,9 +92,7 @@ async function findPalletesByArraySearch(user_id,terms,cb){
       for(var z =0 ; z < search_by_rgb.length;z++){
 
         var rgb_arr = search_by_rgb[z].rgbList.split(" ");
-        console.log(rgb_arr)
         for(var x = 0; x < rgb_arr.length; x++){
-          console.log(rgb_arr[x],search_term)
           if(rgb_arr[x] === search_term.trim()){
             found_palletes.push(search_by_rgb[z])
             break;
@@ -100,37 +101,38 @@ async function findPalletesByArraySearch(user_id,terms,cb){
         }
 
       }
-    }else{
+    }else if(terms[i]){
 
       var search_by_category = await Pallete.findAll(  {
           where: {
             user_id: user_id,
-            category:terms[i].toLowerCase()
+            category:terms[i].toLowerCase().trim()
           }
         }
 
         );
-      console.log(search_by_category)
+
       for(var i = 0; i < search_by_category.length; i++){
           found_palletes.push(search_by_category[i])
       }
-
-      var search_by_name = await Pallete.findAll({
-          where: {
-            user_id: user_id,
-            name:terms[i].toLowerCase()
-          }
+        if(!terms[i]){
+          break;
         }
-      );
+        var search_by_name = await Pallete.findAll({
+            where: {
+              user_id: user_id,
+              name:terms[i].toLowerCase().trim()
+            }
+          }
+        );
 
-      for(var i = 0; i < search_by_name.length; i++){
-        found_palletes.push(search_by_name[i].dataValues)
+        for(var i = 0; i < search_by_name.length; i++){
+          found_palletes.push(search_by_name[i].dataValues)
+        }
       }
 
     }
 
-  }
-  console.log(found_palletes)
   cb(found_palletes);
 
 }

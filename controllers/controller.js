@@ -10,9 +10,9 @@ const {validationResult} = require("express-validator");
 
 const SearchPalletes = (req,res)=> {
   var search = req.body.search;
-  var terms = search.split(" ");
+  var terms = search.split(";");
   var found_palletes = [];
-  console.log(terms)
+
   my_sequelize_util.findPalletesByArraySearch(req.user.user_id,terms,async(ps)=>{
 
     // res.render(path.join(rootDir,"views","user","search.ejs"),{found_palletes:found_palletes,term:search});
