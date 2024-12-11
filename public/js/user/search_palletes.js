@@ -46,42 +46,20 @@ async function SubmitSearch(){
 function  RenderResult(palletes){
 
   result_container.innerHTML = ``;
+  palletes_organized_container.innerHTML='';
 
   if(palletes.length <= 0){
 
-    html += `
+     result_container.innerHTML += `
 
-    <div class="no_result_container">
-
-       <p class="exit--search">X <p>
-
-       <p class="title">No Results </p>
-
-     </div>
-     `;
-
-    result_container.innerHTML = html;
-
-    ShowSearchContainer();
-
-    var exit = document.querySelector(".exit--search");
-
-    exit.addEventListener("click",(e)=>{
-      ExitSearch();
-    });
-
-    return;
-
+      <div class="no_result_container">
+         <p class="title">No Results </p>
+       </div>
+       `;
+  }else{
+    RenderPalletes(palletes);
   }
 
-  RenderPalletes(palletes);
-
   ShowSearchContainer();
-
-  var exit = document.querySelector(".exit--search");
-
-  exit.addEventListener("click",(e)=>{
-    ExitSearch();
-  })
 
 }

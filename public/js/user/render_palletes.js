@@ -70,7 +70,7 @@ function RenderPalletes(palletes){
 
   for(var i = 0; i < palletes.length; i++) {
 
-    result_container.innerHTML += ReturnPalleteBoxHTML(palletes[i])
+    result_container.innerHTML += ReturnPalleteBoxHTML(palletes[i],null)
 
      var element = result_container.querySelector(`[_id="${palletes[i].pallete_id}"]`);
 
@@ -88,23 +88,30 @@ function ReturnPalleteBoxHTML(pallete,x){
 
   var src_name = pallete.image;
   var src = src_name.substring(src_name.lastIndexOf('\\') + 1);
-  var style_ = x ? `left:${x}%` : "float:left;position:relative";
+  console.log(x)
+  var style_ = x != null ? `left:${x}%` : "float:left;position:relative";
+  var style_choice = x != null ? "choices" : "choices choices--search";
+  console.log(style_choice)
   return(
     `
     <div class="pallete_card" _id = "${ pallete.pallete_id }" style="${style_}" >
 
-        <div class="menu"_id = "${ pallete.pallete_id }>
+        <div class="menu"_id = "${ pallete.pallete_id }">
           <img src = "./imgs/set.png" _id = "${ pallete.pallete_id }"/>
         </div>
-        <div class="choices choices--active" isActive = "0">
+
+        <div class="${style_choice}" isActive = "0"  _id = "${ pallete.pallete_id }">
+
           <div class="menu_in_choice"_id = "${ pallete.pallete_id }">
             <img src = "./imgs/set.png" _id = "${ pallete.pallete_id }"/>
           </div>
-          <span class="pallete_choice">Overview</span>
-          <span class="pallete_choice">See Details</span>
+
+          <span class="pallete_choice pallete_choice--active">Overview</span>
+          <span class="pallete_choice"><a href ="/pallete/${pallete.pallete_id}">See Details</a></span>
           <span class="pallete_choice">Complimentary Colors</span>
-          <span class="pallete_choice">Go Back</span>
-          <span class="pallete_choice">Delete</span>
+
+          <span class="pallete_choice pallete_choice--delete" pallete_id = "${pallete.pallete_id}">Delete</span>
+
         </div>
 
         <div class="exit" _id = "${ pallete.pallete_id }" >
@@ -118,39 +125,29 @@ function ReturnPalleteBoxHTML(pallete,x){
         <div class="color_detail_container"></div>
 
     </div>
-
-
     `
   )
 }
 
 function MenuPallete(){
 
+    document.addEventListener('click', function(e) {
 
-    console.log("S")
-    var menu = document.querySelectorAll(".menu");
-    var exit_menu = document.querySelectorAll(".menu_in_choice");
-    console.log(exit_menu,menu)
-    for(var i =0; i < menu.length; i++){
-      menu[i].addEventListener("click",(e)=>{
-        var id = e.target.getAttribute("_id");
-        console.log(id)
-          var choice_container = document.querySelector(`.choices[_id="${id}"]`);
-          choice_container.classList.add("choices--active")
-      })
-    }
-    for(var i =0; i < exit_menu.length; i++){
-      console.log(exit_menu[i])
-      exit_menu[i].addEventListener("click",(e)=>{
-        var id = e.target.getAttribute("_id");
-        console.log(e)
-        e.stopPropagation()
+      if (e.target.closest('.menu_in_choice')) {
+          var id = e.target.getAttribute("_id");
           var choice_container = document.querySelector(`.choices[_id="${id}"]`);
           choice_container.classList.remove("choices--active")
-      })
-    }
+      }else if(e.target.closest('.menu')){
+          var id = e.target.getAttribute("_id");
+          var choice_container = document.querySelector(`.choices[_id="${id}"]`);
+          choice_container.classList.add("choices--active")
+      }
+      if (e.target.closest('.pallete_choice--delete')) {
+          Delete(e.target.getAttribute("pallete_id"),"/dashboard");
+      }
 
 
+  });
 
 }
 
@@ -172,19 +169,23 @@ function RenderPalletesInCategory(category,container){
     var src = src_name.substring(src_name.lastIndexOf('\\') + 1);
 
     container.innerHTML += ReturnPalleteBoxHTML(pallete,x);
+
     x += incr_x
+
     var element = container.querySelector(`[_id="${pallete.pallete_id}"]`);
+
     var pallete_circle_container = element.querySelector(".color_container");
+
     var pallete_bar_container = element.querySelector(".color_bar_container");
+
     var color_detail_container = element.querySelector(".color_detail_container");
+
     RenderColorPalleteCircles(pallete,pallete_circle_container,color_detail_container);
 
   }
 
   container.innerHTML += "</div>"
 
-  setTimeout(()=>{MenuPallete()},500});
-
-
+  MenuPallete();
 
 }
