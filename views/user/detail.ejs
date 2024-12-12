@@ -35,7 +35,8 @@
       <img class="logo_watermark" src = "/imgs/logo.png"/>
 
       <%- include("./layouts/navbar.ejs") %>
-      <div class="edit_container">
+      <%- include("./layouts/color_picker.ejs") %>
+      <div class="edit_container" pallete_id = "<%= pallete_id %>" >
 
         <div class="edit_form_container">
             <button class="display_pallete_btn"> See Pallete </button>
@@ -82,27 +83,30 @@
           <% var src_name = pallete.image %>
           <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
 
-          <div class="text-container">
-            <p class="detail_title"> Title: <%= pallete.name %> </p>
-            <p class="detail_title"> Category: <%= pallete.category ? pallete.category : "Other" %> </p>
-            <button class="edit_pallete_btn"> Edit Pallete </button>
+          <div class="text-container text-container--deal">
+            
+            <p class="title"> Title: <%= pallete.name %> </p>
+            <p class="subtitle"> Category: <%= pallete.category ? pallete.category : "Other" %> </p>
+         
+            <button class="detail_btn edit_pallete_btn"> Edit Pallete </button>
+         
+            <button class="detail_btn detail_btn--complementary"> Complementary Colors </button>
+         
+            <button class="detail_btn detail_btn--original detail_btn--active"> Original Colors </button>
+         
+            <button class="detail_btn detail_btn--add"> Add Color </button>
+         
           </div>
 
           <div class="img-container">
             <img src = "/../../<%= src %>" class="detail_image" />
           </div>
+          
           <br/>
           <br/>
-          <div class="colors_detail_container">
-            <% for (var x =0; x < pallete.colors.length; x++) {%>
 
-              <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
-
-              <div class="color_blob" style="background:<%=  rgb %>"></div>
-
-            <%}%>
-
-        </div>
+          <div class="colors_detail_container">          </div>
+          <div class="colors_custom_detail_container">          </div>
 
       </div>
 
@@ -110,21 +114,28 @@
 
         </div>
 
+        <div class="custom_rgb_detail_container">
+
+        </div>
+        <div class="clear"></div>
 
       </div>
+      
       <button class="delete_pallete" _id = "<%= pallete.pallete_id %>" id="delete-pallete"> Delete Pallete </button>
-
 
     </main>
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
     <script src="/js/utils.js"></script>
+    <script src = "/js/color_util.js"></script>
     <script src = "/js/user/profile_global_var.js"></script>
     <script src="/js/auth/auth.js"></script>
     <script src="/js/img_upload.js"></script>
     <script src = '/js/auth/delete_account.js'></script>
     <script src = "/js/user/delete_pallets.js"></script>
+    <script src = "/js/user/render_palletes.js"></script>
     <script src = "/js/user/edit_pallete.js"></script>
+    <script src = "/js/user/color_picker.js"></script>
 
   </body>
 

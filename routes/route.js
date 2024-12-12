@@ -21,9 +21,7 @@ router.get("/add",
 isAuth,controller.GetAddPage);
 router.post("/delete",isAuth,controller.DeletePallete);
 router.post("/extract",controller.PostExtractColor);
-router.post("/save",
-check("name").isLength({min:1}).withMessage("Name is too short"),
-isAuth,controller.AddPallete);
+router.post("/save",check("name").isLength({min:1}).withMessage("Name is too short"),isAuth,controller.AddPallete);
 router.get("/user/palletes",isAuth,controller.GetUserPalletes);
 router.get("/user/palletes/organized",isAuth,controller.GetOrganizedPalletes);
 router.get("/category/:category",isAuth,controller.GetAllInCategoryPage);
@@ -34,5 +32,6 @@ router.post("/colors/complementary",isAuth,controller.GetComplementaryColors);
 router.post("/colors/triad",isAuth,controller.GetTriadColors);
 router.post("/colors/primary",isAuth,controller.GetPrimaryColors);
 router.post("/colors/original",isAuth,controller.GetOriginalColors);
+router.post("/user/color/add",isAuth,controller.AddCustomColorsToPallete);
 
 module.exports = router;

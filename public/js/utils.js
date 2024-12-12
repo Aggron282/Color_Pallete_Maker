@@ -6,6 +6,34 @@ function randomColor(colors) {
   return colors[Math.floor(Math.random() * colors.length)]
 }
 
+const  CreateFormData = (form_element)=>{
+
+  const formData = new FormData(form_element);
+
+  var data = {};
+
+  for (const [key, value] of formData) {
+    data[key] = value;
+  }
+
+  return data;
+
+}
+
+const  CreateArrayData = (form_element)=>{
+
+  const formData = new FormData(form_element);
+
+  var data = [];
+
+  for (const [key, value] of formData) {
+    data.push(value);
+  }
+
+  return data;
+
+}
+
 function distance(x1, y1, x2, y2) {
   const xDist = x2 - x1
   const yDist = y2 - y1

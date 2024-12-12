@@ -5,26 +5,27 @@ var palletes_organized_container = document.querySelector(".all_container");
 function RenderColorPalleteCircles(colors,container){
 
   var html = ``;
-
+  console.log(colors);
   for(var x =0; x < colors.length; x ++) {
+    if(colors[x].length > 0){
+      var {r,g,b} = configureRGB(colors[x]);
 
-    var {r,g,b} = configureRGB(colors[x]);
+      var hex = rgbToHex(r,g,b);
 
-    var hex = rgbToHex(r,g,b);
+      container.innerHTML += `
 
-    container.innerHTML += `
+      <div class="color--i">
 
-    <div class="color--i">
+        <div class="color_box" color = ${colors[x]} style="background:${colors[x]}">
 
-      <div class="color_box" color = ${colors[x]} style="background:${colors[x]}">
+          <div class="color_detail">
+            <p class="title"> ${colors[x]} |  ${hex} </p>
+          </div>
 
-        <div class="color_detail">
-          <p class="title"> ${colors[x]} |  ${hex} </p>
         </div>
 
-      </div>
-
-    </div>`
+      </div>`
+    }
 
   }
 

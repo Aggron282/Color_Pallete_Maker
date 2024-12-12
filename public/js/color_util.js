@@ -7,25 +7,27 @@ function rgbToHex  (r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-async function GetPrimaryColors(pallete_id,cb){
-  return await GetColors(pallete_id, "/colors/primary");
+async function GetPrimaryColors(pallete_id,isCustom){
+  return await GetColors(pallete_id, "/colors/primary",isCustom);
 }
 
-async function GetOriginalColors(pallete_id,cb){
-  return await GetColors(pallete_id, "/colors/original");
+async function GetOriginalColors(pallete_id,isCustom){
+  return  GetColors(pallete_id, "/colors/original",isCustom);
 }
 
-async function GetColors(pallete_id, url){
+async function GetColors(pallete_id, url,isCustom){
 
-  var {data} = await axios.post(url,{pallete_id:pallete_id});
-
-  if(data){
+  var {data} = await axios.post(url,{pallete_id:pallete_id,isCustom:isCustom});
+  
+  if(data){ 
+     
       if(data.new_colors){
        return data.new_colors
       }
       else {
         return false
       }
+
   }
   else{
     return false
@@ -33,12 +35,12 @@ async function GetColors(pallete_id, url){
 
 }
 
-async function GetComplementaryColors(pallete_id){
-  return await GetColors(pallete_id, "/colors/complementary");
+async function GetComplementaryColors(pallete_id,isCustom){
+  return await GetColors(pallete_id, "/colors/complementary",isCustom);
 }
 
-async function GetTriadColors(pallete_id,cb){
-  return await GetColors(pallete_id, "/colors/triad");
+async function GetTriadColors(pallete_id,isCustom){
+  return await GetColors(pallete_id, "/colors/triad",isCustom);
 }
 
 function configureRGB(str){

@@ -132,6 +132,15 @@ color:white;
   margin-top:-5%;
   padding-bottom: 20%;
 }
+.add_color{
+  transition:all .5s;
+}
+.add_color:hover{
+  background:white !important;
+  color:black;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+ 
+}
 .pallete_search_results_container{
   visibility: hidden;
   padding:5px;

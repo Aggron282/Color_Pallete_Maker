@@ -8,72 +8,165 @@ const category_util = require("./../util/category_maker.js");
 const {validationResult} = require("express-validator");
 
 const SearchPalletes = (req,res)=> {
+  
   var search = req.body.search;
   var terms = search.split(";");
   var found_palletes = [];
 
   my_sequelize_util.findPalletesByArraySearch(req.user.user_id,terms,async(ps)=>{
-
-    // res.render(path.join(rootDir,"views","user","search.ejs"),{found_palletes:found_palletes,term:search});
     res.json({found_palletes:ps,term:search})
   })
 
 }
 
 const GetComplementaryColors = async (req,res)=>{
+  
   var pallete_id = req.body.pallete_id;
+  var isCustom = req.body.isCustom;
 
   my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
-
-    var colors = pallete.rgbList.split(" ");
-
-    var c = await color_util.GetComplementaryColors(colors);
-      console.log(c,"SS");
-        res.json({new_colors:c})
-
-
+    var new_colors = await GetColor(pallete,1,isCustom);
+    res.json({new_colors:new_colors})
   })
 
 }
 
-const GetPrimaryColors = (req,res)=>{
-  var pallete_id = req.body.pallete_id;
+async function GetColor(pallete,type,isCustom){
+  
+    var colors = [];
+    
+    new_colors = null;
+   
+    if(isCustom){
+     
+      if(!pallete.customRGBList){
+        return []
+      }
+      else if(pallete.customRGBList.length <=0){
+        return [];
+      }
+     
+      colors = pallete.customRGBList.split(" ");
+    
+    }
+    else{
+     
+      if(!pallete.rgbList){
+        return []
+      }
+      else if(pallete.rgbList.length <=0){
+        return [];
+      }
 
+      colors = pallete.rgbList.split(" ");
+    
+    }
+      
+    if(colors.length <= 0){
+      return new_colors;
+    }
+    else{
+
+      if(type == 1){
+        new_colors = await color_util.GetComplementaryColors(colors);
+        
+      }
+      else if (type <= 0){
+        new_colors = await color_util.GetOriginalColors(colors);
+       
+      }
+      else if(type == 2){
+        new_colors = await color_util.GetPrimaryColors(colors);
+      
+      }
+      else if(type == 3){
+        new_colors = await color_util.GetTriadColors(colors);
+     
+      }
+      else{
+        new_colors = await color_util.GetOriginalColors(colors);
+     
+      }
+     
+      return new_colors;
+    
+    }
+
+}
+
+const GetPrimaryColors = (req,res)=>{
+  
+  var pallete_id = req.body.pallete_id;
+  var isCustom = req.body.isCustom;
+  
   my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
 
-    var colors = pallete.rgbList.split(" ");
-
-    var c = await color_util.GetPrimaryColors(colors);
-      console.log(c,"SS");
-        res.json({new_colors:c})
-
+    var new_colors = await GetColor(pallete,2,isCustom);
+    res.json({new_colors:new_colors})
 
   })
 
 }
 
 const GetTriadColors = (req,res)=>{
+ 
   var pallete_id = req.body.pallete_id;
+  var isCustom = req.body.isCustom;
 
   my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
 
-    var colors = pallete.rgbList.split(" ");
-
-    var c = await color_util.GetTriadColors(colors);
-      console.log(c,"SS");
-        res.json({new_colors:c})
-
+    var new_colors = await GetColor(pallete,1,isCustom);
+    res.json({new_colors:new_colors})
 
   })
 
 }
 
-const GetOriginalColors = (req,res)=>{
-  var pallete_id = req.body.pallete_id;
+const AddCustomColorsToPallete = (req,res) => {
 
+    var colors = req.body.colors;
+    var pallete_id = req.body.pallete_id;
+    var new_colors = "";
+    
+    for(var i =0; i < colors.length; i++){
+      new_colors +=  color_util.hexToRgb(colors[i]) + " " ;
+    }
+
+    my_sequelize_util.findOnePallete(req.user.user_id,pallete_id, async (pallete)=>{     
+      
+      if(!pallete){
+        return res.json({feedback:false,msg:"Error Occurred"});
+      }
+    
+      var new_pallete = {...pallete};
+      var customRGBList = new_pallete.customRGBList != null ? new_pallete.customRGBList : "";
+      
+      customRGBList += " " + new_colors;
+      
+      new_pallete.customRGBList = customRGBList;
+      
+      my_sequelize_util.editPallete(req.user.user_id,pallete_id,new_pallete,async(r)=>{
+       
+        if(r){
+          res.json({feedback:true,msg:"Added Custom Colors"});
+        }else{
+          res.json({feedback:false,msg:"Could Not Add Colors"});
+        }
+
+      });
+
+    });
+
+}
+
+const GetOriginalColors = (req,res)=>{
+  
+  var pallete_id = req.body.pallete_id;
+  var isCustom = req.body.isCustom;
+ 
   my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
-      var colors = pallete.rgbList.split(" ");
-      res.json({new_colors:colors})
+    var new_colors = await GetColor(pallete,0,isCustom);
+    res.json({new_colors:new_colors})
   })
 
 }
@@ -87,7 +180,9 @@ const EditPallete = (req,res)=>{
 
     var new_name = name.length > 0 ? name : found_pallete.name;
     var new_category = category ? category : "";
+   
     new_category = new_category.length ? new_category : found_pallete.category;
+   
     var src_file = req.file ? req.file.path : found_pallete.image;
 
     var color_data = null;
@@ -145,7 +240,7 @@ const GetPalleteDetailPage = (req,res)=>{
     var pallete_ = await color_util.ConfigurePallete(pallete);
 
     if(pallete_){
-      res.render(path.join(rootDir,"views","user","detail.ejs"),{pallete:pallete_,path:'/detail',user:req.user});
+      res.render(path.join(rootDir,"views","user","detail.ejs"),{pallete:pallete_,path:'/detail',user:req.user,pallete_id:pallete.pallete_id});
     }
 
  });
@@ -158,7 +253,8 @@ const DeleteUser = (req,res) =>{
 
     if(r){
       res.json({feedback:true,msg:null});
-    }else{
+    }
+    else{
       res.json({feedback:false,msg:"Could not delete"});
     }
 
@@ -181,8 +277,11 @@ const GetAllInCategoryPage = (req,res) => {
   var category = req.params.category;
 
   my_sequelize_util.findUsercategoryPalletes(req.user.user_id,category,async (colors)=>{
+    
     var all_palletes_in_category = await color_util.ConfigurePalletes(colors);
+    
     res.render(path.join(rootDir,"views","user","all_in_category.ejs"),{category:category,user:req.user,path:req.url,all_palletes_in_category:all_palletes_in_category});
+  
   });
 
 }
@@ -216,6 +315,7 @@ const EditUser = async (req,res) => {
         req.session.user.profileImg = config.profileImg;
 
         res.json({feedback:true,msg:"Edited User"})
+
       }
       else{
         res.json({feedback:false,msg:"Could not Edit"})
@@ -243,6 +343,7 @@ const GetDashboardPage = (req,res) => {
 
     var palletes = await color_util.ConfigurePalletes(colors);
     var organized_palletes = category_util.CreatePalleteCategories(palletes);
+    
     res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",organized_palletes:organized_palletes});
 
   });
@@ -421,6 +522,7 @@ function FromRGBListToArray(rgbList){
 function rgbToArray(rgbString) {
 
   const matches = rgbString.match(/\d+/g);
+  
   return matches.map(Number);
 
 }
@@ -442,7 +544,6 @@ const AddPallete = async (req,res) => {
 
   var rgbList = FromArrayToRGBList(color_data)
   var category = req.body.category  && req.body.category.length > 0 ? req.body.category : "";
-  //Not needed just in case
   var name = req.body.name  && req.body.name.length > 0 ? req.body.name : "N/A";
 
   var config=  {
@@ -496,3 +597,4 @@ module.exports.GetOriginalColors = GetOriginalColors;
 module.exports.GetComplementaryColors = GetComplementaryColors;
 module.exports.GetTriadColors = GetTriadColors;
 module.exports.GetPrimaryColors = GetPrimaryColors;
+module.exports.AddCustomColorsToPallete = AddCustomColorsToPallete;
