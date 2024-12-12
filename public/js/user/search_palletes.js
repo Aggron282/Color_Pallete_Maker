@@ -5,6 +5,7 @@ var palletes_organized_container = document.querySelector(".organized_palletes_s
 search_colors_form.addEventListener("submit",(e)=>{
   e.preventDefault();
   SubmitSearch();
+
 })
 
 function ShowSearchContainer(){
@@ -22,7 +23,9 @@ async function SubmitSearch(){
 
   var form = new FormData(search_colors_form);
   var input = document.querySelector(".search_nav");
-
+  document.querySelector(".icon--active").classList.remove("icon--active")
+    document.querySelector(".underline--active").classList.remove("underline--active")
+    // document.querySelector(".add--active").classList.remove("add--active")
   if(input.value.length < 1){
     alert("Empty Value");
   }
@@ -56,7 +59,9 @@ function  RenderResult(palletes){
          <p class="title">No Results </p>
        </div>
        `;
-  }else{
+
+  }
+  else{
     RenderPalletes(palletes);
   }
 

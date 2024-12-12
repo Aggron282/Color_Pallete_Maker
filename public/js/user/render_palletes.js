@@ -2,45 +2,9 @@ var search_colors_form = document.querySelector(".search_colors_form");
 var result_container = document.querySelector(".result_container");
 var palletes_organized_container = document.querySelector(".all_container");
 
-function componentToHex  (c) {
-  const hex = c.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
-}
-
-function rgbToHex  (r, g, b) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
-function configureRGB(str){
-
-  const regex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
-  const match = str.match(regex);
-
-  if (!match){
-    return false
-  }
-  else{
-
-    const r = parseInt(match[1]);
-    const g = parseInt(match[2]);
-    const b = parseInt(match[3]);
-
-    if( r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255){
-      return {r:r,g:g,b:b};
-    }
-    else{
-      return false;
-    }
-
-  }
-
-}
-
-function RenderColorPalleteCircles(pallete,container,color_detail_container){
+function RenderColorPalleteCircles(colors,container){
 
   var html = ``;
-
-  var colors = pallete.rgbList.split(" ");
 
   for(var x =0; x < colors.length; x ++) {
 
@@ -73,12 +37,10 @@ function RenderPalletes(palletes){
     result_container.innerHTML += ReturnPalleteBoxHTML(palletes[i],null)
 
      var element = result_container.querySelector(`[_id="${palletes[i].pallete_id}"]`);
-
      var pallete_circle_container = element.querySelector(".color_container");
-     var pallete_bar_container = element.querySelector(".color_bar_container");
-     var color_detail_container = element.querySelector(".color_detail_container");
+     var colors = palletes[i].rgbList.split(" ");
 
-     RenderColorPalleteCircles(palletes[i],pallete_circle_container,color_detail_container);
+     RenderColorPalleteCircles(colors,pallete_circle_container);
 
   }
 
@@ -88,10 +50,10 @@ function ReturnPalleteBoxHTML(pallete,x){
 
   var src_name = pallete.image;
   var src = src_name.substring(src_name.lastIndexOf('\\') + 1);
-  console.log(x)
+
   var style_ = x != null ? `left:${x}%` : "float:left;position:relative";
   var style_choice = x != null ? "choices" : "choices choices--search";
-  console.log(style_choice)
+
   return(
     `
     <div class="pallete_card" _id = "${ pallete.pallete_id }" style="${style_}" >
@@ -106,9 +68,9 @@ function ReturnPalleteBoxHTML(pallete,x){
             <img src = "./imgs/set.png" _id = "${ pallete.pallete_id }"/>
           </div>
 
-          <span class="pallete_choice pallete_choice--active">Overview</span>
+          <span class="pallete_choice pallete_choice--active pallete_choice--original"pallete_id = "${pallete.pallete_id}">Original Colors</span>
           <span class="pallete_choice"><a href ="/pallete/${pallete.pallete_id}">See Details</a></span>
-          <span class="pallete_choice">Complimentary Colors</span>
+          <span class="pallete_choice pallete_choice--complementary" pallete_id = "${pallete.pallete_id}">Complementary Colors</span>
 
           <span class="pallete_choice pallete_choice--delete" pallete_id = "${pallete.pallete_id}">Delete</span>
 
@@ -126,28 +88,69 @@ function ReturnPalleteBoxHTML(pallete,x){
 
     </div>
     `
+
   )
+
 }
 
-function MenuPallete(){
+async function MenuPallete(){
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', async function(e) {
 
       if (e.target.closest('.menu_in_choice')) {
           var id = e.target.getAttribute("_id");
           var choice_container = document.querySelector(`.choices[_id="${id}"]`);
           choice_container.classList.remove("choices--active")
-      }else if(e.target.closest('.menu')){
+      }
+      else if(e.target.closest('.menu')){
           var id = e.target.getAttribute("_id");
           var choice_container = document.querySelector(`.choices[_id="${id}"]`);
           choice_container.classList.add("choices--active")
       }
-      if (e.target.closest('.pallete_choice--delete')) {
+      else if (e.target.closest('.pallete_choice--delete')) {
           Delete(e.target.getAttribute("pallete_id"),"/dashboard");
       }
-
+      else if (e.target.closest('.pallete_choice--original')) {
+          ToggleColorPalleteMenu(0,e);
+      }
+      else if (e.target.closest('.pallete_choice--complementary')) {
+          ToggleColorPalleteMenu(1,e);
+      }
 
   });
+
+}
+
+async function ToggleColorPalleteMenu(type,e){
+
+  var pallete_id = e.target.getAttribute("pallete_id")
+  var new_colors = [];
+
+  if(type <= 0){
+    new_colors =  await GetOriginalColors(pallete_id);
+  }
+  else if (type == 1){
+    new_colors =  await GetComplementaryColors(pallete_id);
+  }
+
+  var choice_container = document.querySelector(`.choices[_id="${e.target.getAttribute("pallete_id")}"]`);
+
+  SetPalleteMenuActive(e.target.parentElement.parentElement,e.target);
+  ExtractThenRenderColorCircles(new_colors,pallete_id);
+
+  choice_container.classList.remove("choices--active")
+
+}
+
+function SetPalleteMenuActive(container,active_choice){
+
+  var pallete_choices = container.querySelectorAll(".pallete_choice");
+
+  for(var i =0; i < pallete_choices.length; i++){
+      pallete_choices[i].classList.remove("pallete_choice--active");
+    }
+
+  active_choice.classList.add('pallete_choice--active');
 
 }
 
@@ -155,6 +158,7 @@ function RenderPalletesInCategory(category,container){
 
   var x = category.counter * incr_x;
   var y = 0;
+
   var html = `<div class='inner_category' id="category-scroll">`;
 
   for(var z = 0; z < category.palletes.length; z ++) {
@@ -175,17 +179,25 @@ function RenderPalletesInCategory(category,container){
     var element = container.querySelector(`[_id="${pallete.pallete_id}"]`);
 
     var pallete_circle_container = element.querySelector(".color_container");
+    var colors = pallete.rgbList.split(" ");
 
-    var pallete_bar_container = element.querySelector(".color_bar_container");
-
-    var color_detail_container = element.querySelector(".color_detail_container");
-
-    RenderColorPalleteCircles(pallete,pallete_circle_container,color_detail_container);
+    RenderColorPalleteCircles(colors,pallete_circle_container);
 
   }
 
   container.innerHTML += "</div>"
 
   MenuPallete();
+
+}
+
+function ExtractThenRenderColorCircles(new_colors,id){
+
+  var element = document.querySelector(`.pallete_card[_id="${id}"]`);
+  var pallete_circle_container = element.querySelector(".color_container");
+
+  pallete_circle_container.innerHTML = "";
+
+  RenderColorPalleteCircles(new_colors,pallete_circle_container);
 
 }

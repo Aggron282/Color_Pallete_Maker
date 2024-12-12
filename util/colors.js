@@ -1,4 +1,5 @@
 const getColors = require('get-image-colors')
+var compColors = require('complementary-colors');
 
 const ExtractColorFromImage = async (src) => {
 
@@ -20,12 +21,99 @@ const ExtractColorFromImage = async (src) => {
 
 }
 
+function configureRGB(str){
+
+  const regex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
+  const match = str.match(regex);
+
+  if (!match){
+    return false
+  }
+  else{
+
+    const r = parseInt(match[1]);
+    const g = parseInt(match[2]);
+    const b = parseInt(match[3]);
+
+    if( r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255){
+      return {r:r,g:g,b:b};
+    }
+    else{
+      return false;
+    }
+
+  }
+
+}
+
+const ConfigureColors = async (colors,type) =>{
+  var new_colors = [];
+  for(var i =0; i < colors.length ; i ++){
+
+    var con_color = configureRGB(colors[i]);
+    var r,g,b;
+    if(con_color){
+      r = con_color.r
+        g = con_color.g
+         b = con_color.b
+    }else{
+      return [];
+    }
+    var hex = rgbToHex(r,g,b);
+    var myColor = new compColors(hex);
+    var color_ = null
+    if(type == 0){
+       color_ = myColor.primary();
+    }
+    else if(type == 1){
+       color_ = myColor.complementary();
+    }
+    else{
+       color_ = myColor.triad();
+    }
+
+    if(color_){
+      var {r,g,b} = color_[1];
+      color_ = `rgb(${r},${g},${b})`
+      new_colors.push(color_);
+    }
+  }
+  return new_colors;
+
+}
+
+const GetComplementaryColors = (colors,cb)=>{
+
+  var colors = ConfigureColors(colors,1);
+  return colors;
+}
+
+const GetTriadColors = (colors,cb)=>{
+  ConfigureColors(colors,null,(new_colors)=>{
+    cb(new_colors);
+  });
+}
+
+const GetPrimaryColors = (colors,cb)=>{
+  ConfigureColors(colors,0,(new_colors)=>{
+    cb(new_colors);
+  });
+}
+
+function componentToHex  (c) {
+  const hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex  (r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
 const ConfigurePallete = async (pallete) =>{
 
   if(!pallete){
     return null;
   }
-
   var colors = await ExtractColorFromImage(pallete.image);
   var new_data = {...pallete}
 
@@ -50,6 +138,9 @@ const ConfigurePalletes = async (palletes) => {
 
 
 module.exports.ConfigurePallete  = ConfigurePallete;
+module.exports.GetComplementaryColors  = GetComplementaryColors;
+module.exports.GetTriadColors  = GetTriadColors;
+module.exports.GetPrimaryColors  = GetPrimaryColors;
 
 module.exports.ConfigurePalletes  = ConfigurePalletes;
 module.exports.ExtractColorFromImage  = ExtractColorFromImage;

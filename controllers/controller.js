@@ -5,7 +5,6 @@ const formidable = require('formidable');
 const bcrypt = require("bcrypt")
 const my_sequelize_util = require("./../util/my_sequelize.js");
 const category_util = require("./../util/category_maker.js");
-
 const {validationResult} = require("express-validator");
 
 const SearchPalletes = (req,res)=> {
@@ -17,6 +16,64 @@ const SearchPalletes = (req,res)=> {
 
     // res.render(path.join(rootDir,"views","user","search.ejs"),{found_palletes:found_palletes,term:search});
     res.json({found_palletes:ps,term:search})
+  })
+
+}
+
+const GetComplementaryColors = async (req,res)=>{
+  var pallete_id = req.body.pallete_id;
+
+  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
+
+    var colors = pallete.rgbList.split(" ");
+
+    var c = await color_util.GetComplementaryColors(colors);
+      console.log(c,"SS");
+        res.json({new_colors:c})
+
+
+  })
+
+}
+
+const GetPrimaryColors = (req,res)=>{
+  var pallete_id = req.body.pallete_id;
+
+  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
+
+    var colors = pallete.rgbList.split(" ");
+
+    var c = await color_util.GetPrimaryColors(colors);
+      console.log(c,"SS");
+        res.json({new_colors:c})
+
+
+  })
+
+}
+
+const GetTriadColors = (req,res)=>{
+  var pallete_id = req.body.pallete_id;
+
+  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
+
+    var colors = pallete.rgbList.split(" ");
+
+    var c = await color_util.GetTriadColors(colors);
+      console.log(c,"SS");
+        res.json({new_colors:c})
+
+
+  })
+
+}
+
+const GetOriginalColors = (req,res)=>{
+  var pallete_id = req.body.pallete_id;
+
+  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
+      var colors = pallete.rgbList.split(" ");
+      res.json({new_colors:colors})
   })
 
 }
@@ -39,9 +96,10 @@ const EditPallete = (req,res)=>{
     if(src_file){
      color_data = await color_util.ExtractColorFromImage(src_file);
     }
+
     if(color_data){
      rgbList = FromArrayToRGBList(color_data)
-   }
+    }
 
     var config = {
       name : new_name,
@@ -67,13 +125,15 @@ const EditPallete = (req,res)=>{
 
 const GetOrganizedPalletes = (req,res) => {
 
-
     my_sequelize_util.findUserPalletes(req.user.user_id,async (colors)=>{
 
       var palletes = await color_util.ConfigurePalletes(colors);
       var organized_palletes = category_util.CreatePalleteCategories(palletes);
+
       res.json({organized_palletes:organized_palletes})
+
     });
+
 }
 
 const GetPalleteDetailPage = (req,res)=>{
@@ -209,7 +269,8 @@ const Login = async (req,res) => {
 
            if(!isFound){
               res.json({feedback:false,msg:"Incorrect User/Password"})
-            }else{
+            }
+            else{
               req.session.user = user;
               res.json({feedback:true,msg:null,user});
             }
@@ -313,6 +374,7 @@ const DeletePallete =  (req,res)=> {
   })
 
 }
+
 function FromArrayToRGBList(colors){
 
   var rgbList = ""
@@ -430,3 +492,7 @@ module.exports.GetAllInCategoryPage = GetAllInCategoryPage;
 module.exports.GetCreateAccountPage = GetCreateAccountPage;
 module.exports.PostExtractColor = PostExtractColor;
 module.exports.SearchPalletes =SearchPalletes;
+module.exports.GetOriginalColors = GetOriginalColors;
+module.exports.GetComplementaryColors = GetComplementaryColors;
+module.exports.GetTriadColors = GetTriadColors;
+module.exports.GetPrimaryColors = GetPrimaryColors;

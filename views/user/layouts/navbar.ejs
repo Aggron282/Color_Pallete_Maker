@@ -20,7 +20,7 @@
         <% isActive = path == "/add" ? "add add--active" : "add" %>
         <% isUActive = path == "/add" ? "underline underline--active" : "underline" %>
 
-        <a href = "/add">  <div class="choice_user_container">
+        <a href = "/add">  <div class="choice_user_container choice_user_container--home">
           <div class="<%= isActive %>" >+</div>
           <div class="<%= isUActive %>" ></div>
         </div> </a>
@@ -30,7 +30,7 @@
         <% isUActive = path == "/dashboard" ? "underline underline--active" : "underline" %>
 
         <a href = "/dashboard">
-          <div class="choice_user_container">
+          <div class="choice_user_container choice_user_container--add ">
             <img class="<%= isActive %>"  src = "/imgs/home.png"/>
             <div class="<%= isUActive %>" ></div>
           </div>

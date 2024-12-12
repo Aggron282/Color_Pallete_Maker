@@ -30,4 +30,9 @@ router.get("/category/:category",isAuth,controller.GetAllInCategoryPage);
 router.get("/pallete/:pallete",isAuth,controller.GetPalleteDetailPage);
 router.post("/pallete/edit/",isAuth,controller.EditPallete);
 router.post("/user/palletes/search",isAuth,controller.SearchPalletes);
+router.post("/colors/complementary",isAuth,controller.GetComplementaryColors);
+router.post("/colors/triad",isAuth,controller.GetTriadColors);
+router.post("/colors/primary",isAuth,controller.GetPrimaryColors);
+router.post("/colors/original",isAuth,controller.GetOriginalColors);
+
 module.exports = router;

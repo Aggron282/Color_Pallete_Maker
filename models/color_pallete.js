@@ -7,6 +7,7 @@ var Pallete = Sequelize.define("pallete",{
     category : sequelize.STRING,
     rgbList : sequelize.STRING,
     isViewable : sequelize.BOOLEAN,
+    customRGBList:sequelize.STRING,
     pallete_id : {
       type: sequelize.INTEGER,
       autoIncrement:true,
