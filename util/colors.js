@@ -47,9 +47,9 @@ function configureRGB(str){
 }
 
 const ConfigureColors = async (colors,type) =>{
-  
+
   var new_colors = [];
-  
+
   if(type <=0){
     return colors;
   }
@@ -58,7 +58,7 @@ const ConfigureColors = async (colors,type) =>{
 
     var con_color = configureRGB(colors[i]);
     var r,g,b;
-  
+
     if(con_color){
       r = con_color.r
       g = con_color.g
@@ -67,11 +67,11 @@ const ConfigureColors = async (colors,type) =>{
     else{
       return [];
     }
-   
+
     var hex = rgbToHex(r,g,b);
     var myColor = new compColors(hex);
     var color_ = null
-   
+
     if(type == 2){
        color_ = myColor.primary();
     }
@@ -83,13 +83,13 @@ const ConfigureColors = async (colors,type) =>{
     }
 
     if(color_){
-      
+
       if(color_[1]){
-       
+
         var {r,g,b} = color_[1];
-        
+
         color_ = `rgb(${r},${g},${b})`
-        
+
         new_colors.push(color_);
 
       }
@@ -103,9 +103,9 @@ const ConfigureColors = async (colors,type) =>{
 }
 
 function hexToRgb(hex) {
-  
+
   if (!/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(hex)) {
-      throw new Error("Invalid HEX color.");
+      return;
   }
 
   if (hex.length === 4) {

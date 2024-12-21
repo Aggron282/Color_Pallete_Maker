@@ -3,7 +3,7 @@ var Sequelize = require("./../util/sequelize_connection.js");
 var Pallete = require("./../models/color_pallete.js")
 var User = require("./../models/user.js");
 var mysql = require("mysql2");
-
+var color_util = require("./colors.js");
 async function findOnePallete(user_id,pallete_id,cb){
 
   const pallete = await Pallete.findOne({
@@ -27,17 +27,17 @@ async function findPalletesByArraySearch(user_id,terms,cb){
   var found_palletes = [];
 
   for(var i =0; i < terms.length; i++){
-   
+
     var rgb = null
-   
+
     rgb = color_util.hexToRgb(terms[i]);
-   
+
     var search_term = rgb ? rgb : terms[i];
 
     if(color_util.isRGB(search_term)){
 
       var search_by_rgb = await Pallete.findAll(  {
-         
+
         where: {
             user_id: user_id,
           }
@@ -49,9 +49,9 @@ async function findPalletesByArraySearch(user_id,terms,cb){
       for(var z =0 ; z < search_by_rgb.length;z++){
 
         var rgb_arr = search_by_rgb[z].rgbList.split(" ");
-        
+
         for(var x = 0; x < rgb_arr.length; x++){
-          
+
           if(rgb_arr[x] === search_term.trim()){
             found_palletes.push(search_by_rgb[z])
             break;
@@ -79,7 +79,7 @@ async function findPalletesByArraySearch(user_id,terms,cb){
         if(!terms[i]){
           break;
         }
-       
+
         var search_by_name = await Pallete.findAll({
             where: {
               user_id: user_id,

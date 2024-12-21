@@ -1,10 +1,10 @@
-const DisplayExtractionResults  = ({colors,image}) => {
+const DisplayExtractionResults  = ({colors,image},container) => {
 
   var root_img = image.split('images\\')[1];
   var src = "/"+root_img;
 
-  RenderDisplayImg(img_display_continer,src)
-  RenderPallete(color_pallete_container,colors)
+  //RenderDisplayImg(img_display_continer,src)
+  RenderPallete(container,colors)
 
 }
 
@@ -30,7 +30,7 @@ const InstantImageUpload = (input,display) => {
 
 }
 
-const SubmitUpload = async (form) => {
+const SubmitUpload = async (form,container) => {
 
   var new_form = new FormData(form);
 
@@ -42,7 +42,7 @@ const SubmitUpload = async (form) => {
   }
 
   CreatePopup("Extracted","success")
-  DisplayExtractionResults(data)
+  DisplayExtractionResults(data,container)
 
   return true;
 

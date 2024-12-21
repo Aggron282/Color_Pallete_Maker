@@ -17,11 +17,13 @@ if(upload_button){
 
       if(upload_button.classList.contains("add_pallete_button--active")){
 
-         extraction  = await SubmitUpload(img_upload_form);
+         var container = document.querySelector(".extract_display_container");
+         extraction  = await SubmitUpload(img_upload_form,container);
 
          if(extraction){
             save_pallete_button.classList.add("save_pallete_button--active");
-         }else{
+         }
+         else{
             save_pallete_button.classList.remove("save_pallete_button--active");
          }
 

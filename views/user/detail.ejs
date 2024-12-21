@@ -84,24 +84,24 @@
           <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
 
           <div class="text-container text-container--deal">
-            
+
             <p class="title"> Title: <%= pallete.name %> </p>
             <p class="subtitle"> Category: <%= pallete.category ? pallete.category : "Other" %> </p>
-         
+
             <button class="detail_btn edit_pallete_btn"> Edit Pallete </button>
-         
+
             <button class="detail_btn detail_btn--complementary"> Complementary Colors </button>
-         
+
             <button class="detail_btn detail_btn--original detail_btn--active"> Original Colors </button>
-         
+
             <button class="detail_btn detail_btn--add"> Add Color </button>
-         
+
           </div>
 
           <div class="img-container">
             <img src = "/../../<%= src %>" class="detail_image" />
           </div>
-          
+
           <br/>
           <br/>
 
@@ -120,7 +120,7 @@
         <div class="clear"></div>
 
       </div>
-      
+
       <button class="delete_pallete" _id = "<%= pallete.pallete_id %>" id="delete-pallete"> Delete Pallete </button>
 
     </main>

@@ -11,18 +11,52 @@ const image_handler = require("./util/image_handler.js");
 var sequelize = require("sequelize");
 var sequelize_connection = require("./util/sequelize_connection.js")
 
-app.use(express.static("images"));
+cookieParser = require('cookie-parser'), // cookie middleware
+MySQLStore = require('connect-mysql')(session), // mysql session store
+options = {
+  config: {
+    user: 'root',
+    password: 'Linoone99!',
+    database: 'colors'
+  }
+},
+app = express();
+
+app.use(cookieParser());
 
 app.use(session({
-  resave:true,
-  saveUninitialized:false,
-  secret:"39iri3290ie3r2ir3209jdfiewcmod12",
-  cookie:{
-    secure:false,
-    expires: new Date(Date.now() + 18900000),
-    maxAge: 1800 * 60 * 1000
-  }
-}))
+secret: 'keyboardcreojnv aecat',
+resave: false,
+saveUninitialized: true,
+cookie: {
+httpOnly: false,
+secure: false,
+maxAge: 1000 * 60 * 60 * 24 * 3,
+expires: 1000 * 60 * 60 * 24 * 3
+},
+store: new MySQLStore(options) // Change the express session store
+}));
+
+// const StoreSession =  new MongoDBStore({
+//   uri:"mongodb+srv://marcokhodr116:Ninjask12345!@cluster0.f0de6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+//   collection:"session"
+// });
+
+app.use(express.static("images"));
+
+// app.use(session({
+//   resave:false,
+//   saveUninitialized:false,
+//   secret:"39iri3290ie3r2ir3209jdfiewcmod12",
+//   cookie:{
+//     secure:false,
+//     expires: new Date(Date.now() + 18900000),
+//     maxAge: 1800 * 60 * 1000
+//   }
+// }))
+
+// app.use(session({secret:"43489438994388948949842894389",saveUninitialized:false,store:StoreSession}));
+
 
 app.use((req,res,next)=>{
 

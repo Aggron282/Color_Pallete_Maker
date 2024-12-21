@@ -8,7 +8,7 @@ var edit_container = document.querySelector(".edit_container");
 var display_container = document.querySelector(".detail_container");
 var original_btn = document.querySelector(".detail_btn--original");
 var complementary_btn = document.querySelector(".detail_btn--complementary");
-
+var flame= "🔥";
 var isEditing = false;
 
 pallete_image_upload_input.addEventListener("change",(e)=>{
@@ -53,11 +53,11 @@ async function SubmitEdit(){
   const {data} = await axios.post("/pallete/edit",new_form);
 
   if(data.feedback){
-    
+
     CreatePopup(data.msg,"success");
-    
+
     await Delay(1000);
-    
+
     window.location.assign("/dashboard");
 
   }
@@ -70,7 +70,7 @@ async function SubmitEdit(){
 function HighlightDetailMenuChoice(e){
 
     var detail_btns= document.querySelectorAll(".detail_btn");
-    
+
     for(var i =0; i < detail_btns.length;i++){
       if(e){
         detail_btns[i].classList.remove("detail_btn--active")
@@ -90,7 +90,7 @@ async function RenderColorsToDetail(type,isCustom){
   var container = document.querySelector("."+class_);
 
   container.innerHTML = ``;
- 
+
   var pallete_id = document.querySelector(".edit_container").getAttribute("pallete_id");
   var new_colors = [];
 
@@ -100,7 +100,7 @@ async function RenderColorsToDetail(type,isCustom){
   else{
     new_colors = await GetComplementaryColors(pallete_id,isCustom);
   }
-  
+
   RenderColorPalleteCircles(new_colors,container);
 
 }

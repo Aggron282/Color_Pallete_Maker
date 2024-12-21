@@ -49,7 +49,7 @@ body{
   height:50px;
   float:left;
   margin-left:10px;
-  
+
 }
 .color_picker_wrapper--active{
   visibility: visible !important;

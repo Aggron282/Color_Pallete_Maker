@@ -1,6 +1,6 @@
 <div class="color_picker_wrapper"></div>
-
-  <div class="color_picker_container" pallete_id = "<%= pallete.pallete_id%>">
+  <% _id = pallete ? pallete.pallete_id :  "" %>
+  <div class="color_picker_container" pallete_id = "<%=_id%>">
 
     <div class="picker_body">
 
@@ -8,21 +8,21 @@
         <p class="exit" id="picker_exit">X</p>
 
         <form id="picker_form">
-         
+
           <div class="input_container">
-            
+
             <div class="content_container">
              <input class="picker_input" type="color" name="color_0"/>
             </div>
-           
+
             <div class="add_color" id="add_picker">  + </div>
-          
+
           </div>
-            
+
           <button  class="picker_submit"> Submit Color </button>
-        
+
           </form>
-        
+
     </div>
 
   </div>

@@ -5,22 +5,37 @@
       <button class="add_pallete_button">Extract</button>
       <button class="save_pallete_button">Save & Exit</button>
 
-      <form id ="add-pallete-user">
-          <div id = "image_error"class="error_container"></div>
-          <input type = "file" name = "image"  id="pallete-image-input" class="image_input" accept="image/*"/>
-          <div id = "name_error"class="error_container"></div>
-          <input placeholder = "Enter name of pallet" name = "name" />
-          <input placeholder = "Enter category of pallet" name = "category" />
-      </form>
 
       <div class="color_display_container display_container">
         <p class="title"> Colors </p>
-        <img class="display_color" src="./imgs/color_example.png"/>
+        <form id ="add-pallete-user">
+            <div id = "image_error"class="error_container"></div>
+            <input type = "file" name = "image"  id="pallete-image-input" class="image_input" accept="image/*"/>
+            <div id = "name_error"class="error_container"></div>
+            <input placeholder = "Enter name of pallet" name = "name" />
+            <input placeholder = "Enter category of pallet" name = "category" />
+            <button class="detail_btn detail_btn--add"> Add Color </button>
+
+        </form>
+        <div class  = "pallete_display">
+          <div class="extract_display_container">
+            <img class="display_color" src="./imgs/color_example.png"/>
+
+          </div>
+          <div class="custom_display_container">
+            <img class="display_color" src="./imgs/color_example.png"/>
+
+          </div>
+        </div>
+
       </div>
 
-      <div class="image_display_container display_container">
+      <div class="display_container">
         <p class="title"> Image </p>
-        <img class="display_color" src="./imgs/image_example.png"/>
+        <div class="image_display_container">
+          <img class="img_display" src="./imgs/image_example.png"/>
+        </div>
+
       </div>
 
     </section>

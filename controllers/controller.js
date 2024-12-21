@@ -8,7 +8,7 @@ const category_util = require("./../util/category_maker.js");
 const {validationResult} = require("express-validator");
 
 const SearchPalletes = (req,res)=> {
-  
+
   var search = req.body.search;
   var terms = search.split(";");
   var found_palletes = [];
@@ -20,7 +20,7 @@ const SearchPalletes = (req,res)=> {
 }
 
 const GetComplementaryColors = async (req,res)=>{
-  
+
   var pallete_id = req.body.pallete_id;
   var isCustom = req.body.isCustom;
 
@@ -32,25 +32,25 @@ const GetComplementaryColors = async (req,res)=>{
 }
 
 async function GetColor(pallete,type,isCustom){
-  
+
     var colors = [];
-    
+
     new_colors = null;
-   
+
     if(isCustom){
-     
+
       if(!pallete.customRGBList){
         return []
       }
       else if(pallete.customRGBList.length <=0){
         return [];
       }
-     
+
       colors = pallete.customRGBList.split(" ");
-    
+
     }
     else{
-     
+
       if(!pallete.rgbList){
         return []
       }
@@ -59,9 +59,9 @@ async function GetColor(pallete,type,isCustom){
       }
 
       colors = pallete.rgbList.split(" ");
-    
+
     }
-      
+
     if(colors.length <= 0){
       return new_colors;
     }
@@ -69,36 +69,36 @@ async function GetColor(pallete,type,isCustom){
 
       if(type == 1){
         new_colors = await color_util.GetComplementaryColors(colors);
-        
+
       }
       else if (type <= 0){
         new_colors = await color_util.GetOriginalColors(colors);
-       
+
       }
       else if(type == 2){
         new_colors = await color_util.GetPrimaryColors(colors);
-      
+
       }
       else if(type == 3){
         new_colors = await color_util.GetTriadColors(colors);
-     
+
       }
       else{
         new_colors = await color_util.GetOriginalColors(colors);
-     
+
       }
-     
+
       return new_colors;
-    
+
     }
 
 }
 
 const GetPrimaryColors = (req,res)=>{
-  
+
   var pallete_id = req.body.pallete_id;
   var isCustom = req.body.isCustom;
-  
+
   my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
 
     var new_colors = await GetColor(pallete,2,isCustom);
@@ -109,7 +109,7 @@ const GetPrimaryColors = (req,res)=>{
 }
 
 const GetTriadColors = (req,res)=>{
- 
+
   var pallete_id = req.body.pallete_id;
   var isCustom = req.body.isCustom;
 
@@ -127,26 +127,26 @@ const AddCustomColorsToPallete = (req,res) => {
     var colors = req.body.colors;
     var pallete_id = req.body.pallete_id;
     var new_colors = "";
-    
+
     for(var i =0; i < colors.length; i++){
       new_colors +=  color_util.hexToRgb(colors[i]) + " " ;
     }
 
-    my_sequelize_util.findOnePallete(req.user.user_id,pallete_id, async (pallete)=>{     
-      
+    my_sequelize_util.findOnePallete(req.user.user_id,pallete_id, async (pallete)=>{
+
       if(!pallete){
         return res.json({feedback:false,msg:"Error Occurred"});
       }
-    
+
       var new_pallete = {...pallete};
       var customRGBList = new_pallete.customRGBList != null ? new_pallete.customRGBList : "";
-      
+
       customRGBList += " " + new_colors;
-      
+
       new_pallete.customRGBList = customRGBList;
-      
+
       my_sequelize_util.editPallete(req.user.user_id,pallete_id,new_pallete,async(r)=>{
-       
+
         if(r){
           res.json({feedback:true,msg:"Added Custom Colors"});
         }else{
@@ -160,10 +160,10 @@ const AddCustomColorsToPallete = (req,res) => {
 }
 
 const GetOriginalColors = (req,res)=>{
-  
+
   var pallete_id = req.body.pallete_id;
   var isCustom = req.body.isCustom;
- 
+
   my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
     var new_colors = await GetColor(pallete,0,isCustom);
     res.json({new_colors:new_colors})
@@ -180,9 +180,9 @@ const EditPallete = (req,res)=>{
 
     var new_name = name.length > 0 ? name : found_pallete.name;
     var new_category = category ? category : "";
-   
+
     new_category = new_category.length ? new_category : found_pallete.category;
-   
+
     var src_file = req.file ? req.file.path : found_pallete.image;
 
     var color_data = null;
@@ -277,11 +277,11 @@ const GetAllInCategoryPage = (req,res) => {
   var category = req.params.category;
 
   my_sequelize_util.findUsercategoryPalletes(req.user.user_id,category,async (colors)=>{
-    
+
     var all_palletes_in_category = await color_util.ConfigurePalletes(colors);
-    
+
     res.render(path.join(rootDir,"views","user","all_in_category.ejs"),{category:category,user:req.user,path:req.url,all_palletes_in_category:all_palletes_in_category});
-  
+
   });
 
 }
@@ -343,7 +343,7 @@ const GetDashboardPage = (req,res) => {
 
     var palletes = await color_util.ConfigurePalletes(colors);
     var organized_palletes = category_util.CreatePalleteCategories(palletes);
-    
+
     res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",organized_palletes:organized_palletes});
 
   });
@@ -351,7 +351,7 @@ const GetDashboardPage = (req,res) => {
 }
 
 const GetAddPage = (req,res) => {
-  res.render(path.join(rootDir,"views","user","add.ejs"),{user:req.user,path:"/add"});
+  res.render(path.join(rootDir,"views","user","add.ejs"),{user:req.user,path:"/add",pallete:null});
 }
 
 const Login = async (req,res) => {
@@ -522,7 +522,7 @@ function FromRGBListToArray(rgbList){
 function rgbToArray(rgbString) {
 
   const matches = rgbString.match(/\d+/g);
-  
+
   return matches.map(Number);
 
 }
