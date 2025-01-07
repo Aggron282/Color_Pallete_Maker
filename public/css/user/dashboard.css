@@ -13,6 +13,11 @@
 color:white;
   margin-left: 0%;
 }
+.content-holder div{
+  width:100%;
+  object-fit: cover;
+  height: 130px;
+}
 .color--i .color_box{
   padding:1px;
 }
@@ -36,7 +41,7 @@ color:white;
   margin-top:10px;
   overflow-x: scroll;
   overflow-y: hidden;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   position: relative;
   padding-top:0px;
   padding-bottom: 15%;
@@ -510,6 +515,11 @@ nav{
   padding:10px;
   padding-bottom:100%; */
 
+}
+
+.fact_box{
+  width:100%;
+  margin-top:20px;
 }
 
 .my_palletes_container .title{

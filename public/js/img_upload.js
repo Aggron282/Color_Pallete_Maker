@@ -1,10 +1,23 @@
 const DisplayExtractionResults  = ({colors,image},container) => {
 
+  if(!image || !colors){
+    return null;
+  }
+
   var root_img = image.split('images\\')[1];
   var src = "/"+root_img;
 
-  //RenderDisplayImg(img_display_continer,src)
+  RenderDisplayImg(img_display_continer,src)
   RenderPallete(container,colors)
+
+  var config = {src:src,colors:colors};
+
+  if(root_img){
+    return config;
+  }
+  else{
+    return null;
+  }
 
 }
 
@@ -15,8 +28,7 @@ const InstantImageUpload = (input,display) => {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-      var img_element = `<img src = ${e.target.result} class="display_img" />`;
-      display.innerHTML = img_element;
+      RenderDisplayImg(display,e.target.result)
       CreatePopup("Uploaded Image")
       return e;
     };
@@ -30,6 +42,7 @@ const InstantImageUpload = (input,display) => {
 
 }
 
+
 const SubmitUpload = async (form,container) => {
 
   var new_form = new FormData(form);
@@ -42,9 +55,10 @@ const SubmitUpload = async (form,container) => {
   }
 
   CreatePopup("Extracted","success")
-  DisplayExtractionResults(data,container)
 
-  return true;
+  var src = DisplayExtractionResults(data,container)
+
+  return src;
 
 }
 
@@ -56,10 +70,12 @@ if(img_upload_form){
   })
 
   if(img_upload_button){
+
     img_upload_button.addEventListener("submit",(e)=>{
       e.preventDefault();
       SubmitUpload(img_upload_form);
     })
+
   }
 
 }

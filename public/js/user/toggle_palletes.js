@@ -72,7 +72,6 @@ function RenderMyPalletes(organized_palletes){
 
   for(var i =0; i < organized_palletes.length; i ++) {
 
-
       container.innerHTML += `
 
       <div class="pallete_category_container">
@@ -91,7 +90,7 @@ function RenderMyPalletes(organized_palletes){
        `
        var palletes_in_category_container = document.querySelector(`.palletes_in_category_container[category_id="${organized_palletes[i].category}"]`);
        var page_number_container = document.querySelector(`.page_number_container[category_id="${organized_palletes[i].category}"]`);
-
+       console.log(organized_palletes[i]);
        var all_palletes_in_category = RenderPalletesInCategory(organized_palletes[i],palletes_in_category_container)
        var pagi = RenderPageNumbers(organized_palletes[i].palletes,organized_palletes[i].counter,page_number_container);
 

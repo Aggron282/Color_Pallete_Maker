@@ -64,12 +64,12 @@ async function CreatePopup (message,type){
 }
 
 function ExtractFormData(form){
+
   var new_form = new FormData(form);
 
   var data = {};
 
   for([key,value] in new_form){
-    console.log(key,value);
     data[key] = value;
   }
 

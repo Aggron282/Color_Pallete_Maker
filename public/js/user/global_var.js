@@ -1,4 +1,4 @@
-var img_display_continer = document.querySelector(".image_display_container");
+var img_display_continer = document.querySelector(".render_container_display");
 var img_upload_input = document.querySelector("#pallete-image-input");
 var img_upload_form = document.querySelector("#add-pallete-user");
 var upload_button = document.querySelector(".add_pallete_button");

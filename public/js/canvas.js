@@ -101,8 +101,6 @@ function animate() {
 
   c.fillRect(0, 0, canvas.width, canvas.height)
 
-  c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y)
-
   c.save();
 
   c.translate(

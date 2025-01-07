@@ -13,8 +13,15 @@
 
       <div class="flip-card-front">
 
-        <% var src_name = pallete.image %>
-        <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+        <% var src =""%>
+        <% var colors = [] %>
+        <% try { %>
+          <% var src_name = pallete.image %>
+          <% src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
+
+        <%}%>
+        <% colors = pallete.colors %>
+        <% console.log(colors) %>
         <p class="pallet_title"> <%= pallete.name %></p>
 
         <div class="img_holder">
@@ -22,14 +29,15 @@
         </div>
 
         <br />
-
-        <% for(var x =0; x < pallete.colors.length; x ++) {%>
+        <% if (colors) {%>
+        <% for(var x =0; x < colors.length; x ++) {%>
 
           <% var rgb = `rgb(${pallete.colors[x].r},${pallete.colors[x].g},${pallete.colors[x].b})` %>
 
           <div class="color_blob" style="background:<%= rgb %>">  </div>
 
         <%}%>
+        <%}>
       </div>
 
       <div class="flip-card-back">

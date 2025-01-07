@@ -15,6 +15,14 @@
   transition: all .4s;
   font-family: "Oswald";
 }
+.img_display{
+  width:300px;
+  height:300px;
+}
+.display_img{
+  width:300px;
+  height:300px;
+}
 
 #add-pallete-user input{
   height:30px;
@@ -125,6 +133,7 @@ body{
 .save_pallete_button{
   position: absolute;
   right:100px;
+  z-index:999;
   top:30px;
   font-family: "Oswald";
   background:black;
@@ -136,7 +145,6 @@ body{
   border-radius:10px;
   font-size:20px;
   box-shadow: 0px 0px 10px rgba(0,0,0,.6);
-  z-index: 99;
 }
 
 .save_pallete_button--active{
@@ -165,6 +173,29 @@ body{
   padding-top:5px;
 }
 
+.convert_image_container:hover img {
+  width:30px;
+  height:30px;
+filter: invert(81%) sepia(45%) saturate(599%) hue-rotate(46deg) brightness(90%) contrast(89%);}
+
+.convert_image_container img {
+  width:30px;
+  transition: all .5s;
+  height:30px;
+  filter: invert(49%) sepia(94%) saturate(3349%) hue-rotate(165deg) brightness(99%) contrast(101%);
+}
+
+.convert_image_container .disable {
+  width:30px;
+  transition: all .5s;
+  height:30px;
+  opacity:.1 !important;
+  filter: invert(49%) sepia(94%) saturate(3349%) hue-rotate(165deg) brightness(99%) contrast(101%) !important;
+}
+
+
+
+
 .image_display_container{
   float:left;
   width:50%;
@@ -172,10 +203,10 @@ body{
   border-left:5px solid #27294c;
 }
 
-.image_display_container .img_display{
+.render_container_display .img_display{
   width:70%;
 }
 
-.image_display_container{
+.render_container_display{
   padding:20px;
 }

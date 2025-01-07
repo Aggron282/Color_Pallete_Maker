@@ -1,0 +1,102 @@
+.hex_to_rgb_container{
+  position: relative;
+  padding-bottom:10px;
+  background:linear-gradient(to right,#27294c,#1e2040) !important;
+}
+
+.hex_to_rgb_container .inner_container{
+  display: grid;
+  position: relative;
+  grid-template-columns: 60% 40%;
+}
+
+.color_result_container{
+  padding:30px;
+  color:white;
+  text-align: center;
+  font-family:"Oswald";
+  font-size:30px;;
+  padding-top:0px;
+}
+
+.hex_to_rgb_container .logo_watermark{
+  opacity:.0;
+  width:20%;
+  height:50%;
+  position: absolute;
+  filter:brightness(0);
+
+  top:-30%;
+  left:5%;
+
+}
+
+.form_container{
+  z-index: 99;
+  width:100%;
+  padding:40px;
+}
+
+
+.hex_rgb_input{
+  color:black;
+  margin-top:5px;
+  background: white;
+  width:60%;
+  padding:10px;
+  font-family:"Oswald";
+}
+
+
+.color_submit{
+  background:black;
+  width:50%;
+  color:white;
+  padding:10px;
+  font-size:20px;
+  font-family: "Oswald";
+  margin-top:50px;
+  display: block;
+}
+
+.hex_to_rgb_container .title{
+  color:white;
+  padding-top:50px;
+  text-align: center;
+  font-size:50px;
+  font-family: "Oswald";
+
+}
+
+.picker{
+  position: relative;
+  z-index:22;
+  margin-top:15px;
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+  width:50%;
+  margin-left: 25%;
+  height:20%;
+}
+
+.type_color{
+  color:black;
+  background: white;
+  width:60%;
+  padding:10px;
+  font-family:"Oswald";
+}
+
+
+.rgb_label{
+  color:white;
+  display:block;
+  margin-top:30px;
+  font-size:20px;
+  font-family:"Oswald";
+
+}
+
+
+.color_submit{
+
+}

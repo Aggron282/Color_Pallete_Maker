@@ -14,6 +14,9 @@ router.post("/create_account",
     .withMessage("Password must contain at least one special character")
 ,controller.CreateAccount);
 router.post("/login",controller.Login);
+router.post("/colors/convert",controller.ConvertColor);
+router.post("/colors/convert_filter",controller.ConvertFilter);
+
 router.get("/logout",controller.Logout);
 router.post("/delete/user/perm",isAuth,controller.DeleteUser);
 router.get("/dashboard",isAuth,controller.GetDashboardPage);
@@ -33,5 +36,5 @@ router.post("/colors/triad",isAuth,controller.GetTriadColors);
 router.post("/colors/primary",isAuth,controller.GetPrimaryColors);
 router.post("/colors/original",isAuth,controller.GetOriginalColors);
 router.post("/user/color/add",isAuth,controller.AddCustomColorsToPallete);
-
+router.post("/user/pallete/single/",isAuth,controller.GetSinglePalleteData);
 module.exports = router;

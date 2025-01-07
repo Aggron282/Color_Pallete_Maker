@@ -1,6 +1,5 @@
-
-
 function CreatePalleteCategories(palletes){
+
   var categorized_palletes = [];
 
   for(var i =0; i < palletes.length; i++){
@@ -22,18 +21,27 @@ function CreatePalleteCategories(palletes){
 
     for(var i =0; i < categorized_palletes.length; i++){
 
+      if(pallete){
+
         if(categorized_palletes[i].category == pallete.category){
+          console.log(pallete.name);
             categorized_palletes[i].palletes.push(pallete);
             return;
         }
 
+      }
+
     }
 
-    categorized_palletes.push({
-      category:pallete.category,
-      id:id,
-      palletes:[pallete]
-    });
+    if(pallete){
+
+      categorized_palletes.push({
+        category:pallete.category,
+        id:id,
+        palletes:[pallete]
+      });
+
+    }
 
   }
 

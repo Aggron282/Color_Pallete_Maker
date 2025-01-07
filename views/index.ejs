@@ -20,6 +20,8 @@
     <link href = "/css/tester.css" rel="stylesheet">
     <link href = "/css/footer.css" rel="stylesheet">
     <link href = "/css/about.css" rel="stylesheet">
+    <link href = "/css/hex_to_rgb.css" rel="stylesheet">
+    <link href = "/css/filter.css" rel="stylesheet">
 
   </head>
 
@@ -29,10 +31,11 @@
 
       <%- include("./index/layouts/navbar.ejs") %>
       <%- include("./index/layouts/showcase.ejs") %>
-      <%- include("./index/layouts/color_tester.ejs") %>
-      <%- include("./index/layouts/about.ejs") %>
-      <%- include("./index/layouts/footer.ejs") %>
+      <%- include("./index/layouts/hex_to_rgb.ejs") %>
 
+      <%- include("./index/layouts/color_tester.ejs") %>
+      <%- include("./index/layouts/filter_converter.ejs") %>
+      <%- include("./index/layouts/footer.ejs") %>
     </main>
 
 
@@ -42,6 +45,7 @@
     <script src="/js/canvas.js"></script>
     <script src="/js/color_pallete.js"></script>
     <script src="/js/img_upload.js"></script>
+    <script src="/js/hex_to_rgb.js"></script>
 
   </body>
 

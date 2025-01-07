@@ -3,7 +3,9 @@ var pallete_cards = document.querySelectorAll(".pallete_card");
 var isDeleting = false;
 
 if(document.querySelector("#delete-palletes")){
+
   var delete_palletes_btn = document.querySelector("#delete-palletes");
+
   delete_palletes_btn.addEventListener("click",(e)=>{
 
   isDeleting = !isDeleting;
@@ -11,7 +13,7 @@ if(document.querySelector("#delete-palletes")){
   for(var i =0; i < pallete_cards.length; i++){
 
     var exit_button = pallete_cards[i].querySelector(".exit");
-    console.log(exit_button)
+
     exit_button.setAttribute("canDelete",pallete_cards[i].getAttribute("canDelete"));
 
     if(isDeleting){
@@ -80,11 +82,14 @@ function Init(){
 }
 
 if(document.querySelector("#delete-pallete")){
+
   var delete_pallete_btn = document.querySelector("#delete-pallete");
-    delete_pallete_btn.addEventListener("click",async (e)=>{
+
+  delete_pallete_btn.addEventListener("click",async (e)=>{
         var pallete_id = e.target.getAttribute("_id");
         Delete(pallete_id,"/dashboard");
     });
+    
 }
 
 Init();

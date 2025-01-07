@@ -31,6 +31,18 @@ const GetComplementaryColors = async (req,res)=>{
 
 }
 
+const GetSinglePalleteData = async (req,res)=>{
+
+  var pallete_id = req.body.pallete_id;
+  console.log(req.body);
+
+  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async (pallete)=>{
+
+    res.json({pallete:pallete})
+  })
+
+}
+
 async function GetColor(pallete,type,isCustom){
 
     var colors = [];
@@ -224,7 +236,6 @@ const GetOrganizedPalletes = (req,res) => {
 
       var palletes = await color_util.ConfigurePalletes(colors);
       var organized_palletes = category_util.CreatePalleteCategories(palletes);
-
       res.json({organized_palletes:organized_palletes})
 
     });
@@ -529,50 +540,141 @@ function rgbToArray(rgbString) {
 
 const AddPallete = async (req,res) => {
 
-  const img_file = req.file;
+  var img_file = req.body.image;
+  var colors = req.body.colors;
+  var new_colors = null;
+  var errors = validationResult(req);
+  var appRoot = process.cwd()
+  var rgbList;
+  var newPath;
+  var category = req.body.category  && req.body.category.length > 0 ? req.body.category : "";
+  var name = req.body.name  && req.body.name.length > 0 ? req.body.name : "N/A";
+  console.log(req.body)
+  errors = errors.array();
 
-  if(!img_file){
+  if(colors){
+
+      new_colors = colors.split(",");
+
+      var customRGBList = "";
+
+      for(var i =0; i < new_colors.length;i++){
+
+        customRGBList += color_util.ConvertFromHexToRGB(new_colors[i]);
+
+        if(i < new_colors.length - 1){
+          customRGBList += " "
+        }
+
+      }
+
+  }
+  console.log(img_file)
+  if(!img_file && !new_colors ){
     res.json({feedback:false,msg:"File Empty"})
     return;
   }
 
-  var errors = validationResult(req);
-
-  errors = errors.array();
-
-  const color_data = await color_util.ExtractColorFromImage(img_file.path);
-
-  var rgbList = FromArrayToRGBList(color_data)
-  var category = req.body.category  && req.body.category.length > 0 ? req.body.category : "";
-  var name = req.body.name  && req.body.name.length > 0 ? req.body.name : "N/A";
+  try{
+    newPath = path.join(appRoot, 'images', path.basename(img_file));
+    const color_data = await color_util.ExtractColorFromImage(newPath);
+    rgbList = FromArrayToRGBList(color_data)
+  }
+  catch{
+    rgbList = null;
+  }
 
   var config=  {
     isViewable:false,
     name:name.toLowerCase(),
     user_id:req.user.user_id,
-    image:img_file.path,
+    image:newPath,
+    customRGBList:customRGBList,
     category:category.toLowerCase(),
     rgbList:rgbList
   }
 
-    if(errors.length > 0){
-      res.json({feedback:false,msg:"Validation Error", validation_errors:errors})
-      return;
+  if(errors.length > 0){
+    res.json({feedback:false,msg:"Validation Error", validation_errors:errors})
+    return;
+  }
+
+  my_sequelize_util.addPallete(config,((insert)=>{
+
+    if(insert){
+      res.json({feedback:true,msg:null})
+    }
+    else {
+      res.json({feedback:false,msg:"Could not add pallete"})
     }
 
-    my_sequelize_util.addPallete(config,((insert)=>{
+  }));
 
-      if(insert){
-        res.json({feedback:true,msg:null})
-      }
-      else {
-        res.json({feedback:false,msg:"Could not add pallete"})
-      }
+}
 
-    }));
+const ConvertColor = (req,res) => {
+
+  var color = req.body.color;
+  var type = req.body.type;
+  var original_type = req.body.original_type
+  var convert = null
+
+  if(type == original_type){
+     res.json({color:color,original_color:color});
+     return;
+  }
+
+  if(original_type == "hex"){
+
+    if(type == "hsl"){
+      convert = color_util.ConvertFromHexToHSL(color);
+    }
+    if(type == "rgb"){
+      convert = color_util.ConvertFromHexToRGB(color);
+    }
 
   }
 
+  if(original_type == "rgb"){
+
+    if(type == "hex"){
+      convert = color_util.ConvertFromRGBToHex(color);
+    }
+
+    if(type == "hsl"){
+      convert = color_util.ConvertFromRGBToHSL(color);
+    }
+
+  }
+
+  if(original_type == "hsl"){
+
+    if(type == "hex"){
+      convert = color_util.ConvertFromHSLToHex(color);
+    }
+
+    if(type == "rgb"){
+      convert = color_util.ConvertFromHSLToRGB(color);
+    }
+
+  }
+
+  return res.json({color:convert,original_color:color});
+
+}
+
+
+const ConvertFilter = (req,res) => {
+
+  var color = req.body.color;
+  var filter = color_util.ConfigureFilter(color)
+
+  return res.json({filter:filter});
+
+}
+
+module.exports.ConvertFilter = ConvertFilter;
+module.exports.ConvertColor = ConvertColor;
 module.exports.EditPallete = EditPallete;
 module.exports.EditUser = EditUser;
 module.exports.GetProfilePage = GetProfilePage;
@@ -598,3 +700,4 @@ module.exports.GetComplementaryColors = GetComplementaryColors;
 module.exports.GetTriadColors = GetTriadColors;
 module.exports.GetPrimaryColors = GetPrimaryColors;
 module.exports.AddCustomColorsToPallete = AddCustomColorsToPallete;
+module.exports.GetSinglePalleteData = GetSinglePalleteData;

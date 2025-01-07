@@ -9,6 +9,50 @@ const ReturnPalleteHTML=(color)=>{
 
 }
 
+function RenderImg(src,container){
+  var img_element = `<img src = ${src} class="display_img" />`;
+  container.innerHTML = img_element;
+}
+
+function RenderGradientOrImage(isImage,src,pure_colors,container) {
+  if (isImage) {RenderImg(src, container)}
+  else {RenderGradient(pure_colors, container)}
+}
+
+
+function RenderGradient(colors,container){
+
+  if(!colors){return;}
+
+  if(colors.length == 1){
+    var gradient = `<div class="img_display" style="background:${colors[0]}"></div>`;
+    container.innerHTML = gradient;
+    return;
+  }
+  else{
+
+  var line = "linear-gradient(to bottom,";
+
+  for(var i =0; i < colors.length; i++){
+
+    line+= colors[i];
+
+    if(i < colors.length - 1){
+      line+=","
+    }
+
+  }
+
+    line+=")";
+
+    var gradient = `<div class="img_display" style="background:${line}"></div>`;
+
+    container.innerHTML = gradient;
+  }
+
+}
+
+
 const ReturnHexPalleteHTML=(hex)=>{
 
   return(
@@ -20,13 +64,19 @@ const ReturnHexPalleteHTML=(hex)=>{
 
 const RenderPallete = (container,colors) => {
 
-    var html = ``
-
-    for(var i =0; i < colors.length; i++){
-      html += ReturnPalleteHTML(colors[i]);
+    if(!container || !colors){
+      return;
     }
+    else{
+      var html = ``
 
-    container.innerHTML = html;
+      for(var i =0; i < colors.length; i++){
+        html += ReturnPalleteHTML(colors[i]);
+      }
+
+      container.innerHTML = html;
+
+  }
 
 }
 
