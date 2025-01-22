@@ -9,6 +9,7 @@ var display_container = document.querySelector(".detail_container");
 var original_btn = document.querySelector(".detail_btn--original");
 var complementary_btn = document.querySelector(".detail_btn--complementary");
 var flame= "🔥";
+var color_list_container =document.querySelector(".c--container");
 var isEditing = false;
 
 pallete_image_upload_input.addEventListener("change",(e)=>{
@@ -38,10 +39,13 @@ function ToggleDisplays(isEditingOn){
   if(isEditingOn){
     edit_container.classList.add("edit_container--active");
     display_container.classList.remove("detail_container--active");
+    color_list_container.classList.remove("c--container--active");
   }
   else{
     edit_container.classList.remove("edit_container--active");
     display_container.classList.add("detail_container--active");
+    color_list_container.classList.add("c--container--active");
+
   }
 
 }
@@ -50,7 +54,7 @@ async function SubmitEdit(){
 
   var new_form = new FormData(pallete_edit_form);
 
-  const {data} = await axios.post("/pallete/edit",new_form);
+  const {data} = await axios.post("/user/pallete/edit",new_form);
 
   if(data.feedback){
 

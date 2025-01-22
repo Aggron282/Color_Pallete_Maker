@@ -1,4 +1,5 @@
 function componentToHex  (c) {
+  console.log(c)
   const hex = c.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
 }
@@ -18,9 +19,9 @@ async function GetOriginalColors(pallete_id,isCustom){
 async function GetColors(pallete_id, url,isCustom){
 
   var {data} = await axios.post(url,{pallete_id:pallete_id,isCustom:isCustom});
-  
-  if(data){ 
-     
+
+  if(data){
+
       if(data.new_colors){
        return data.new_colors
       }
@@ -44,7 +45,7 @@ async function GetTriadColors(pallete_id,isCustom){
 }
 
 function configureRGB(str){
-
+  console.log(str)
   const regex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
   const match = str.match(regex);
 

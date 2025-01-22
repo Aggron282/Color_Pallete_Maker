@@ -7,8 +7,11 @@ const my_sequelize_util = require("./../util/my_sequelize.js");
 const category_util = require("./../util/category_maker.js");
 const {validationResult} = require("express-validator");
 
+exports.GetMainPage = (req,res) => {
+  res.render(path.join(rootDir,"views","index.ejs"));
+}
 
-const GetPalleteDetailPage = (req,res)=>{
+exports.GetPalleteDetailPage = (req,res)=>{
 
   var pallete_id = req.params.pallete;
 
@@ -24,39 +27,44 @@ const GetPalleteDetailPage = (req,res)=>{
 
 }
 
-
-const GetMainPage = (req,res) => {
-  res.render(path.join(rootDir,"views","index.ejs"));
-}
-
-const GetAllInCategoryPage = (req,res) => {
-
-  var category = req.params.category;
-
-  my_sequelize_util.findUsercategoryPalletes(req.user.user_id,category,async (colors)=>{
-
-    var all_palletes_in_category = await color_util.ConfigurePalletes(colors);
-
-    res.render(path.join(rootDir,"views","user","all_in_category.ejs"),{category:category,user:req.user,path:req.url,all_palletes_in_category:all_palletes_in_category});
-
+exports.GetDashboardPage = (req, res) => {
+  my_sequelize_util.findUserPalletes(req.user.user_id, async (colors) => {
+    const palettes = await color_util.ConfigurePalletes(colors);
+    const organized_palettes = category_util.CreatePalleteCategories(palettes);
+    res.render('views/user/dashboard.ejs', { user: req.user, path: "/dashboard", organized_palettes });
   });
+};
 
-}
+exports.GetAllInCategoryPage = (req, res) => {
+  const category = req.params.category;
 
+  my_sequelize_util.findUsercategoryPalletes(req.user.user_id, category, async (colors) => {
+    const all_palletes_in_category = await color_util.ConfigurePalletes(colors);
+    res.render(
+      path.join(rootDir, "views", "user", "all_in_category.ejs"),
+      {
+        category,
+        user: req.user,
+        path: req.url,
+        all_palletes_in_category,
+      }
+    );
+  });
+};
 
-const GetProfilePage = (req,res) => {
+exports.GetProfilePage = (req,res) => {
   res.render(path.join(rootDir,"views","user","profile.ejs"),{user:req.user,path:"/profile"});
 }
 
-const GetLoginPage = (req,res) => {
+exports.GetLoginPage = (req,res) => {
   res.render(path.join(rootDir,"views","auth","login.ejs"));
 }
 
-const GetCreateAccountPage = (req,res) => {
+exports.GetCreateAccountPage = (req,res) => {
   res.render(path.join(rootDir,"views","auth","create_account.ejs"));
 }
 
-const GetDashboardPage = (req,res) => {
+exports.GetDashboardPage = (req,res) => {
 
   my_sequelize_util.findUserPalletes(req.user.user_id,async (colors)=>{
 
@@ -69,17 +77,10 @@ const GetDashboardPage = (req,res) => {
 
 }
 
-const GetAddPage = (req,res) => {
+exports.GetAddPage = (req,res) => {
   res.render(path.join(rootDir,"views","user","add.ejs"),{user:req.user,path:"/add",pallete:null});
 }
 
-
-
-module.exports.GetPalleteDetailPage = GetPalleteDetailPage;
-module.exports.GetAllInCategoryPage = GetAllInCategoryPage;
-module.exports.GetCreateAccountPage = GetCreateAccountPage;
-module.exports.GetAddPage = GetAddPage;
-module.exports.GetDashboardPage = GetDashboardPage;
-module.exports.GetMainPage = GetMainPage;
-module.exports.GetLoginPage = GetLoginPage;
-module.exports.GetProfilePage = GetProfilePage;
+exports.GetProfilePage = (req, res) => {
+  res.render('views/user/profile.ejs', { user: req.user, path: "/profile" });
+};

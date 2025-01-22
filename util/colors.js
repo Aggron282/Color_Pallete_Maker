@@ -8,6 +8,69 @@ const ColorType = {
   UNKNOWN: null
 };
 
+async function GetColor(pallete,type,isCustom){
+
+  var colors = [];
+
+   new_colors = null;
+
+   if(isCustom){
+
+     if(!pallete.customRGBList){
+       return []
+     }
+     else if(pallete.customRGBList.length <=0){
+       return [];
+     }
+
+     colors = pallete.customRGBList.split(" ");
+
+   }
+   else{
+
+     if(!pallete.rgbList){
+       return []
+     }
+     else if(pallete.rgbList.length <=0){
+       return [];
+     }
+
+     colors = pallete.rgbList.split(" ");
+
+   }
+
+   if(colors.length <= 0){
+     return new_colors;
+   }
+   else{
+
+     if(type == 1){
+       new_colors = await GetComplementaryColors(colors);
+
+     }
+     else if (type <= 0){
+       new_colors = await GetOriginalColors(colors);
+
+     }
+     else if(type == 2){
+       new_colors = await GetPrimaryColors(colors);
+
+     }
+     else if(type == 3){
+       new_colors = await GetTriadColors(colors);
+
+     }
+     else{
+       new_colors = await GetOriginalColors(colors);
+
+     }
+
+     return new_colors;
+
+   }
+
+}
+
 function detectColorType(colorString) {
 
   if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(colorString)) {
@@ -409,7 +472,8 @@ const ConfigurePallete = async (pallete) =>{
   if(pallete.image){
     var colors = await ExtractColorFromImage(pallete.image);
     var new_data = {...pallete}
-    new_data.colors = colors;
+    new_data.colors = FromArrayToRGBList(colors)
+    console.log(new_data)
   }else if(pallete.customRGBList != null){
     var new_data = {...pallete};
   }
@@ -417,6 +481,14 @@ const ConfigurePallete = async (pallete) =>{
   return new_data;
 
 }
+
+ function FromArrayToRGBList(colorArray) {
+  console.log(colorArray)
+    return colorArray
+        .map(color => `rgb(${color.r},${color.g},${color.b})`)
+        .join(' ');
+}
+
 
 const ConfigurePalletes = async (palletes) => {
 
@@ -521,9 +593,9 @@ module.exports.isRGB = isRGB;
 module.exports.ConfigureFilter = ConfigureFilter;
 module.exports.ConvertFromHSLToHex = ConvertFromHSLToHex;
 module.exports.ConvertFromHSLToRGB = ConvertFromHSLToRGB;
-
+module.exports.GetColor =GetColor;
 module.exports.ConvertFromHexToRGB = ConvertFromHexToRGB;
 module.exports.ConvertFromHexToHSL = ConvertFromHexToHSL;
-
+module.exports.FromArrayToRGBList = FromArrayToRGBList;
 module.exports.ConvertFromRGBToHSL = ConvertFromRGBToHSL;
 module.exports.ConvertFromRGBToHex = ConvertFromRGBToHex;

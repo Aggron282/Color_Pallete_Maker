@@ -129,7 +129,6 @@ window.addEventListener("mousemove",function(e){
 
 })
 
-
 window.addEventListener("mousedown",function(e){
   isDrawing = true;
 

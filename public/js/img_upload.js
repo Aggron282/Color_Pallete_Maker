@@ -1,3 +1,9 @@
+
+const RenderDisplayImg = (container,src) => {
+  var html = `<img src =${src} class="img_display" />`
+  container.innerHTML = html;
+}
+
 const DisplayExtractionResults  = ({colors,image},container) => {
 
   if(!image || !colors){
@@ -47,18 +53,24 @@ const SubmitUpload = async (form,container) => {
 
   var new_form = new FormData(form);
 
-  const {data} = await axios.post("/extract",new_form);
+  try{
+    const {data} = await axios.post("/extract",new_form);
 
-  if(!data){
+    if(!data){
+      CreatePopup("Could not extract","error")
+      return false;
+    }
+
+    CreatePopup("Extracted","success")
+    var src = DisplayExtractionResults(data,container)
+
+    return src;
+  }catch{
     CreatePopup("Could not extract","error")
     return false;
   }
 
-  CreatePopup("Extracted","success")
 
-  var src = DisplayExtractionResults(data,container)
-
-  return src;
 
 }
 

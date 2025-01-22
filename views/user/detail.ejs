@@ -46,7 +46,7 @@
                   Name
               </label>
 
-              <input name="name" class="profile_input half_input" placeholder="Change Name" value= <%= pallete.name %>/>
+              <input name="name" class="profile_input half_input" placeholder="Change Name" value= <%= pallete.name %>>
             </div>
 
             <div class="input_group input_group--half">
@@ -54,7 +54,7 @@
                   Category
               </label>
 
-              <input name="category" class="profile_input half_input" style="z-index: 99999999" placeholder="Change Category" value= <%= pallete.category %>/>
+              <input name="category" class="profile_input half_input" style="z-index: 99999999" placeholder="Change Category" value= <%= pallete.category %> >
             </div>
 
             <div class="input_group input_group--full">
@@ -63,8 +63,8 @@
               <label>
                   Image Upload
               </label>
-              <input type="hidden" name = "pallete_id" value = "<%= pallete.pallete_id %>" />
-              <input name="image" type="file" class="profile_input pallete_input--file" placeholder="Change Profile Picture" />
+              <input type="hidden" name = "pallete_id" value = "<%= pallete.pallete_id %>" >
+              <input name="image" type="file" class="profile_input pallete_input--file" placeholder="Change Picture" >
             </div>
 
             <button class="submit_edit_button" id="pallete-edit-btn">Submit </button>
@@ -78,7 +78,6 @@
 
       <div class="detail_container">
 
-        <div class="basic_data_container">
 
           <% var src_name = pallete.image %>
           <% var src = src_name.substring(src_name.lastIndexOf('\\') + 1) %>
@@ -102,24 +101,19 @@
             <img src = "/../../<%= src %>" class="detail_image" />
           </div>
 
-          <br/>
-          <br/>
-
-          <div class="colors_detail_container">          </div>
-          <div class="colors_custom_detail_container">          </div>
 
       </div>
 
-        <div class="rgb_detail_container">
 
-        </div>
-
-        <div class="custom_rgb_detail_container">
-
-        </div>
-        <div class="clear"></div>
+      <div class="c--container c--container--active">
+      <div class="rgb_detail_container">
 
       </div>
+
+      <div class="custom_rgb_detail_container">
+
+      </div>
+    </div>
 
       <button class="delete_pallete" _id = "<%= pallete.pallete_id %>" id="delete-pallete"> Delete Pallete </button>
 

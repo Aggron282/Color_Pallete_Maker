@@ -91,9 +91,3 @@ const RenderHexPallete = (container,colors) => {
     container.innerHTML = html;
 
 }
-
-
-const RenderDisplayImg = (container,src) => {
-  var html = `<img src =${src} class="img_display" />`
-  container.innerHTML = html;
-}

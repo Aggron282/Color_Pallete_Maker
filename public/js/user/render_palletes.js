@@ -6,14 +6,13 @@ function RenderColorPalleteCircles(colors,container){
 
   var html = ``;
   container.innerHTML = "";
-
+  console.log(colors);
   var limit = colors.length > 5 ? 5 : colors.length;
-
   for(var x =0; x < limit; x ++) {
 
     if(colors[x].length > 0){
-
-      var {r,g,b} = configureRGB(colors[x]);
+      var color = colors[x];
+      var {r,g,b} = configureRGB(color);
 
       var hex = rgbToHex(r,g,b);
 
@@ -21,10 +20,10 @@ function RenderColorPalleteCircles(colors,container){
 
       <div class="color--i">
 
-        <div class="color_box" color = ${colors[x]} style="background:${colors[x]}">
+        <div class="color_box" color = ${color} style="background:${color}">
 
           <div class="color_detail">
-            <p class="title"> ${colors[x]} |  ${hex} </p>
+            <p class="title"> ${color} |  ${hex} </p>
           </div>
 
         </div>
@@ -82,7 +81,7 @@ function ReturnPalleteBoxHTML(pallete,x){
 
           <span class="pallete_choice pallete_choice--active pallete_choice--original"pallete_id = "${pallete.pallete_id}">Original Colors</span>
           <span class="pallete_choice pallete_choice--pure" data-display = "0" pallete_id = "${pallete.pallete_id}">See Custom Colors</span>
-          <span class="pallete_choice"><a href ="/pallete/${pallete.pallete_id}">See Details</a></span>
+          <span class="pallete_choice"><a href ="/detail/${pallete.pallete_id}">See Details</a></span>
           <span class="pallete_choice pallete_choice--complementary" pallete_id = "${pallete.pallete_id}">Complementary Colors</span>
           <span class="pallete_choice pallete_choice--delete" pallete_id = "${pallete.pallete_id}">Delete</span>
 
