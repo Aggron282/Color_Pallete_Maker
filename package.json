@@ -25,5 +25,7 @@
   "engines": {
     "node": "v20.15.1",
     "npm": "10.7.0"
-  }
+  },
+  "homepage": "http://colormaker-c6aa3b22f7ee.herokuapp.com",
+  "proxy": "http://localhost:3000"
 }
