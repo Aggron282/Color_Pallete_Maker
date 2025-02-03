@@ -18,5 +18,12 @@
     "nodemon": "^3.1.7",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "v20.15.1",
+    "npm": "10.7.0"
   }
 }
