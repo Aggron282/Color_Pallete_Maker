@@ -17,28 +17,37 @@ const sequelize_connection = require("./util/sequelize_connection.js");
 const port = 3000;
 const app = express();
 
-// MySQL session store configuration
-const options = {
-  config: {
-    user: "root",
-    password: "Linoone99!",
-    database: "colors",
-  },
-};
+require('dotenv').config();
+const mysql = require('mysql2');
+
+// Check if running locally or in a deployed environment
+const isLocal = process.env.NODE_ENV !== 'production';
+
+var options = {
+  config:{
+    host: isLocal ? process.env.LOCAL_DB_HOST: process.env.DB_HOST,
+    user: isLocal ? process.env.LOCAL_DB_USER : process.env.DB_USER,
+    password: isLocal ? process.env.LOCAL_DB_PASSWORD : process.env.DB_PASSWORD,
+    database: isLocal ? process.env.LOCAL_DB_NAME : process.env.DB_NAME,
+    port: isLocal ? process.env.LOCAL_DB_PORT : process.env.DB_PORT
+  }
+}
+
 
 // Configure session middleware
 app.use(cookieParser());
+
 app.use(
   session({
-    secret: "keyboardcreojnv aecat",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: new MySQLStore(options),
     cookie: {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: !isLocal, // Secure cookies only in production
       maxAge: 1000 * 60 * 60 * 24 * 3, // 3 days
     },
-    store: new MySQLStore(options),
   })
 );
 
