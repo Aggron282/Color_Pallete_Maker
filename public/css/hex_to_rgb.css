@@ -1,7 +1,9 @@
 .hex_to_rgb_container{
   position: relative;
   padding-bottom:10px;
-  background:linear-gradient(to right,#27294c,#1e2040) !important;
+  background-size: cover;
+  background:url("./../imgs/landing.jpg");
+  /* background:linear-gradient(to right,#27294c,#1e2040) !important; */
 }
 
 .hex_to_rgb_container .inner_container{

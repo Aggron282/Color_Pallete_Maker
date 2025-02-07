@@ -7,8 +7,8 @@ let radian = 0;
 let alpha = 0;
 let mouse_down = false;
 
-canvas.width = innerWidth
-canvas.height = innerHeight
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
 const mouse = {
   x: innerWidth / 2,

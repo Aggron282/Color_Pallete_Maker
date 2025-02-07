@@ -1,0 +1,125 @@
+.converter_container{
+  padding:20px;
+  background:linear-gradient(to right,rgba(39, 41, 76, .5), rgba(30, 32, 64, .5)), url("./../imgs/bricks.png") !important;
+  color:white;
+  padding-bottom:15%;
+  font-family: "Oswald";
+}
+
+.inner_container--converter{
+  display: grid;
+  grid-template-columns: 40% 60%;
+  padding:5px;
+}
+
+.color-grid{
+  display: grid;
+}
+.extraction-grid .color-answer{
+  font-size:12px !important;
+}
+.pallete-box--converter .title{
+  color:white;
+  text-align: left;
+  font-size:30px;
+}
+.color-answer{
+  grid-column: 50px;
+}
+.type_converter_container{
+  display: grid;
+  width:100%;
+  margin-top:10%;
+
+  grid-template-columns:repeat(4,1fr);
+}
+
+.result-container{
+  padding:40px;
+}
+
+
+.type-box{
+  background:black;
+  opacity:.9;
+  text-align: center;
+  color:white;
+  border-radius: 1px;
+  transition: all .2s;
+  font-size:20px;
+}
+
+.no-border{
+  border-left: 0px solid #e6e6e6;
+}
+
+.type-box--active{
+  background:maroon;
+  color:white;
+  box-shadow:0px 0px 60px rgba(255,200,100,.2);
+  transform: scale(1.01);
+}
+.form-container form{
+  padding:20px;
+  margin-top:10%;
+}
+.form-container form label {
+  font-size:30px;
+  font-weight:700;
+  color:white;
+}
+.color-grid {
+  display: grid; /* Ensure the element is a grid container */
+  grid-template-columns: repeat(auto-fit, minmax(50px, 100px)); /* Dynamically creates columns */
+  gap: 10px; /* Add spacing between grid items */
+}
+.color-answer{
+  grid-column: span 1;
+  padding:10px;
+  text-align: center;
+  background: red;
+  color:white;
+}
+
+.submit-button--converter{
+  width:50%;
+  margin-top:5%;
+  margin-left:25%;
+  background:black;
+  border-radius:5px;
+  color:white;
+  font-size:30px;
+  font-family: "Oswald";
+}
+.color-picker--converter{
+  width:100%;
+  margin-top:25px;
+  border:none;
+  height:100px;
+}
+.type-box:hover{
+  background:maroon;
+  color:white;
+  box-shadow:0px 0px 60px rgba(255,200,100,.2);
+  transform: scale(1.01);
+}
+
+.inner_container--converter .result-container{
+  padding:20px;
+  padding-left:40%;
+}
+.circle-color p{
+  background:black;
+  color:white;
+  padding:10px;
+  font-size:30px;
+  text-align: center;
+}
+.circle-color{
+  padding-top:10%;
+  height:200px;
+  width:100%;
+  border-radius:10px;
+  box-shadow: 0px 0px 30px rgba(0,0,0,.5);
+  background:orangered;
+}

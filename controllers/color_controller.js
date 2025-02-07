@@ -6,14 +6,30 @@ const bcrypt = require("bcrypt")
 const my_sequelize_util = require("./../util/my_sequelize.js");
 const category_util = require("./../util/category_maker.js");
 const {validationResult} = require("express-validator");
+var ai_util = require("./../util/ai.js");
+
+const GetRecommendedPallete = async (req,res)=>{
+  var color = req.body.color;
+  var type = req.body.type;
+  var message = `Give me an array of 4-8 colors that are similar ${type} with this ${color} color, only provide the array`;
+
+  try{
+    var answer = await ai_util.AIMessage(message);
+    res.status(200).json({message:answer});
+   }
+  catch{
+    res.status(500).json({message:false,error:"Error with ChatGTP"});
+  }
+
+}
 
 const ConvertColor = (req,res) => {
 
   var color = req.body.color;
   var type = req.body.type;
-  var original_type = req.body.original_type
+  var original_type = color_util.detectColorFormat(color);
   var convert = null
-
+  console.log(type)
   if(type == original_type){
      res.json({color:color,original_color:color});
      return;
@@ -35,6 +51,7 @@ const ConvertColor = (req,res) => {
     if(type == "hex"){
       convert = color_util.ConvertFromRGBToHex(color);
     }
+    console.log(convert)
 
     if(type == "hsl"){
       convert = color_util.ConvertFromRGBToHSL(color);
@@ -138,6 +155,7 @@ const GetOriginalColors = (req,res)=>{
 }
 
 
+module.exports.GetRecommendedPallete = GetRecommendedPallete;
 module.exports.ConvertFilter = ConvertFilter;
 module.exports.ConvertColor = ConvertColor;
 module.exports.PostExtractColor = PostExtractColor;

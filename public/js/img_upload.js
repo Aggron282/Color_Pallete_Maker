@@ -4,6 +4,10 @@ const RenderDisplayImg = (container,src) => {
   container.innerHTML = html;
 }
 
+function TurnRGBObjectToString({r,g,b}){
+    return `rgb(${r},${g},${b})`
+}
+
 const DisplayExtractionResults  = ({colors,image},container) => {
 
   if(!image || !colors){
@@ -14,9 +18,14 @@ const DisplayExtractionResults  = ({colors,image},container) => {
   var src = "/"+root_img;
 
   RenderDisplayImg(img_display_continer,src)
-  RenderPallete(container,colors)
+  var colors_string = colors.map((color)=>{
+    return TurnRGBObjectToString(color);
+  });
 
+  var grid = document.querySelector(".extraction-grid");
   var config = {src:src,colors:colors};
+
+  RenderColorPallete(grid,colors_string);
 
   if(root_img){
     return config;

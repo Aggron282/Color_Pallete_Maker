@@ -8,6 +8,20 @@ const ColorType = {
   UNKNOWN: null
 };
 
+
+function detectColorFormat(color) {
+    if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(color)) {
+        return "hex"; // Matches #FFF, #FFFFFF
+    } else if (/^rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$/i.test(color)) {
+        return "rgb"; // Matches rgb(255, 255, 255)
+    } else if (/^hsl\(\s*\d{1,3}\s*,\s*\d{1,3}%\s*,\s*\d{1,3}%\s*\)$/i.test(color)) {
+        return "hsl"; // Matches hsl(360, 100%, 50%)
+    } else {
+        return "unknown"; // If it doesn't match any format
+    }
+}
+
+
 async function GetColor(pallete,type,isCustom){
 
   var colors = [];
@@ -588,8 +602,7 @@ module.exports.ExtractColorFromImage  = ExtractColorFromImage;
 
 module.exports.hexToRgb = hexToRgb;
 module.exports.isRGB = isRGB;
-
-
+module.exports.detectColorFormat = detectColorFormat;
 module.exports.ConfigureFilter = ConfigureFilter;
 module.exports.ConvertFromHSLToHex = ConvertFromHSLToHex;
 module.exports.ConvertFromHSLToRGB = ConvertFromHSLToRGB;
