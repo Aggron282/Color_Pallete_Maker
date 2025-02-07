@@ -1,4 +1,5 @@
-const canvas = document.querySelector('canvas');
+function Galaxy(){
+const canvas = document.querySelector('#galaxy');
 const click_me = document.querySelector(".click_me");
 const c = canvas.getContext('2d')
 
@@ -132,3 +133,6 @@ function animate() {
 
 init()
 animate()
+
+}
+Galaxy();

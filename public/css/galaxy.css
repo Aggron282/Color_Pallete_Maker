@@ -1,4 +1,6 @@
-
+p {
+  line-height: 1.2;
+}
 #particles-js {
     position: absolute;
     width: 100%;
@@ -6,8 +8,40 @@
     z-index: -1;
     margin-left: 15%;
 }
-
+.glow-button {
+         position: relative;
+         padding: 12px 24px;
+         font-size: 1.2rem;
+         font-weight: bold;
+         color: #fff;
+         background: transparent;
+         border: 2px solid #00f2ff;
+         border-radius: 8px;
+         overflow: hidden;
+         transition: all 0.3s ease-in-out;
+     }
+     .glow-button::before {
+         content: '';
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         width: 300%;
+         height: 300%;
+         background: radial-gradient(circle, rgba(0, 242, 255, 0.6) 0%, rgba(0, 242, 255, 0) 80%);
+         transition: all 0.4s ease-in-out;
+         transform: translate(-50%, -50%) scale(0);
+     }
+     .glow-button:hover::before {
+         transform: translate(-50%, -50%) scale(1);
+     }
+     .glow-button:hover {
+         color: #00f2ff;
+         box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+     }
 .particle_maker_container{
   /* background:linear-gradient(to right,rgba(39, 41, 76, .5), rgba(30, 32, 64, .5)), url("./../imgs/bricks.png") !important; */
 
+}
+.relative{
+  position: relative;
 }

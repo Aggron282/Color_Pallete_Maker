@@ -1,39 +1,24 @@
-<body class="bg-gray-900 text-white particle_maker_container--">
-    <div id="particles-js"></div>
-
+<div class="bg-gray-900 text-white particle_maker_container relative">
+    <!-- <div id="particles-js"></div> -->
+    <canvas id="galaxy"></canvas>
+    <p class="click_me">Click Me </p>
     <header class="relative flex flex-col items-center justify-center h-screen text-center px-6">
         <h1 class="text-5xl font-bold mb-4">Create Stunning Particle Effects</h1>
         <p class="text-lg text-gray-300 mb-6">Design and customize particles for your website in just a few clicks.</p>
-        <a href="#features" class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-600 transition">Get Started</a>
+        <a href = "/login"><button class="glow-button">Get Started</button></a>
     </header>
 
-    <section id="features" class="py-20 text-center">
-        <h2 class="text-3xl font-bold mb-6">Why Use Particle Creator?</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 max-w-5xl mx-auto">
-            <div class="p-6 bg-gray-800 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-3">Easy to Use</h3>
-                <p class="text-gray-400">No coding required. Simply customize and integrate.</p>
-            </div>
-            <div class="p-6 bg-gray-800 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-3">Customizable</h3>
-                <p class="text-gray-400">Adjust colors, shapes, speed, and more.</p>
-            </div>
-            <div class="p-6 bg-gray-800 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-3">Lightweight & Fast</h3>
-                <p class="text-gray-400">Optimized for performance and smooth animations.</p>
-            </div>
-        </div>
-    </section>
 
-    <script>
+    <!-- <script>
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value": 80 },
+                "number": { "value": 90 },
                 "color": { "value": "#ffffff" },
-                "shape": { "type": "circle" },
+                "shape": { "type": "line" },
                 "opacity": { "value": 0.5 },
-                "size": { "value": 3 },
-                "move": { "speed": 2 }
+                "size": { "value": 5 },
+                "move": { "speed": 1 }
             }
         });
-    </script>
+    </script> -->
+</div>
