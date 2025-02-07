@@ -4,19 +4,38 @@ var create_account_form = document.querySelector(".auth_form--create")
 var login_btn = document.querySelector(".auth_button--login")
 var login_form = document.querySelector(".auth_form--login")
 
+async function SubmitNewAccount(e){
+  
+  e.preventDefault()
+
+  var {msg,feedback} =  await SubmitAccount(create_account_form,"/create_account","/create_account")
+  if(!feedback){
+    ActivateRings("ring--wrong")
+  }
+  CreatePopup(msg,"normal");
+
+}
+
+async function SubmitLogin(e){
+
+  e.preventDefault()
+
+  var {msg,feedback} =  await SubmitAccount(login_form,"/login","/login")
+  if(!feedback){
+    ActivateRings("ring--wrong")
+    CreatePopup(msg,"normal");
+  }
+
+}
 
 if(create_account_form){
 
   create_account_form.addEventListener("submit",async (e)=>{
-    e.preventDefault()
-    var {msg,feedback} =  await SubmitAccount(create_account_form,"/create_account","/login")
-    CreatePopup(msg,"normal");
+    SubmitNewAccount(e);
   });
 
   create_account_btn.addEventListener("click",async (e)=>{
-    e.preventDefault()
-    var {msg,feedback} =  await SubmitAccount(create_account_form,"/create_account","/login")
-    CreatePopup(msg,"normal");
+    SubmitNewAccount(e);
   });
 
 }
@@ -24,16 +43,11 @@ if(create_account_form){
 if(login_form){
 
   login_form.addEventListener("submit",async (e)=>{
-    e.preventDefault()
-    var {msg,feedback} =  await SubmitAccount(login_form,"/login","/dashboard");
-    CreatePopup(msg,"normal");
-
+    SubmitLogin(e);
   });
 
   login_btn.addEventListener("click",async (e)=>{
-    e.preventDefault()
-    var {msg,feedback} =  await SubmitAccount(login_form,"/login","/dashboard");
-    CreatePopup(msg,"normal");
+    SubmitLogin(e);
   });
 
 }
@@ -55,8 +69,12 @@ async function SubmitAccount(form,url,redirect){
       RenderValidationErrors(data.validation_errors)
     }
 
-  }else if(data.feedback){
-    window.location.assign(redirect);
+  }
+  else if(data.feedback){
+    GrantAccessRings(async (response)=>{
+      await Delay(1000);
+      window.location.assign("/");
+    });
   }
   else{
     var errors = ["username / password incorrect","username / password incorrect"]

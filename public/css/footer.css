@@ -1,7 +1,82 @@
-footer{
+
+
+.footer {
+  background: linear-gradient(90deg, rgba(0, 20, 30, 1), rgba(0, 35, 50, 1), rgba(0, 50, 70, 1));
+  color: rgba(200, 200, 255, 1);
+  text-align: center;
+  padding: 20px 10px;
   position: relative;
-  z-index: 999999999999999999;
-  background: black;
-  padding:30px;
-  padding-bottom:5%;
+  z-index: 2;
+  font-family: "Lato";
+}
+
+.footer p,a {
+  font-family: "Lato" !important;
+  font-size:18px;
+  font-weight:300;
+}
+
+.fw-bold{
+  font-size:25px;
+  font-family: "Teko"
+}
+
+.footer-title {
+  font-weight: bold;
+  margin: 10px 0;
+  font-size:25px;
+}
+
+.footer-subtitle {
+  font-size: 2rem;
+  margin: 10px 0;
+}
+
+.footer-email {
+  font-size: 2rem;
+  margin: 15px 0;
+}
+
+.decorative-bar {
+  width: 50%;
+  height: 5px;
+  background-color: rgba(200, 200, 255, 1);
+  margin: 15px auto;
+}
+
+.clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(200, 200, 255, 0.2);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: moveClouds 25s linear infinite;
+}
+
+@keyframes moveClouds {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.footer a {
+  color: rgba(200, 200, 255, 1);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }

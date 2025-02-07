@@ -10,7 +10,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous">
 
+      <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Archivo+Black&family=Exo+2:wght@600&family=Exo:wght@800;900&family=Heebo:wght@800&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,900;1,600&family=Noto+Sans:wght@300&family=Poppins:wght@600&family=Roboto+Condensed:wght@300;400&family=Roboto:ital,wght@0,300;1,100&family=Rubik+Distressed&family=Rubik+Moonrocks&family=Teko:wght@300;500&family=Vast+Shadow&family=Work+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+      <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/components/header.min.css"
+    rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
@@ -26,9 +39,15 @@
     <link href = "/css/filter.css" rel="stylesheet">
     <link href = "/css/galaxy.css" rel="stylesheet">
     <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
     h1, h2, h3, p {
-    margin-bottom: 1rem !important /* Restore default margins */
-  }
+      margin-top:1rem !important;
+      margin-bottom: 2rem !important /* Restore default margins */
+    }
     </style>
 
   </head>
@@ -39,13 +58,96 @@
       <div class="popup_container"></div>
       <%- include("./index/layouts/navbar.ejs") %>
       <%- include("./index/layouts/showcase.ejs") %>
-      <%- include("./index/layouts/filter_converter.ejs") %>
       <%- include("./index/layouts/color_tester.ejs") %>
+
+      <%- include("./index/layouts/filter_converter.ejs") %>
       <%- include("./index/layouts/galaxy.ejs") %>
 
-      <%- include("./index/layouts/footer.ejs") %>
     </main>
+    <footer class="text-center text-lg-start footer">
+      <!-- Section: Social media -->
+      <section class="d-flex justify-content-center justify-content-lg-between">
+        <!-- Left -->
+        <span class="me-5 d-none d-lg-block" style="position: absolute; top:10%; left:2.5%; z-index: 3;">
+            <div class="row">
+              <div class="col-3">
+                  <span>
+                    <img src="./imgs/logo.png" class="width-100"style="width:500px;filter:brightness(0);opacity:.5" alt="Logo" />
+                  </span>
+              </div>
+            </div>
+        </span>
+        <!-- Left -->
 
+        <!-- Right -->
+        <div style="z-index: 3;">
+          <a href="#" class="me-4 text-reset">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="me-4 text-reset">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="me-4 text-reset">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="#" class="me-4 text-reset">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="me-4 text-reset">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="#" class="me-4 text-reset">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section>
+        <div class="container text-center text-md-start" style="z-index: 3; position: relative;">
+          <p style="font-size:30px" >Color Pallete Maker</p>
+
+          <div class="row mt-3">
+
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">
+                Useful links
+              </h6>
+              <p>
+                <a href="/" class="text-reset">Home</a>
+              </p>
+              <p>
+                <a href="/about" class="text-reset">Login</a>
+              </p>
+              <p>
+                <a href="/contact_us" class="text-reset">Create Account</a>
+              </p>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+              <p><i class="fas fa-home me-3"></i> Phoenix, Arizona, 85260</p>
+              <p>
+                <i class="fas fa-envelope me-3"></i>
+                info@colorpalletes.com
+              </p>
+              <p><i class="fas fa-phone me-3"></i> + 480-822-0511</p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+    </footer>
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
     <script src="/js/index_global_vars.js"></script>

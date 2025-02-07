@@ -17,6 +17,7 @@ p {
          background: transparent;
          border: 2px solid #00f2ff;
          border-radius: 8px;
+         font-family: "Oswald";
          overflow: hidden;
          transition: all 0.3s ease-in-out;
      }
