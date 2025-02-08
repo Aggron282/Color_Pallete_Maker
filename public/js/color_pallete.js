@@ -1,93 +1,47 @@
-const ReturnPalleteHTML=(color)=>{
-  var {r,g,b} = color
-  var rgb = `rgba(${r},${g},${b})`
-
-  return(
-    `
-    <div class="color_blob" style="background:${rgb}">${rgb}</div>
-    `)
-
+function RenderImg(src, container) {
+    setInnerHTML(container, `<img src="${src}" class="display_img" alt="Rendered Image" />`);
 }
 
-function RenderImg(src,container){
-  var img_element = `<img src = ${src} class="display_img" />`;
-  container.innerHTML = img_element;
+function RenderGradientOrImage(isImage, src, pure_colors, container) {
+    isImage ? RenderImg(src, container) : RenderGradient(pure_colors, container);
 }
 
-function RenderGradientOrImage(isImage,src,pure_colors,container) {
-  if (isImage) {RenderImg(src, container)}
-  else {RenderGradient(pure_colors, container)}
-}
+function RenderColorPallete(grid, palletes) {
 
+    try {
 
-function RenderGradient(colors,container){
-
-  if(!colors){return;}
-
-  if(colors.length == 1){
-    var gradient = `<div class="img_display" style="background:${colors[0]}"></div>`;
-    container.innerHTML = gradient;
-    return;
-  }
-  else{
-
-  var line = "linear-gradient(to bottom,";
-
-  for(var i =0; i < colors.length; i++){
-
-    line+= colors[i];
-
-    if(i < colors.length - 1){
-      line+=","
-    }
-
-  }
-
-    line+=")";
-
-    var gradient = `<div class="img_display" style="background:${line}"></div>`;
-
-    container.innerHTML = gradient;
-  }
-
-}
-
-
-const ReturnHexPalleteHTML=(hex)=>{
-
-  return(
-    `
-    <div class="color_blob" style="background:${hex}">${hex}</div>
-    `)
-
-}
-
-const RenderPallete = (container,colors) => {
-
-    if(!container || !colors){
-      return;
-    }
-    else{
-      var html = ``
-
-      for(var i =0; i < colors.length; i++){
-        html += ReturnPalleteHTML(colors[i]);
+      if (!grid || !palletes) {
+            console.error(`Missing grid or palletes. Grid: ${grid}, Pallete: ${palletes}`);
+            return;
       }
 
-      container.innerHTML = html;
+      grid.innerHTML = palletes.map(ReturnColorElement).join("");
 
-  }
+    }
+    catch (error) {
+        console.error("RenderColorPallete failed:", error);
+    }
 
 }
 
-const RenderHexPallete = (container,colors) => {
+function ReturnColorElement(color){
 
-    var html = ``
+  return `
+  <div class="color-answer" style="background:${color}">
+    ${color}
+  </div>
+  `
 
-    for(var i =0; i < colors.length; i++){
-      html += ReturnHexPalleteHTML(colors[i]);
-    }
+}
 
-    container.innerHTML = html;
+function RenderGradient(colors, container) {
+
+    if (!colors || !container) return;
+
+    const gradientStyle = colors.length === 1
+        ? `background:${colors[0]}`
+        : `background: linear-gradient(to bottom, ${colors.join(",")})`;
+
+    setInnerHTML(container, `<div class="img_display" style="${gradientStyle}"></div>`);
 
 }

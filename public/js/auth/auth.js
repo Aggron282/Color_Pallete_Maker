@@ -5,13 +5,15 @@ var login_btn = document.querySelector(".auth_button--login")
 var login_form = document.querySelector(".auth_form--login")
 
 async function SubmitNewAccount(e){
-  
+
   e.preventDefault()
 
   var {msg,feedback} =  await SubmitAccount(create_account_form,"/create_account","/create_account")
+
   if(!feedback){
     ActivateRings("ring--wrong")
   }
+  
   CreatePopup(msg,"normal");
 
 }
@@ -21,6 +23,7 @@ async function SubmitLogin(e){
   e.preventDefault()
 
   var {msg,feedback} =  await SubmitAccount(login_form,"/login","/login")
+
   if(!feedback){
     ActivateRings("ring--wrong")
     CreatePopup(msg,"normal");
@@ -71,10 +74,12 @@ async function SubmitAccount(form,url,redirect){
 
   }
   else if(data.feedback){
+
     GrantAccessRings(async (response)=>{
       await Delay(1000);
-      window.location.assign("/");
+      window.location.assign("/dashboard");
     });
+
   }
   else{
     var errors = ["username / password incorrect","username / password incorrect"]
@@ -106,6 +111,7 @@ function RenderValidationErrors(errors){
     var input_name = input.getAttribute("name");
 
     for(var x = 0; x < errors.length; x++){
+
       if(input_name == errors[x].path){
         var container = document.querySelector(`#${input_name}_error`);
         container.innerHTML = ` <p class="validation_errror">* ${errors[x].msg} </p>`

@@ -84,13 +84,14 @@ function RenderMyPalletes(organized_palletes){
 
         <div class="palletes_in_category_container" category_id = "${organized_palletes[i].category}"></div>
 
-       </div>
+      </div>
+
        <div class="page_number_container" category_id = "${organized_palletes[i].category}"></div>
 
        `
        var palletes_in_category_container = document.querySelector(`.palletes_in_category_container[category_id="${organized_palletes[i].category}"]`);
        var page_number_container = document.querySelector(`.page_number_container[category_id="${organized_palletes[i].category}"]`);
-       console.log(organized_palletes[i]);
+
        var all_palletes_in_category = RenderPalletesInCategory(organized_palletes[i],palletes_in_category_container)
        var pagi = RenderPageNumbers(organized_palletes[i].palletes,organized_palletes[i].counter,page_number_container);
 
@@ -126,6 +127,5 @@ function RenderMyPalletes(organized_palletes){
     }
 
 }
-
 
 Init();

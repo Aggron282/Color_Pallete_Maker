@@ -1,119 +1,174 @@
-// localStorage.clear();
-const retrieved_config = JSON.parse(localStorage.getItem("config"));
-const retrieved_pure_config = JSON.parse(localStorage.getItem("pure_config"));
+let isImage = false;
 
-const convert_icon = document.querySelector(".convert_icon");
-const img_display_container = document.querySelector(".render_container_display")
+function InitDisplay(pure_colors,extracted_colors,img_container,custom_color_container,extract_color_container){
 
-let isImage = true;
+  if (pure_colors) {
 
-function InitPalleteEditor() {
+    RenderGradient(pure_colors, img_container);
+    RenderPickerInputs(pure_colors)
+    RenderColorPallete(custom_color_container, pure_colors)
 
-  const container = document.querySelector(".extract_display_container");
-  const renderContainer = document.querySelector(".render_container_display");
-  const customDisplayContainer = document.querySelector(".custom_display_container");
-  if (retrieved_pure_config) {
-    RenderGradient(retrieved_pure_config, img_display_container);
-    RenderPickerInputs(retrieved_pure_config)
-    RenderHexPallete(customDisplayContainer, retrieved_pure_config)
     isImage = false;
+
   }
 
-  if (retrieved_config) {
+  if (extracted_colors) {
 
-    if (retrieved_config.colors){
-      RenderPallete(container, retrieved_config.colors);
+    if (extracted_colors.colors){
+      RenderColorPallete(extract_color_container, extracted_colors.colors);
     }
-    if (retrieved_config.src) {
-      RenderImg(retrieved_config.src, img_display_container);
-      upload_button.classList.add("add_pallete_button--active");
+    if (extracted_colors.src) {
+      RenderImg(extracted_colors.src, img_container);
       isImage = true;
     }
-    else if (retrieved_pure_config) {
-      RenderGradient(retrieved_pure_config, img_display_container);
+    else if (pure_colors) {
+      RenderGradient(extracted_colors, img_container);
       isImage = false;
     }
 
   }
 
-  ChangeSaveStatus(retrieved_config, retrieved_pure_config);
-
 }
 
-function ChangeSaveStatus(config, colors) {
-  const action = config || colors ? "add" : "remove";
-  save_pallete_button.classList[action]("save_pallete_button--active");
+async function SubmitImageInEditor(button,container,form,img_container){
+
+  if (button.getAttribute("ison") != "1") return;
+
+  const response = await SubmitUpload(form, container,img_container);
+
+  const pure_colors = JSON.parse(localStorage.getItem("pure_config"));
+
+  localStorage.setItem("config", JSON.stringify(response));
+  
 }
 
-if (img_upload_input) {
+function ToggleDisplay(container){
 
-  img_upload_input.addEventListener("change", () => {
-    InstantImageUpload(img_upload_input, img_display_container);
-    upload_button.classList.add("add_pallete_button--active");
-  });
+  const extracted_colors = JSON.parse(localStorage.getItem("config"));
+  const pure_colors = JSON.parse(localStorage.getItem("pure_config"));
 
-}
+  if (!extracted_colors || !pure_colors) return;
 
-if (upload_button) {
-
-  upload_button.addEventListener("click", async (e) => {
-
-    e.preventDefault();
-
-    if (!upload_button.classList.contains("add_pallete_button--active")) return;
-
-    const container = document.querySelector(".extract_display_container");
-    const config = await SubmitUpload(img_upload_form, container);
-
-    localStorage.setItem("config", JSON.stringify(config));
-    localStorage.setItem("pure_config", JSON.stringify(retrieved_pure_config));
-
-    ChangeSaveStatus(config, retrieved_pure_config);
-
-  });
-
-}
-
-save_pallete_button.addEventListener("click", async () => {
-
-  if (!save_pallete_button.classList.contains("save_pallete_button--active")) {
-    CreatePopup("You must extract an image!", "alert");
-    return;
+  if (pure_colors.length > 0 && extracted_colors.colors.length > 0) {
+    isImage = !isImage;
+    RenderGradientOrImage(isImage,extracted_colors.src,pure_colors,container);
   }
 
-  const new_form = new FormData(img_upload_form);
-  if(retrieved_config){
-    if (retrieved_config.src) new_form.set("image", retrieved_config.src);
+}
+
+async function SaveNewPallete(form){
+
+  const new_form = new FormData(form);
+  const extracted_colors = JSON.parse(localStorage.getItem("config"));
+  const pure_colors = JSON.parse(localStorage.getItem("pure_config"));
+
+  if(extracted_colors){
+    if (extracted_colors.src) new_form.set("image", extracted_colors.src);
   }
-  if (retrieved_pure_config) new_form.set("colors", retrieved_pure_config);
+
+  if (pure_colors) new_form.set("colors", pure_colors);
 
   const { data } = await axios.post("/save", new_form);
 
   if (data.feedback) {
+
     CreatePopup("Created Image", "success");
+
     localStorage.clear();
+
     await Delay(500);
+
     window.location.assign("/dashboard");
-  }
-  else {
+
+  }else {
     CreatePopup(data.msg, "alert");
     RenderValidationErrors(data.validation_errors);
   }
 
-});
+}
 
-if (convert_icon) {
+function ActivateButtons(save_btn,upload_btn){
 
-  convert_icon.addEventListener("click", () => {
+  const extracted_colors = JSON.parse(localStorage.getItem("config"));
 
-    if (!retrieved_pure_config || !retrieved_config) return;
+  if(extracted_colors){
 
-    if (retrieved_pure_config.length > 0 && retrieved_config.colors.length > 0) {
-      isImage = !isImage;
-      RenderGradientOrImage(isImage,retrieved_config.src,retrieved_pure_config,img_display_container);
+    if(extracted_colors.src){
+      upload_btn.classList.add("add_pallete_button--active");
+      save_btn.classList.add("save_pallete_button--active");
+      save_btn.setAttribute("ison",1);
+      upload_btn.setAttribute("ison",1);
     }
 
+  }
+
+}
+
+async function InitPalleteEditor() {
+
+  isImage = true;
+
+  var img_upload_button = null;
+
+  const extracted_colors = JSON.parse(localStorage.getItem("config"));
+  const pure_colors = JSON.parse(localStorage.getItem("pure_config"));
+
+  var img_upload_input = document.querySelector("#pallete-image-input");
+  var img_upload_form = document.querySelector("#add-pallete-user");
+
+  var upload_button = document.querySelector(".add_pallete_button");
+  var save_pallete_button = document.querySelector(".save_pallete_button");
+
+  const convert_icon = document.querySelector(".convert_icon");
+
+  const img_display_container = document.querySelector(".render_container_display")
+  const extract_display_container = document.querySelector(".extract_display_container");
+  const custom_display_container = document.querySelector(".custom_display_container");
+
+  const renderContainer = document.querySelector(".render_container_display");
+
+  InitDisplay(pure_colors,extracted_colors,img_display_container,custom_display_container,extract_display_container);
+
+  ActivateButtons(save_pallete_button,upload_button);
+
+  if (img_upload_input) {
+
+    img_upload_input.addEventListener("change", () => {
+      InstantImageUpload(img_upload_input, img_display_container);
+      upload_button.classList.add("add_pallete_button--active");
+      upload_button.setAttribute("isOn","1");
+    });
+
+  }
+
+  if (upload_button) {
+
+    upload_button.addEventListener("click", async (e) => {
+      e.preventDefault();
+      SubmitImageInEditor(upload_button,extract_display_container,img_upload_form,img_display_container);
+      ActivateButtons(save_pallete_button,upload_button);
+    });
+
+  }
+
+  save_pallete_button.addEventListener("click", async () => {
+
+    if (save_pallete_button.getAttribute("ison") != "1") {
+      CreatePopup("You must extract an image!", "alert");
+      return;
+    }
+
+    SaveNewPallete(img_upload_form);
+
   });
+
+  if (convert_icon) {
+
+    convert_icon.addEventListener("click", () => {
+      ToggleDisplay(img_display_container);
+    });
+
+  }
 
 }
 

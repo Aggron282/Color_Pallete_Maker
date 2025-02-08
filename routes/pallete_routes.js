@@ -35,7 +35,6 @@ router.get("/user/palletes/organized", palleteController.GetOrganizedPalletes);
 router.get("/user-palletes", palleteController.GetUserPalletes);
 router.delete("/delete", palleteController.DeletePallete);
 
-// Add palette route with validation
 router.post("/save", validateAddPallete, palleteController.AddPallete);
 
 module.exports = router;

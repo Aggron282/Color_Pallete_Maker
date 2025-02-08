@@ -50,7 +50,7 @@ body{
   background: black;
   border:2px solid rgb(10,10,10);
   width:800px;
-  transition: all .3s;
+  transition: all .2s;
 
   border-radius: 50%;
 }
@@ -116,18 +116,18 @@ body{
 .ring--active{
   border:2px solid yellow;
   box-shadow: 0px 0px 50px yellow;
-  animation: gl 1 ease-in 1s;
+  animation: gl 1 ease-in .5s;
 }
 
 .ring--grant{
   border:2px solid lightblue;
   box-shadow: 0px 0px 50px lightblue;
-  animation: glb 1 ease-in 1s;
+  animation: glb 1 ease-in .5s;
 }
 .ring--grant--full{
   border:2px solid limegreen;
   box-shadow: 0px 0px 90px limegreen;
-  animation: gle 1 ease-in 1s;
+  animation: gle 1 ease-in .5s;
 }
 .ring--wrong{
   box-shadow: 0px 0px 50px orangered;

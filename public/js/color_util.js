@@ -1,7 +1,28 @@
 function componentToHex  (c) {
-  console.log(c)
   const hex = c.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
+}
+
+function TurnRGBObjectToString({r,g,b}){
+    return `rgb(${r},${g},${b})`
+}
+
+async function Recommend(type, color ){
+
+  var type_ = "go well"
+
+  if(type == "comp"){
+    type_ = "are complementary and go well"
+  }
+  else if(type == "tri"){
+    type_ = "are triad and go well"
+  }
+  else if(type == "rec"){
+    type_ = "that match and go well"
+  }
+
+  var {data} = await axios.post("/ai/recommend",{type:type_,color:color});
+  return data.message;
 }
 
 function rgbToHex  (r, g, b) {
@@ -13,7 +34,7 @@ async function GetPrimaryColors(pallete_id,isCustom){
 }
 
 async function GetOriginalColors(pallete_id,isCustom){
-  return  GetColors(pallete_id, "/colors/original",isCustom);
+  return GetColors(pallete_id, "/colors/original",isCustom);
 }
 
 async function GetColors(pallete_id, url,isCustom){
@@ -45,7 +66,7 @@ async function GetTriadColors(pallete_id,isCustom){
 }
 
 function configureRGB(str){
-  console.log(str)
+
   const regex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
   const match = str.match(regex);
 

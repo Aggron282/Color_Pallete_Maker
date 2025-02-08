@@ -3,7 +3,6 @@ var controller = require("./../controllers/controller.js");
 var {body,check} = require("express-validator");
 var isAuth = require("./../middleware/isAuth.js");
 
-// Routes for pages
 router.get("/", controller.GetMainPage); // Main page
 router.get("/dashboard", controller.GetDashboardPage); // Dashboard page
 router.get("/profile", controller.GetProfilePage); // Profile page

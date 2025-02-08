@@ -10,7 +10,8 @@ delete_account.addEventListener("click",async(e)=>{
 
     if(data.feedback){
       window.location.assign("/")
-    }else{
+    }
+    else{
       CreatePopup(data.msg,"alert");
     }
 

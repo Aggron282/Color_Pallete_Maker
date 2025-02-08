@@ -2,39 +2,6 @@ var search_colors_form = document.querySelector(".search_colors_form");
 var result_container = document.querySelector(".result_container");
 var palletes_organized_container = document.querySelector(".all_container");
 
-function RenderColorPalleteCircles(colors,container){
-
-  var html = ``;
-  container.innerHTML = "";
-  console.log(colors);
-  var limit = colors.length > 5 ? 5 : colors.length;
-  for(var x =0; x < limit; x ++) {
-
-    if(colors[x].length > 0){
-      var color = colors[x];
-      var {r,g,b} = configureRGB(color);
-
-      var hex = rgbToHex(r,g,b);
-
-      container.innerHTML += `
-
-      <div class="color--i">
-
-        <div class="color_box" color = ${color} style="background:${color}">
-
-          <div class="color_detail">
-            <p class="title"> ${color} |  ${hex} </p>
-          </div>
-
-        </div>
-
-      </div>`
-    }
-
-  }
-
-}
-
 function RenderPalletes(palletes){
 
   for(var i = 0; i < palletes.length; i++) {
@@ -44,9 +11,7 @@ function RenderPalletes(palletes){
      var element = result_container.querySelector(`[_id="${palletes[i].pallete_id}"]`);
      var pallete_circle_container = element.querySelector(".color_container");
      var colors = palletes[i].rgbList.split(" ");
-
-     RenderColorPalleteCircles(colors,pallete_circle_container);
-
+     RenderColorPallete(pallete_circle_container,colors);
   }
 
 }
@@ -96,8 +61,9 @@ function ReturnPalleteBoxHTML(pallete,x){
         <div class="img_holder content-holder">
 
         </div>
-        <div class="color_container"></div>
-        <div class="color_detail_container"></div>
+        <br >
+        <div class="color_container color-grid"></div>
+        <div class="color_detail_container color-grid"></div>
 
     </div>
     `
@@ -124,7 +90,7 @@ async function MenuPallete(){
           Delete(e.target.getAttribute("pallete_id"),"/dashboard");
       }
       else if (e.target.closest('.pallete_choice--original')) {
-          ToggleColorPalleteMenu(0,e);
+          ToggleColorPalleteMenu(1,e);
       }
       else if (e.target.closest('.pallete_choice--complementary')) {
           ToggleColorPalleteMenu(1,e);
@@ -132,10 +98,12 @@ async function MenuPallete(){
       else if (e.target.closest('.pallete_choice--pure')) {
           var isImage;
           var display = e.target.dataset.display;
+
           if(display == "0"){
             isImage = false;
             display = "1";
-          }else{
+          }
+          else{
             isImage = true;
             display = "0";
           }
@@ -150,36 +118,46 @@ async function MenuPallete(){
 
 }
 
-async function TogglePureAndExtractedDisplay(isImage,e){
-
-  var pallete_id = e.target.getAttribute("pallete_id");
-
-  var {data} = await axios.post("/user/pallete/single/",{pallete_id:pallete_id});
+async function GetPalleteData(_id){
+  var {data} = await axios.post("/user/pallete/single/",{pallete_id:_id});
   data = data.pallete;
 
   if(!data.customRGBList || !data.image){
     alert("You only have one type of color pallete here");
-    return;
+    return null;
   }
 
   if(data.customRGBList.length <=0 || data.image.length <=0){
     alert("You only have one type of color pallete here");
+    return null;
+  }
+
+  data.src = data.image.substring(data.image.lastIndexOf('\\') + 1);
+
+  return data;
+
+}
+
+async function TogglePureAndExtractedDisplay(isImage,e){
+
+  var pallete_id = e.target.getAttribute("pallete_id");
+
+  var data = await GetPalleteData(pallete_id);
+
+  if(!data){
+    console.error("Data is null");
+    choice_container.classList.remove("choices--active")
     return;
   }
 
   var new_colors = [];
+  var src = data.src;
 
   var pallete_el = document.querySelector(`.pallete_card[_id="${pallete_id}"]`);
   var holder_container = pallete_el.querySelector(".content-holder");
   var pallete_circle_container = pallete_el.querySelector(".color_container");
   var choice_container = document.querySelector(`.choices[_id="${e.target.getAttribute("pallete_id")}"]`);
-  var src = data.image;
 
-  if(src){
-    src = src.substring(src.lastIndexOf('\\') + 1);
-  }else{
-    src = "";
-  }
 
   if(isImage){
     new_colors = data.rgbList.split(" ");
@@ -188,11 +166,10 @@ async function TogglePureAndExtractedDisplay(isImage,e){
     new_colors = data.customRGBList.split(" ");
   }
 
-  RenderGradientOrImage(isImage,src,new_colors,holder_container);
-
   choice_container.classList.remove("choices--active")
 
-  RenderColorPalleteCircles(new_colors,pallete_circle_container);
+  RenderGradientOrImage(isImage,src,new_colors,holder_container);
+  RenderColorPallete(pallete_circle_container,new_colors);
 
 }
 
@@ -200,6 +177,13 @@ async function ToggleColorPalleteMenu(type,e){
 
   var pallete_id = e.target.getAttribute("pallete_id")
   var new_colors = [];
+  var data = await GetPalleteData(pallete_id);
+  var pallete_el = document.querySelector(`.pallete_card[_id="${pallete_id}"]`);
+
+  if(!data){
+    console.error("Data is Null");
+    return;
+  }
 
   if(type <= 0){
     new_colors =  await GetOriginalColors(pallete_id);
@@ -209,8 +193,10 @@ async function ToggleColorPalleteMenu(type,e){
   }
 
   var choice_container = document.querySelector(`.choices[_id="${e.target.getAttribute("pallete_id")}"]`);
+  var holder_container = pallete_el.querySelector(".content-holder");
 
   SetPalleteMenuActive(e.target.parentElement.parentElement,e.target);
+  RenderGradientOrImage(true,data.src,new_colors,holder_container);
   ExtractThenRenderColorCircles(new_colors,pallete_id);
 
   choice_container.classList.remove("choices--active")
@@ -248,7 +234,7 @@ function RenderPalletesInCategory(category,container){
     if(!pallete){
       break;
     }
-    console.log(pallete)
+
     container.innerHTML += ReturnPalleteBoxHTML(pallete,x);
 
     var element = container.querySelector(`[_id="${pallete.pallete_id}"]`);
@@ -281,8 +267,9 @@ function RenderPalletesInCategory(category,container){
     else{
       isImage = false;
     }
+    console.log(isImage,colors);
 
-    RenderColorPalleteCircles(colors,pallete_circle_container);
+    RenderColorPallete(pallete_circle_container,colors);
     RenderGradientOrImage(isImage,src,colors,img_display_container);
 
     x += incr_x
@@ -302,6 +289,6 @@ function ExtractThenRenderColorCircles(new_colors,id){
 
   pallete_circle_container.innerHTML = "";
 
-  RenderColorPalleteCircles(new_colors,pallete_circle_container);
+  RenderColorPallete(pallete_circle_container,new_colors);
 
 }

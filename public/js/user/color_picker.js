@@ -50,9 +50,15 @@ function RenderPickerInputs(colors){
 
 }
 
-picker_exit.addEventListener("click", () => TogglePickerModal(false));
+picker_exit.addEventListener("click", (e) =>{
+  e.preventDefault();
+  TogglePickerModal(false);
+});
 
-picker_modal_btn.addEventListener("click", () => TogglePickerModal(true));
+picker_modal_btn.addEventListener("click", (e) => {
+  e.preventDefault();
+  TogglePickerModal(true);
+});
 
 picker_form.addEventListener("submit", (e) => {
 
@@ -71,16 +77,15 @@ picker_submit.addEventListener("click",async (e)=>{
 
   e.preventDefault();
 
-  var container = document.querySelector(".custom_display_container");
+  var container = document.querySelector(".custom_rgb_detail_container");
   var colors = CreateArrayData(picker_form);
 
-  RenderHexPallete(container,colors);
+  // RenderHexPallete(container,colors);
 
   TogglePickerModal(false);
 
   localStorage.setItem("pure_config", JSON.stringify(colors));
-  await Delay(500);
-  window.location.assign(window.location.href);
+  console.log(colors);
 
 });
 

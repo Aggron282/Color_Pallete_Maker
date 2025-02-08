@@ -23,6 +23,7 @@
     <link href = "/css/footer.css" rel="stylesheet">
     <link href = "/css/user/detail.css" rel="stylesheet">
     <link href = "/css/profile.css" rel="stylesheet">
+    <link href = "/css/converter.css" rel="stylesheet">
 
   </head>
 
@@ -39,8 +40,9 @@
       <div class="edit_container" pallete_id = "<%= pallete_id %>" >
 
         <div class="edit_form_container">
-            <button class="display_pallete_btn"> See Pallete </button>
+            <button class="display_pallete_btn  see-pallete-btn"> See Pallete </button>
           <form id = "edit-pallete">
+            <div class="edit-grid">
             <div class="input_group input_group--half">
               <label>
                   Name
@@ -66,7 +68,7 @@
               <input type="hidden" name = "pallete_id" value = "<%= pallete.pallete_id %>" >
               <input name="image" type="file" class="profile_input pallete_input--file" placeholder="Change Picture" >
             </div>
-
+          </div>
             <button class="submit_edit_button" id="pallete-edit-btn">Submit </button>
 
           </form>
@@ -101,21 +103,22 @@
             <img src = "/../../<%= src %>" class="detail_image" />
           </div>
 
+          <div class="c--container c--container--active">
+          <div class="rgb_detail_container color-grid">
+
+          </div>
+
+          <div class="custom_rgb_detail_container color-grid">
+
+          </div>
+        </div>
+        <button class="delete_pallete" _id = "<%= pallete.pallete_id %>" id="delete-pallete"> Delete Pallete </button>
 
       </div>
 
 
-      <div class="c--container c--container--active">
-      <div class="rgb_detail_container">
 
-      </div>
 
-      <div class="custom_rgb_detail_container">
-
-      </div>
-    </div>
-
-      <button class="delete_pallete" _id = "<%= pallete.pallete_id %>" id="delete-pallete"> Delete Pallete </button>
 
     </main>
 
@@ -128,8 +131,16 @@
     <script src = '/js/auth/delete_account.js'></script>
     <script src = "/js/user/delete_pallets.js"></script>
     <script src = "/js/user/render_palletes.js"></script>
+    <script src = "/js/color_pallete.js"></script>
+    <script src = "/js/color_renderer.js"></script>
     <script src = "/js/user/edit_pallete.js"></script>
     <script src = "/js/user/color_picker.js"></script>
+    <script>
+      const img_upload_form = document.querySelector(".img_upload_form");
+      const img_upload_button = document.querySelector(".img_upload_button");
+      const extraction_grid = document.querySelector(".extraction-grid");
+      InitImageUpload(img_upload_form,img_upload_button,extraction_grid);
+    </script>
 
   </body>
 

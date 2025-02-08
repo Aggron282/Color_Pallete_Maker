@@ -1,14 +1,15 @@
-
 const RenderDisplayImg = (container,src) => {
   var html = `<img src =${src} class="img_display" />`
   container.innerHTML = html;
 }
 
-function TurnRGBObjectToString({r,g,b}){
-    return `rgb(${r},${g},${b})`
+function InitImageUploadFeature(img_upload_form, img_upload_button, extraction_grid) {
+    if (img_upload_form && img_upload_button && extraction_grid) {
+      InitImageUpload(img_upload_form, img_upload_button, extraction_grid);
+    }
 }
 
-const DisplayExtractionResults  = ({colors,image},container) => {
+const DisplayExtractionResults  = ({colors,image},grid,img_container) => {
 
   if(!image || !colors){
     return null;
@@ -17,12 +18,12 @@ const DisplayExtractionResults  = ({colors,image},container) => {
   var root_img = image.split('images\\')[1];
   var src = "/"+root_img;
 
-  RenderDisplayImg(img_display_continer,src)
+  RenderDisplayImg(img_container,src)
+
   var colors_string = colors.map((color)=>{
     return TurnRGBObjectToString(color);
   });
 
-  var grid = document.querySelector(".extraction-grid");
   var config = {src:src,colors:colors};
 
   RenderColorPallete(grid,colors_string);
@@ -58,11 +59,12 @@ const InstantImageUpload = (input,display) => {
 }
 
 
-const SubmitUpload = async (form,container) => {
+const SubmitUpload = async (form,container,img_container) => {
 
   var new_form = new FormData(form);
 
   try{
+
     const {data} = await axios.post("/extract",new_form);
 
     if(!data){
@@ -71,10 +73,13 @@ const SubmitUpload = async (form,container) => {
     }
 
     CreatePopup("Extracted","success")
-    var src = DisplayExtractionResults(data,container)
+
+    var src = DisplayExtractionResults(data,container,img_container)
 
     return src;
-  }catch{
+
+  }
+  catch(error){
     CreatePopup("Could not extract","error")
     return false;
   }
@@ -83,19 +88,23 @@ const SubmitUpload = async (form,container) => {
 
 }
 
-if(img_upload_form){
+function InitImageUpload(form,button,grid,img_container){
 
-  img_upload_form.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    SubmitUpload(img_upload_form);
-  })
+  if(form){
 
-  if(img_upload_button){
-
-    img_upload_button.addEventListener("submit",(e)=>{
+    form.addEventListener("submit",(e)=>{
       e.preventDefault();
-      SubmitUpload(img_upload_form);
+      SubmitUpload(form,grid,img_container);
     })
+
+    if(button){
+
+      button.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        SubmitUpload(form,grid,img_container);
+      })
+
+    }
 
   }
 
