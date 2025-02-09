@@ -4,9 +4,7 @@ var profile_img_container = document.querySelector(".profile_img_container");
 var profile_edit_button = document.querySelector("#profile-edit-btn");
 
 profile_image_upload_input.addEventListener("change",(e)=>{
-
   InstantImageUpload(profile_image_upload_input,profile_img_container);
-
 })
 
 

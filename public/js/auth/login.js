@@ -4,7 +4,9 @@ var isWrong = false;
 async function GrantAccessRings(cb){
 
   var rings = document.querySelectorAll(".ring");
-
+  if(!rings){
+    return;
+  }
   for(var i =0; i < rings.length;i++){
     await Delay(200);
     rings[i].classList.add("ring--grant");
@@ -25,7 +27,9 @@ function ActivateRings(type){
 
   var active_counter =0;
   var rings = document.querySelectorAll(".ring");
-
+  if(rings.length <=0){
+    return;
+  }
   for(var i = 0; i < active_inputs.length; i++){
 
     if(active_inputs[i].value.length > 2){

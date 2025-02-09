@@ -1,0 +1,47 @@
+<div class="particle-builder-wrapper">
+    <!-- Left Side: Control Panel -->
+    <div class="particle-control-panel">
+      <section class="particle-menu-box">
+          <h2>Libraries</h2>
+          <label><input type="checkbox" id="fireworksToggle"> Fireworks</label>
+          <label><input type="checkbox" id="particleJSToggle"> Particle.js</label>
+          <label><input type="checkbox" id="customEngineToggle"> Custom Engine</label>
+      </section>
+        <section class="particle-menu-box">
+            <h2>Particle Settings</h2>
+            <label>Size: <input type="range" id="size" min="5" max="100" value="20"></label>
+            <label>Speed: <input type="range" id="speed" min="1" max="10" value="5"></label>
+            <label>Color: <input type="color" id="color"></label>
+            <label>Randomize: <input type="checkbox" id="randomize"></label>
+        </section>
+
+        <section class="particle-menu-box">
+            <h2>Presets</h2>
+            <div class="particle-preset-icons">
+                <div class="particle-preset" data-type="fire"><img src="/imgs/presets/1.png" alt="Fire"></div>
+                <div class="particle-preset" data-type="glow"><img src="/imgs/presets/3.png" alt="Glow"></div>
+                <div class="particle-preset" data-type="snow"><img src="/imgs/presets/4.png" alt="Snow"></div>
+                <div class="particle-preset" data-type="fire"><img src="/imgs/presets/5.png" alt="Fire"></div>
+                <div class="particle-preset" data-type="smoke"><img src="/imgs/presets/6.png" alt="Smoke"></div>
+                <div class="particle-preset" data-type="glow"><img src="/imgs/presets/7.png" alt="Glow"></div>
+                <div class="particle-preset" data-type="snow"><img src="/imgs/presets/8.png" alt="Snow"></div>
+            </div>
+        </section>
+
+
+
+        <section class="particle-menu-box">
+            <h2>Particle Behavior</h2>
+            <label><input type="checkbox" id="gravity"> Gravity</label>
+            <label><input type="checkbox" id="bounce"> Bounce</label>
+            <label><input type="checkbox" id="swirl"> Swirl</label>
+        </section>
+        <button class="particle-action-btn" id="createParticle">Create Particle</button>
+
+    </div>
+
+    <!-- Right Side: Particle Display -->
+    <div class="particle-display-area">
+        <canvas id="particle-render-canvas"></canvas>
+    </div>
+</div>

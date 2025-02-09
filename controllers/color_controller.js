@@ -89,13 +89,14 @@ const ConvertFilter = (req,res) => {
 const PostExtractColor = async (req,res) => {
 
   var img_file = req.file;
-
+  console.log(img_file);
   if(img_file){
     const color_data = await color_util.ExtractColorFromImage(img_file.path);
+    console.log(color_data)
     res.json({colors:color_data,image:img_file.path});
   }
   else{
-    res.json(false);
+    res.json({error:"img data is null"});
   }
 
   return;

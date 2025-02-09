@@ -57,7 +57,7 @@ const GetCreateAccountPage = (req,res) => {
 }
 
 const GetDashboardPage = (req,res) => {
-
+  console.log(req.user)
   my_sequelize_util.findUserPalletes(req.user.user_id,async (colors)=>{
 
     var palletes = await color_util.ConfigurePalletes(colors);
@@ -74,7 +74,13 @@ const GetAddPage = (req,res) => {
 }
 
 
+const GetParticleMakerPage = (req,res) => {
+  res.render(path.join(rootDir,"views","user","particle.ejs"),{user:req.user,path:"/particle_maker",pallete:null});
+}
 
+
+
+module.exports.GetParticleMakerPage = GetParticleMakerPage;
 module.exports.GetPalleteDetailPage = GetPalleteDetailPage;
 module.exports.GetAllInCategoryPage = GetAllInCategoryPage;
 module.exports.GetCreateAccountPage = GetCreateAccountPage;

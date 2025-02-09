@@ -102,18 +102,19 @@ const Login = async (req,res) => {
 const CreateAccount = async (req,res) => {
 
   var {name,username,password} = req.body;
-
+  console.log(name,username,password)
   var errors = validationResult(req);
 
   errors = errors.array();
-
+  console.log(errors);
   if(errors.length > 0){
+    console.log(errors);
     res.json({feedback:false,msg:"Validation Error", validation_errors:errors})
     return;
   }
 
   my_sequelize_util.findUser(username,async (found_user)=>{
-
+    console.log(found_user);
     if(found_user.length > 0){
       res.json({feedback:false, msg: "User Already Exists"})
       return;
@@ -131,10 +132,13 @@ const CreateAccount = async (req,res) => {
       profileImg:profileImg,
       email:""
     }
+    console.log(config)
+    my_sequelize_util.addUser(config,((new_user)=>{
+      if(new_user){
+        req.session.user = new_user;
+      }
 
-    my_sequelize_util.addUser(config,((result)=>{
-
-      if(result){
+      if(new_user){
         res.json({feedback:true,msg:"Created Account"})
       }else{
         res.json({feedback:false,msg:"Could not Create Account"})

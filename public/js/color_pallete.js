@@ -11,8 +11,8 @@ function RenderColorPallete(grid, palletes) {
     try {
 
       if (!grid || !palletes) {
-            console.error(`Missing grid or palletes. Grid: ${grid}, Pallete: ${palletes}`);
-            return;
+          console.error(`Missing grid or palletes. Grid: ${grid}, Pallete: ${palletes}`);
+          return;
       }
 
       grid.innerHTML = palletes.map(ReturnColorElement).join("");

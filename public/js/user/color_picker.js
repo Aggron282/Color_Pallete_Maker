@@ -10,21 +10,42 @@ const custom_color_container = document.querySelector(".custom_rgb_detail_contai
 
 let counter = 1;
 
-function ReturnColorPickerHTML(name) {
+function createColorPickerElement(name, color = null, counter = null) {
 
-  const input = document.createElement("input");
+    const wrapper = document.createElement("div");
+    const deleteBtn = document.createElement("p");
 
-  input.className = "picker_input";
-  input.name = `color_${name}`;
-  input.type = "color";
+    wrapper.className = "relative c-box";
 
-  return input;
+    deleteBtn.className = "delete--color";
+    deleteBtn.setAttribute("_id", `color_${counter !== null ? counter : name}`);
+    deleteBtn.textContent = "X";
 
+    deleteBtn.addEventListener("click", function(e) {
+
+        const parent = deleteBtn.parentElement;
+        console.log("s")
+        if (parent) {
+            parent.remove();
+        }
+
+    });
+
+    const input = document.createElement("input");
+
+    input.className = "picker_input";
+    input.name = `color_${counter !== null ? counter : name}`;
+    input.type = "color";
+
+    if (color) input.value = color;
+
+    wrapper.appendChild(deleteBtn);
+    wrapper.appendChild(input);
+
+    return wrapper;
 }
 
-function ReturnColorPickerHTMLRaw(color,counter) {
-  return `<input class="picker_input"value=${color} name="color_${counter}" type="color"/>`;
-}
+
 
 function TogglePickerModal(isOn) {
   picker_wrapper.classList.toggle("color_picker_wrapper--active", isOn);
@@ -32,7 +53,7 @@ function TogglePickerModal(isOn) {
 }
 
 add_picker.addEventListener("click", () => {
-  const newPicker = ReturnColorPickerHTML(counter++);
+  const newPicker = createColorPickerElement(counter++);
   picker_container.appendChild(newPicker);
 });
 
@@ -41,12 +62,12 @@ function RenderPickerInputs(colors){
   var html = "";
 
   picker_container.innerHTML = ""
-  for(var i = 0; i < colors.length; i++){
-    html += ReturnColorPickerHTMLRaw(colors[i],i)
-    console.log(html)
-  }
-  picker_container.innerHTML = html;
 
+  for(var i = 0; i < colors.length; i++){
+    html += createColorPickerElement(colors[i],i)
+  }
+
+  picker_container.innerHTML = html;
 
 }
 
@@ -80,12 +101,12 @@ picker_submit.addEventListener("click",async (e)=>{
   var container = document.querySelector(".custom_rgb_detail_container");
   var colors = CreateArrayData(picker_form);
 
-  // RenderHexPallete(container,colors);
-
   TogglePickerModal(false);
 
   localStorage.setItem("pure_config", JSON.stringify(colors));
-  console.log(colors);
+
+  RenderColorPallete(container,colors);
+
 
 });
 

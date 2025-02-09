@@ -237,11 +237,11 @@ async function findUserCategoryPalletes(user_id,category,cb){
 }
 
 async function addUser(config,cb){
-
+  console.log(config);
   const new_user = await User.create(config);
 
   if(new_user){
-    cb(true);
+    cb(new_user);
   }
   else{
     cb(false);

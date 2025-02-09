@@ -10,10 +10,12 @@ async function SubmitNewAccount(e){
 
   var {msg,feedback} =  await SubmitAccount(create_account_form,"/create_account","/create_account")
 
-  if(!feedback){
+  if(!feedback ){
+    if(ActivateRings){
     ActivateRings("ring--wrong")
   }
-  
+  }
+
   CreatePopup(msg,"normal");
 
 }
@@ -25,7 +27,9 @@ async function SubmitLogin(e){
   var {msg,feedback} =  await SubmitAccount(login_form,"/login","/login")
 
   if(!feedback){
-    ActivateRings("ring--wrong")
+    if(ActivateRings){
+      ActivateRings("ring--wrong")
+    }
     CreatePopup(msg,"normal");
   }
 
@@ -74,12 +78,12 @@ async function SubmitAccount(form,url,redirect){
 
   }
   else if(data.feedback){
-
+    if(GrantAccessRings){
     GrantAccessRings(async (response)=>{
       await Delay(1000);
       window.location.assign("/dashboard");
     });
-
+  }
   }
   else{
     var errors = ["username / password incorrect","username / password incorrect"]

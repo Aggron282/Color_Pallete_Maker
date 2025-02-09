@@ -15,8 +15,12 @@
 .color-grid{
   display: grid;
 }
-.extraction-grid .color-answer{
-  font-size:12px !important;
+.extraction-grid{
+  margin-left: 10%;
+    padding: 30px;
+}
+ .color-answer{
+  font-size:13px !important;
 }
 .pallete-box--converter .title{
   color:white;

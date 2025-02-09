@@ -8,6 +8,41 @@ body {
 .text-container--deal{
   font-size:22px;
 }
+.content_container{
+  background: none;
+  position: relative;
+}
+.delete--color:hover{
+  background:lightblue;
+  color:black;
+}
+.c-box{
+  width:50px;
+  height:50px;
+  grid-column:50px;
+}
+.content_container{
+  display: grid;
+  width:100%;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 100px));
+}
+.delete--color{
+  color:white;
+  transition: all .4s;
+  background:black;
+  position: absolute;
+  left:0%;
+  box-shadow:0px 0px 10px rgba(0,0,0,.5);
+  font-size: 13px;
+  text-align: center;
+  width:20px;
+  /* padding:5px; */
+  height:20px;
+  border-radius: 50%;
+  /* padding-left:10px; */
+  /* padding-right:10px; */
+  top:-20px;
+}
 /* Detail Container */
 .detail_container {
   margin-top: 5%;
@@ -251,7 +286,7 @@ body {
 
 .input_container{
   width:100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .color_picker_container input{
