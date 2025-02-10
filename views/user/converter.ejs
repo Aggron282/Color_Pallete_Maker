@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+
+    <link href = "/css/user/util.css" rel="stylesheet">
+
+    <link href = "/css/user/navbar.css" rel="stylesheet">
+    <link href = "/css/user/dashboard.css" rel="stylesheet">
+    <link href = "/css/footer.css" rel="stylesheet">
+    <link href = "/css/user/detail.css" rel="stylesheet">
+    <!-- <link href = "/css/user/profile.css" rel="stylesheet"> -->
+    <link href = "/css/converter.css" rel="stylesheet">
+    <link href = "/css/user/converter.css" rel="stylesheet" >
+  </head>
+
+  <body>
+
+    <main class="dashboard_container">
+
+      <%- include ("./layouts/popup.ejs") %>
+
+
+      <%- include("./layouts/navbar.ejs") %>
+      <%- include("./layouts/color_picker.ejs") %>
+      <%- include("./../index/layouts/filter_converter.ejs") %>
+
+    </main>
+
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script src = "/js/utils.js"></script>
+    <script src = "/js/color_util.js"></script>
+    <script src = "/js/color_pallete.js"></script>
+    <script src="/js/convert_colors.js"></script>
+    <script src="/js/user/converter_page.js"></script>
+  </body>
+
+</html>

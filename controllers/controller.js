@@ -78,8 +78,13 @@ const GetParticleMakerPage = (req,res) => {
   res.render(path.join(rootDir,"views","user","particle.ejs"),{user:req.user,path:"/particle_maker",pallete:null});
 }
 
+const GetConverterPage = (req,res) => {
+  res.render(path.join(rootDir,"views","user","converter.ejs"),{user:req.user,path:"/converter",pallete:null});
+}
 
 
+
+module.exports.GetConverterPage = GetConverterPage;
 module.exports.GetParticleMakerPage = GetParticleMakerPage;
 module.exports.GetPalleteDetailPage = GetPalleteDetailPage;
 module.exports.GetAllInCategoryPage = GetAllInCategoryPage;

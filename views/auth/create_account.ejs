@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+
     <meta charset="utf-8">
 
     <title></title>
@@ -15,77 +16,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&family=Geist+Mono:wght@100..900&family=Oswald:wght@200..700&family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
     <link href = "/css/user/util.css" rel="stylesheet">
 
-    <link href = "/css/auth.css" rel="stylesheet">
+    <link href = "/css/user/create_account.css" rel="stylesheet">
 
   </head>
 
-  <body>
+ <body>
+   <div class="glow-container">
 
-    <div class="auth_container auth_container--create">
-      <%- include ("./../user/layouts/popup.ejs") %>
+   </div>
+  <div class="container create_account_container">
+      <div class="progress-bar">
+          <div id="progress"></div>
+      </div>
 
-      <div class="graphic"></div>
+      <form id="accountForm">
+          <div class="form-step active">
+              <h2>Step 1: Basic Info</h2>
+              <input type="text" id="firstName" placeholder="First Name" required>
+              <input type="text" id="lastName" placeholder="Last Name" required>
+              <button type="button" onclick="nextStep()">Next</button>
+          </div>
 
-      <div class="create_account_container">
-        <p class="title">
-            Create Account
-        </p>
+          <div class="form-step">
+              <h2>Step 2: Login Details</h2>
+              <input type="text" id="username" placeholder="Username" required>
+              <input type="password" id="password" placeholder="Password" required>
+              <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+              <button type="button" onclick="nextStep()">Next</button>
+              <button type="button" class="back_btn" onclick="prevStep(1)">Back</button>
 
-        <form action = "/create_account" method = "POST" class="auth_form auth_form--create">
+          </div>
 
-            <div class="input_group--auth">
-              <label> Full Name </label>
-              <div id = "name_error" class="error_container"></div>
-              <input class="auth_input" name="name" placeholder="Enter username" >
-            </div>
+          <div class="form-step">
+              <h2>Step 3: Upload Profile Picture</h2>
+              <input type="file" id="profilePic" class="profile_img_input" accept="image/*">
+              <div class="image-preview profile_img_display_container" id="imagePreview">
+                  <img id="profileImage" src="">
+              </div>
+              <button type="button" onclick="nextStep()">Next</button>
+              <button type="button" class="back_btn"onclick="prevStep(2)">Back</button>
 
-            <div class="input_group--auth">
-              <label> Username </label>
-              <div id = "username_error"class="error_container"></div>
-              <input class="auth_input" name="username" placeholder="Enter username" >
-           </div>
+          </div>
 
-            <div class="input_group--auth">
-              <label> Password </label>
-              <div id = "password_error"class="error_container"></div>
-              <input class="auth_input" type="password" name="password" placeholder="Enter password" >
-            </div>
-
-            <div class="input_group--auth">
-              <label> Profile Img </label>
-              <input class="auth_input profile_img_input"  type="file" name="image" accept="image/*" >
-            </div>
-
-            <div class="profile_img_display_container">
-              No Image Selected Yet..
-            </div>
-            <button class="auth_button auth_button--create" > Submit </button>
-
-        </form>
-
-        <p class="no_account">
-          Have an account?
-          <a href ="/login"> Click Here! </a>
-        </p>
-
-        <p class="no_account">
-            <a href ="/"> Go to Home Page </a>
-        </p>
-
-    </div>
-
+          <div class="form-step">
+              <h2>Step 4: Review & Submit</h2>
+              <p id="reviewData"></p>
+              <button type="submit">Create Account</button>
+              <button type="button" class="back_btn"onclick="prevStep(3)">Back</button>
+          </div>
+      </form>
   </div>
 
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/img_upload.js"></script>
+  <script src = "/js/auth/login.js"></script>
+  <script src = "/js/canvas/ball_effect.js"></script>
 
-    <script src = "/js/auth/global_var.js"></script>
-    <script src="/js/utils.js"></script>
-    <script src="/js/img_upload.js"></script>
-    <script src = "/js/auth/upload_profile_image.js"></script>
-    <script src = "/js/auth/login.js"></script>
+  <script src = "/js/auth/create_account.js"></script>
+  <script src = "/js/auth/auth.js"></script>
 
-    <script src = "/js/auth/auth.js"></script>
-
-  </body>
+ </body>
 
 </html>

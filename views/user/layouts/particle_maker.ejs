@@ -1,47 +1,87 @@
 <div class="particle-builder-wrapper">
     <!-- Left Side: Control Panel -->
     <div class="particle-control-panel">
-      <section class="particle-menu-box">
-          <h2>Libraries</h2>
-          <label><input type="checkbox" id="fireworksToggle"> Fireworks</label>
-          <label><input type="checkbox" id="particleJSToggle"> Particle.js</label>
-          <label><input type="checkbox" id="customEngineToggle"> Custom Engine</label>
-      </section>
+
+
         <section class="particle-menu-box">
             <h2>Particle Settings</h2>
-            <label>Size: <input type="range" id="size" min="5" max="100" value="20"></label>
-            <label>Speed: <input type="range" id="speed" min="1" max="10" value="5"></label>
-            <label>Color: <input type="color" id="color"></label>
+            <label>Spawn Over Time: <input type="checkbox" id="spawnOverTime"> </label>
+            <label>Amount: <input type="range" id="amount" min="10" max="300" value="100" oninput="updateSliderValue('amountValue', this.value)"> <span id="amountValue">100</span></label>
+            <label>Size: <input type="range" id="size" min="5" max="50" value="15" oninput="updateSliderValue('sizeValue', this.value)"> <span id="sizeValue">15</span></label>
+            <label>Speed: <input type="range" id="speed" min="0" max="30" step="0.1" value="2" oninput="updateSliderValue('speedValue', this.value)"> <span id="speedValue">2</span></label>
+            <label>Velocity X: <input type="range" id="velocityX" min="-2" max="2" step="0.1" value="0" oninput="updateSliderValue('velocityXValue', this.value)"> <span id="velocityXValue">0</span></label>
+            <label>Velocity Y: <input type="range" id="velocityY" min="-2" max="2" step="0.1" value="0" oninput="updateSliderValue('velocityYValue', this.value)"> <span id="velocityYValue">0</span></label>
+            <label>Color: <input type="color" value="#e6e6e6" id="color"></label>
             <label>Randomize: <input type="checkbox" id="randomize"></label>
         </section>
 
         <section class="particle-menu-box">
-            <h2>Presets</h2>
-            <div class="particle-preset-icons">
-                <div class="particle-preset" data-type="fire"><img src="/imgs/presets/1.png" alt="Fire"></div>
-                <div class="particle-preset" data-type="glow"><img src="/imgs/presets/3.png" alt="Glow"></div>
-                <div class="particle-preset" data-type="snow"><img src="/imgs/presets/4.png" alt="Snow"></div>
-                <div class="particle-preset" data-type="fire"><img src="/imgs/presets/5.png" alt="Fire"></div>
-                <div class="particle-preset" data-type="smoke"><img src="/imgs/presets/6.png" alt="Smoke"></div>
-                <div class="particle-preset" data-type="glow"><img src="/imgs/presets/7.png" alt="Glow"></div>
-                <div class="particle-preset" data-type="snow"><img src="/imgs/presets/8.png" alt="Snow"></div>
+            <h2>Particle Growth</h2>
+            <label>Size Growth Rate: <input type="range" id="sizeGrowth" min="0" max="0.5" step="0.01" value="0.05" oninput="updateSliderValue('sizeGrowthValue', this.value)"> <span id="sizeGrowthValue">0.05</span></label>
+            <label>Speed Growth Rate: <input type="range" id="speedGrowth" min="0" max="0.2" step="0.01" value="0.02" oninput="updateSliderValue('speedGrowthValue', this.value)"> <span id="speedGrowthValue">0.02</span></label>
+        </section>
+
+        <section class="particle-menu-box">
+            <h2>Shape</h2>
+            <label><input type="radio" name="shape" id="square"> Square</label>
+            <label><input type="radio" name="shape" id="circle"> Circle</label>
+            <label><input type="radio" name="shape" id="glow"> Glow</label>
+            <div style="display:grid; grid-template-columns:repeat(2,1fr)">
+                <div>
+                    <label>Custom Image: </label><input type="file" id="customImage">
+                </div>
+                <div class="img_display_container">
+                    <img class="img_display" style="width:50px;height:50px" src=""/>
+                </div>
             </div>
         </section>
 
-
-
         <section class="particle-menu-box">
             <h2>Particle Behavior</h2>
-            <label><input type="checkbox" id="gravity"> Gravity</label>
-            <label><input type="checkbox" id="bounce"> Bounce</label>
-            <label><input type="checkbox" id="swirl"> Swirl</label>
-        </section>
-        <button class="particle-action-btn" id="createParticle">Create Particle</button>
+            <label><input type="radio" name="behavior" id="gravity"> Gravity</label>
+            <label><input type="radio" name="behavior" id="bounce"> Bounce</label>
+            <label><input type="radio" name="behavior" id="swirl"> Swirl</label>
+            <label><input type="radio" name="behavior" id="repulsion"> Repulsion</label>
+            <label><input type="radio" name="behavior" id="attraction"> Attraction</label>
+            <label><input type="radio" name="behavior" id="orbit"> Orbit</label>
+            <label><input type="radio" name="behavior" id="anti-gravity"> Anti-Gravity</label>
+      </section>
+      <section class="particle-menu-box" style="grid-template-columns:repeat(2,1fr);display:grid;opacity:.2;pointer-events:none">
+          <div>
+              <h2>Libraries</h2>
+              <label><input type="radio" name="library" id="fireworksToggle"> Fireworks</label>
+              <label><input type="radio" name="library" id="particleJSToggle"> Particle.js</label>
+              <label><input type="radio" name="library" id="tsparticles"> TSparticle</label>
+              <label><input type="radio" name="library" id="none"> None</label>
+          </div>
+          <section class="particle-menu-box particle-menu-box--display"></section>
+      </section>
 
+        <button class="particle-action-btn" id="createParticle">Create Particle</button>
     </div>
 
-    <!-- Right Side: Particle Display -->
+    <!-- Right Side: Particle Display with Cursor -->
     <div class="particle-display-area">
+      <button  class="copy_paste_button" id = "download_code" > <img src = "/imgs/copy_paste.png"/> </button>
+      <div id="fireworks-container" style="position:absolute; width:100%; height:100%;"></div>
         <canvas id="particle-render-canvas"></canvas>
+        <div class="square-container" id="draggable-square">
+            <!-- Resize Handles -->
+            <div class="resize-handle top-left"></div>
+            <div class="resize-handle top-right"></div>
+            <div class="resize-handle bottom-left"></div>
+            <div class="resize-handle bottom-right"></div>
+            <div class="resize-handle top"></div>
+            <div class="resize-handle bottom"></div>
+            <div class="resize-handle left"></div>
+            <div class="resize-handle right"></div>
+        </div>
     </div>
 </div>
+
+<script>
+    // Function to update displayed values of sliders
+    function updateSliderValue(id, value) {
+        document.getElementById(id).innerText = value;
+    }
+</script>

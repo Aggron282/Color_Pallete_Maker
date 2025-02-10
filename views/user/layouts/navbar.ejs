@@ -10,11 +10,13 @@
       </form>
     </div>
 
+    <% isActive = path == "/particle_maker" ? "icon icon--active" : "icon" %>
+    <% isUActive = path == "/particle_maker" ? "underline underline--active" : "underline" %>
     <div class="choice_user_nav_container_group">
           <a href = "/particle_maker">
         <div class="choice_user_container">
-          <img class="icon" src = "/imgs/rainbow.png"/>
-          <div class="underline underline"></div>
+          <img class='<%= isActive %>' src = "/imgs/rainbow.png"/>
+          <div class="<%= isUActive%>"></div>
         </div>
         </a>
 
@@ -36,6 +38,16 @@
             <div class="<%= isUActive %>" ></div>
           </div>
         </a>
+        <% isActive = path == "/converter" ? "icon icon--active" : "icon" %>
+        <% isUActive = path == "/converter" ? "underline underline--active" : "underline" %>
+
+        <a href = "/converter">
+          <div class="choice_user_container choice_user_container--add ">
+            <img class="<%= isActive %>"  src = "/imgs/converter.png"/>
+            <div class="<%= isUActive %>" ></div>
+          </div>
+        </a>
+       
 
      </div>
 

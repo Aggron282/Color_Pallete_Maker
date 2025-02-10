@@ -103,15 +103,15 @@ body{
 }
 
 .choice_user_nav_container_group{
-  width:10%;
+  width:20%;
   float:left;
   margin-top:10px;
-  margin-left:5%;
-
+  margin-left:2.5%;
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
 }
 
-.choice_user_container{
-  float:right;
+.choice_user_nav_container_group a{
   width:30px;
   height:30px;
   margin-left:10px;
@@ -206,7 +206,7 @@ body{
 }
 
 .search_nav_container{
-  width:40%;
+  width:30%;
   float:left;
   margin-top:15px;
 }

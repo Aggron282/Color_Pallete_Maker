@@ -1,6 +1,6 @@
 .converter_container{
   padding:20px;
-  background:linear-gradient(to right,rgba(39, 41, 76, .5), rgba(30, 32, 64, .5)), url("./../imgs/bricks.png") !important;
+  background:linear-gradient(to right,rgba(39, 41, 76, .5), rgba(30, 32, 64, .5)), url("./../imgs/bricks.png");
   color:white;
   padding-bottom:15%;
   font-family: "Oswald";

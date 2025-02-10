@@ -36,57 +36,8 @@
       <%- include("./layouts/navbar.ejs") %>
       <%- include("./layouts/color_picker.ejs") %>
 
-      <!-- <%- include("./layouts/particle_maker.ejs") %> -->
-      <div class="particle-builder-wrapper">
-          <!-- Left Side: Control Panel -->
-          <div class="particle-control-panel">
-            <section class="particle-menu-box">
-                <h2>Libraries</h2>
-                <label><input type="checkbox" id="fireworksToggle"> Three</label>
-                <label><input type="checkbox" id="particleJSToggle"> Particle.js</label>
-                <label><input type="checkbox" id="customEngineToggle"> Tsparticles </label>
-                <label><input type="checkbox" id="customEngineToggle"> Fireworks </label>
+      <%- include("./layouts/particle_maker.ejs") %>
 
-                  <label><input type="checkbox" id="customEngineToggle"> Pixi </label>
-            </section>
-              <section class="particle-menu-box">
-                  <h2>Particle Settings</h2>
-                  <label>Size: <input type="range" id="size" min="5" max="100" value="20"></label>
-                  <label>Speed: <input type="range" id="speed" min="1" max="10" value="5"></label>
-                  <label>Color: <input type="color" id="color"></label>
-                  <label>Randomize: <input type="checkbox" id="randomize"></label>
-              </section>
-
-              <section class="particle-menu-box">
-                  <h2>Presets</h2>
-                  <div class="particle-preset-icons">
-                      <div class="particle-preset" data-type="fire"><img src="/imgs/presets/1.png" alt="Fire"></div>
-                      <div class="particle-preset" data-type="glow"><img src="/imgs/presets/3.png" alt="Glow"></div>
-                      <div class="particle-preset" data-type="snow"><img src="/imgs/presets/4.png" alt="Snow"></div>
-                      <div class="particle-preset" data-type="fire"><img src="/imgs/presets/5.png" alt="Fire"></div>
-                      <div class="particle-preset" data-type="smoke"><img src="/imgs/presets/6.png" alt="Smoke"></div>
-                      <div class="particle-preset" data-type="glow"><img src="/imgs/presets/7.png" alt="Glow"></div>
-                      <div class="particle-preset" data-type="snow"><img src="/imgs/presets/8.png" alt="Snow"></div>
-                  </div>
-              </section>
-
-
-
-              <section class="particle-menu-box">
-                  <h2>Particle Behavior</h2>
-                  <label><input type="checkbox" id="gravity"> Gravity</label>
-                  <label><input type="checkbox" id="bounce"> Bounce</label>
-                  <label><input type="checkbox" id="swirl"> Swirl</label>
-              </section>
-              <button class="particle-action-btn" id="createParticle">Create Particle</button>
-
-          </div>
-
-          <!-- Right Side: Particle Display -->
-          <div class="particle-display-area">
-              <canvas id="particle-render-canvas"></canvas>
-          </div>
-      </div>
 
 
     </main>
@@ -100,7 +51,7 @@
 
         <!-- Three.js -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+     <!-- Fireworks.js -->
         <!-- Pixi.js -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.1.3/pixi.min.js"></script>
 
@@ -108,6 +59,8 @@
         <script src="https://cdn.jsdelivr.net/npm/fireworks-js@latest/dist/index.umd.js"></script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/fireworks-js/dist/index.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
     <script src="/js/utils.js"></script>
     <script src = "/js/color_util.js"></script>
@@ -116,9 +69,10 @@
     <!-- <script src="/js/img_upload.js"></script> -->
     <script src = '/js/auth/delete_account.js'></script>
     <script src = "/js/user/delete_pallets.js"></script>
-    <!-- <script src = "/js/user/render_palletes.js"></script> -->
-    <!-- <script src = "/js/color_pallete.js"></script> -->
-    <!-- <script src = "/js/user/edit_pallete.js"></script> -->
+    <script src = "/js/user/particle_library_toggle.js"></script>
+    <script src = "/js/user/draggable_square.js"></script>
+    <script src = "/js/user/particle_system.js"></script>
+
     <!-- <script src = "/js/user/color_picker.js"></script> -->
     <!-- <script>
       // const img_upload_form = document.querySelector(".img_upload_form");

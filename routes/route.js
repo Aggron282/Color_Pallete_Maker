@@ -5,7 +5,7 @@ var isAuth = require("./../middleware/isAuth.js");
 
 router.get("/", controller.GetMainPage); // Main page
 router.get("/particle_maker", controller.GetParticleMakerPage); // Profile page
-
+router.get("/converter", controller.GetConverterPage); // Convrter page
 router.get("/dashboard", controller.GetDashboardPage); // Dashboard page
 router.get("/profile", controller.GetProfilePage); // Profile page
 router.get("/add", controller.GetAddPage); // Add new palette page

@@ -12,6 +12,48 @@ body {
     color: white;
 }
 
+.copy_paste_button {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  border-radius: 8px;
+  z-index: 9999;
+  background: rgba(25, 24, 24, 0.9);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border:none;
+  box-shadow: 0 4px 10px none;
+  transition: all 0.3s ease;
+  opacity: .5;
+  pointer-events: none;
+}
+
+.copy_paste_button--active{
+  pointer-events: all;
+  opacity:1;
+  background:white;
+  box-shadow: 0 0px 10px limegreen;
+}
+
+.copy_paste_button:hover {
+  background: rgba(45, 45, 45, 0.95);
+  transform: scale(1.05);
+}
+
+.copy_paste_button img {
+  filter: brightness(40) !important;
+  width: 32px;
+  height: 32px;
+  transition: filter 0.3s ease;
+}
+
+.copy_paste_button:hover img {
+  filter: brightness(100%);
+}
+
+
 /* Split Page into Two Sections */
 .particle-builder-wrapper {
     display: grid;
@@ -82,19 +124,58 @@ label {
     transition: 0.3s;    filter: brightness(0);
 
 }
+#particle-cursor {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    /* transform: translate(-50%, -50%); */
+    cursor: grab;
+}
 
 .particle-preset img:hover {
     transform: scale(1.1);
 }
 
+.pulse-ball {
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ff7700 30%, #ffaa00 70%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(.5);
+                box-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+            }
+            20% {
+                transform: scale(.7);
+                box-shadow: 0 0 40px rgba(255, 165, 0, 1);
+            }
+            100% {
+                transform: scale(.5);
+                box-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+            }
+        }
+
 /* RIGHT SIDE: Canvas */
 .particle-display-area {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     background: black;
     height: 100vh;
 }
+
 
 #particle-render-canvas {
     width: 95%;
@@ -102,3 +183,32 @@ label {
     background: black;
     border-radius: 10px;
 }
+
+.square-container {
+    position: absolute;
+    width: 50px;
+    height: 5px;
+    background: linear-gradient(135deg, #ff7700, #ffaa00);
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+    cursor: grab;
+    border-radius: 10px;
+}
+
+/* Resize Handles */
+.resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.top-left { top: -5px; left: -5px; cursor: nwse-resize; }
+.top-right { top: -5px; right: -5px; cursor: nesw-resize; }
+.bottom-left { bottom: -5px; left: -5px; cursor: nesw-resize; }
+.bottom-right { bottom: -5px; right: -5px; cursor: nwse-resize; }
+.top { top: -5px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.bottom { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.left { left: -5px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+.right { right: -5px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
