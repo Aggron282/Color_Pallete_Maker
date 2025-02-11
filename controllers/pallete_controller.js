@@ -4,6 +4,8 @@ var color_util = require("./../util/colors.js");
 const formidable = require('formidable');
 const bcrypt = require("bcrypt")
 const my_sequelize_util = require("./../util/my_sequelize.js");
+const ai_util = require("./../util/ai.js");
+
 const category_util = require("./../util/category_maker.js");
 const {validationResult} = require("express-validator");
 
@@ -225,7 +227,90 @@ const DeletePallete =  (req,res)=> {
 
 }
 
+const PalleteAIRecommendations = async (req, res) => {
+    console.log("Request Body:", req.body);
 
+    try {
+        const { pallete_id } = req.body;
+
+        // Fetch the palette from the database
+        my_sequelize_util.findOnePallete(req.user.user_id, pallete_id, async (palette) => {
+            if (!palette) {
+                return res.status(404).json({ error: "Palette not found" });
+            }
+
+            console.log("Fetched Palette:", palette);
+
+            // AI Prompt for HTML-based real-world application
+            const stylePrompt = `
+                Given the following color palette: ${palette}
+                Suggest real-world applications for this palette, such as:
+                - Interior design (living room, restaurant, office, etc.)
+                - Business branding (corporate, luxury, casual, tech, etc.)
+                - Web design themes (minimalist, vibrant, dark mode, etc.)
+                - Fashion recommendations
+                - Other practical real-world uses
+
+                Provide the response strictly in the form of **HTML with inline styles**.
+                Do not include <head> or <style> tags.
+                Each suggestion should be enclosed in an element such as <div>, <h2>, <p>, etc., with **a brief explanation** of the application.
+                - Make the html minimalist and look professional
+                - DO NOT MAKE IT COLORFUL
+                - Provide a score 1/10 of how good each color will be for each applications
+                - Give a lot of detail and be honest if there not much info or its redundant then admit you do not have a recommendation or its not good etc
+                - MAKE IT LOOK LIKE HOW YOU TEXT ON THE CHATGPT STYLE
+                - Do not make it colorful make the text well structured and professional
+                Example output format:
+                <div style="background: none; color: white; padding: 15px; border-bottom:1px solid white">
+                    <h2 style="color:white;">Modern Office Theme</h2>
+                    <p style="color:white"> A detailed description of what can this pallete by used for and or if this pallete is a good choice or not</p>
+                </div>
+
+                Strictly return only the HTML elements.
+            `;
+
+            // AI Prompt for recommended additional colors
+            const palettePrompt = `
+                Based on the color palette: ${palette},
+                suggest exactly 10 additional colors that complement this palette.
+                The response should be **strictly an array of hex color codes**, formatted like this:
+                ["#RRGGBB", "#RRGGBB", ...]
+                Do not include any extra words, explanations, or formatting.
+            `;
+
+            try {
+
+                const recommendations = await ai_util.AIMessage(stylePrompt);
+                const recommendations_colors_raw = await ai_util.AIMessage(palettePrompt);
+
+                let recommendations_colors;
+
+                // try {
+                //     recommendations_colors = JSON.parse(recommendations_colors_raw);
+                //     if (!Array.isArray(recommendations_colors)) {
+                //         throw new Error("AI did not return a valid array of colors");
+                //     }
+                // } catch (jsonError) {
+                //     console.error("AI returned invalid JSON for colors:", jsonError);
+                //     recommendations_colors = [];
+                // }
+                console.log( recommendations, recommendations_colors_raw)
+                res.send({ recommendations:recommendations, recommendations_colors:recommendations_colors_raw });
+
+            } catch (aiError) {
+                console.error("AI Processing Error:", aiError);
+                res.status(500).json({ error: "AI processing failed" });
+            }
+
+        });
+
+    } catch (error) {
+        console.error("Unexpected Error:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+module.exports.PalleteAIRecommendations = PalleteAIRecommendations;
 module.exports.EditPallete = EditPallete;
 module.exports.DeletePallete = DeletePallete;
 module.exports.AddPallete = AddPallete;

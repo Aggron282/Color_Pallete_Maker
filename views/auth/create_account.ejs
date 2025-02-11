@@ -32,16 +32,15 @@
       <form id="accountForm">
           <div class="form-step active">
               <h2>Step 1: Basic Info</h2>
-              <input type="text" id="firstName" placeholder="First Name" required>
-              <input type="text" id="lastName" placeholder="Last Name" required>
+              <input type="text" id="name" name="name" placeholder="Full Name" >
               <button type="button" onclick="nextStep()">Next</button>
           </div>
 
           <div class="form-step">
               <h2>Step 2: Login Details</h2>
-              <input type="text" id="username" placeholder="Username" required>
-              <input type="password" id="password" placeholder="Password" required>
-              <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+              <input type="text" id="username" name="username" placeholder="Username" >
+              <input type="password" name ="password" id="password" placeholder="Password" >
+              <input type="password" name="confirm_password" id="confirmPassword" placeholder="Confirm Password" >
               <button type="button" onclick="nextStep()">Next</button>
               <button type="button" class="back_btn" onclick="prevStep(1)">Back</button>
 
@@ -49,7 +48,7 @@
 
           <div class="form-step">
               <h2>Step 3: Upload Profile Picture</h2>
-              <input type="file" id="profilePic" class="profile_img_input" accept="image/*">
+              <input name = "profileImg" type="file" id="profilePic" class="profile_img_input" accept="image/*">
               <div class="image-preview profile_img_display_container" id="imagePreview">
                   <img id="profileImage" src="">
               </div>
@@ -61,7 +60,7 @@
           <div class="form-step">
               <h2>Step 4: Review & Submit</h2>
               <p id="reviewData"></p>
-              <button type="submit">Create Account</button>
+              <button type="submit" id = "submitButton">Create Account</button>
               <button type="button" class="back_btn"onclick="prevStep(3)">Back</button>
           </div>
       </form>

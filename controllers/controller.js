@@ -1,96 +1,111 @@
-var path = require("path");
-var rootDir = path.dirname(require.main.filename);
-var color_util = require("./../util/colors.js");
+const path = require("path");
+const rootDir = path.dirname(require.main.filename);
+const color_util = require("./../util/colors.js");
 const formidable = require('formidable');
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const my_sequelize_util = require("./../util/my_sequelize.js");
 const category_util = require("./../util/category_maker.js");
-const {validationResult} = require("express-validator");
+const { validationResult } = require("express-validator");
 
-
-const GetPalleteDetailPage = (req,res)=>{
-
-  var pallete_id = req.params.pallete;
-
-  my_sequelize_util.findOnePallete(req.user.user_id,pallete_id,async(pallete)=>{
-
-    var pallete_ = await color_util.ConfigurePallete(pallete);
-
-    if(pallete_){
-      res.render(path.join(rootDir,"views","user","detail.ejs"),{pallete:pallete_,path:'/detail',user:req.user,pallete_id:pallete.pallete_id});
+// Utility function to render views safely
+const renderPage = (res, viewPath, data = {}) => {
+    try {
+        res.render(path.join(rootDir, "views", ...viewPath.split("/")), data);
+    } catch (error) {
+        console.error(`Error rendering ${viewPath}:`, error);
+        res.status(500).send("Server error.");
     }
+};
 
- });
+// 🎨 Get Palette Detail Page
+const GetPalleteDetailPage = async (req, res) => {
+    try {
+        const pallete_id = req.params.pallete;
+        my_sequelize_util.findOnePallete(req.user.user_id, pallete_id, async (pallete) => {
+            if (!pallete) return res.status(404).send("Palette not found.");
 
-}
+            const configuredPallete = await color_util.ConfigurePallete(pallete);
+            renderPage(res, "user/detail.ejs", {
+                pallete: configuredPallete,
+                path: '/detail',
+                user: req.user,
+                pallete_id: pallete.pallete_id
+            });
+        });
+    } catch (error) {
+        console.error("Error fetching palette details:", error);
+        res.status(500).send("Error loading page.");
+    }
+};
 
+// 🏠 Main Page
+const GetMainPage = (req, res) => renderPage(res, "index.ejs");
 
-const GetMainPage = (req,res) => {
-  res.render(path.join(rootDir,"views","index.ejs"));
-}
+// 📂 Category Page
+const GetAllInCategoryPage = async (req, res) => {
+    try {
+        const category = req.params.category;
+        my_sequelize_util.findUsercategoryPalletes(req.user.user_id, category, async (colors) => {
+            const all_palletes_in_category = await color_util.ConfigurePalletes(colors);
+            renderPage(res, "user/all_in_category.ejs", {
+                category,
+                user: req.user,
+                path: req.url,
+                all_palletes_in_category
+            });
+        });
+    } catch (error) {
+        console.error("Error fetching category palettes:", error);
+        res.status(500).send("Error loading category page.");
+    }
+};
 
-const GetAllInCategoryPage = (req,res) => {
+// 👤 Profile Page
+const GetProfilePage = (req, res) => renderPage(res, "user/profile.ejs", { user: req.user, path: "/profile" });
 
-  var category = req.params.category;
+// 🔑 Login Page
+const GetLoginPage = (req, res) => renderPage(res, "auth/login.ejs");
 
-  my_sequelize_util.findUsercategoryPalletes(req.user.user_id,category,async (colors)=>{
+// 🆕 Create Account Page
+const GetCreateAccountPage = (req, res) => renderPage(res, "auth/create_account.ejs");
 
-    var all_palletes_in_category = await color_util.ConfigurePalletes(colors);
+// 📊 Dashboard Page
+const GetDashboardPage = async (req, res) => {
+    try {
+        my_sequelize_util.findUserPalletes(req.user.user_id, async (colors) => {
+            const palletes = await color_util.ConfigurePalletes(colors);
+            const organized_palletes = category_util.CreatePalleteCategories(palletes);
+            renderPage(res, "user/dashboard.ejs", { user: req.user, path: "/dashboard", organized_palletes });
+        });
+    } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        res.status(500).send("Error loading dashboard.");
+    }
+};
 
-    res.render(path.join(rootDir,"views","user","all_in_category.ejs"),{category:category,user:req.user,path:req.url,all_palletes_in_category:all_palletes_in_category});
+// ➕ Add Palette Page
+const GetAddPage = (req, res) => renderPage(res, "user/add.ejs", { user: req.user, path: "/add", pallete: null });
 
-  });
+// 🎇 Particle Maker Page
+const GetParticleMakerPage = (req, res) => renderPage(res, "user/particle.ejs", { user: req.user, path: "/particle_maker", pallete: null });
 
-}
+// 🎨 Color Converter Page
+const GetConverterPage = (req, res) => renderPage(res, "user/converter.ejs", { user: req.user, path: "/converter", pallete: null });
 
+// 🤖 AI Page
+const GetAIPage = (req, res) => renderPage(res, "user/ai.ejs", { user: req.user, path: "/ai", pallete: null });
 
-const GetProfilePage = (req,res) => {
-  res.render(path.join(rootDir,"views","user","profile.ejs"),{user:req.user,path:"/profile"});
-}
-
-const GetLoginPage = (req,res) => {
-  res.render(path.join(rootDir,"views","auth","login.ejs"));
-}
-
-const GetCreateAccountPage = (req,res) => {
-  res.render(path.join(rootDir,"views","auth","create_account.ejs"));
-}
-
-const GetDashboardPage = (req,res) => {
-  console.log(req.user)
-  my_sequelize_util.findUserPalletes(req.user.user_id,async (colors)=>{
-
-    var palletes = await color_util.ConfigurePalletes(colors);
-    var organized_palletes = category_util.CreatePalleteCategories(palletes);
-
-    res.render(path.join(rootDir,"views","user","dashboard.ejs"),{user:req.user,path:"/dashboard",organized_palletes:organized_palletes});
-
-  });
-
-}
-
-const GetAddPage = (req,res) => {
-  res.render(path.join(rootDir,"views","user","add.ejs"),{user:req.user,path:"/add",pallete:null});
-}
-
-
-const GetParticleMakerPage = (req,res) => {
-  res.render(path.join(rootDir,"views","user","particle.ejs"),{user:req.user,path:"/particle_maker",pallete:null});
-}
-
-const GetConverterPage = (req,res) => {
-  res.render(path.join(rootDir,"views","user","converter.ejs"),{user:req.user,path:"/converter",pallete:null});
-}
-
-
-
-module.exports.GetConverterPage = GetConverterPage;
-module.exports.GetParticleMakerPage = GetParticleMakerPage;
-module.exports.GetPalleteDetailPage = GetPalleteDetailPage;
-module.exports.GetAllInCategoryPage = GetAllInCategoryPage;
-module.exports.GetCreateAccountPage = GetCreateAccountPage;
-module.exports.GetAddPage = GetAddPage;
-module.exports.GetDashboardPage = GetDashboardPage;
-module.exports.GetMainPage = GetMainPage;
-module.exports.GetLoginPage = GetLoginPage;
-module.exports.GetProfilePage = GetProfilePage;
+// 🔄 Export Functions
+module.exports = {
+    GetAIPage,
+    GetConverterPage,
+    GetParticleMakerPage,
+    GetPalleteDetailPage,
+    GetAllInCategoryPage,
+    GetCreateAccountPage,
+    GetAddPage,
+    GetDashboardPage,
+    GetMainPage,
+    GetLoginPage,
+    GetProfilePage
+};

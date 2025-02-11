@@ -48,6 +48,8 @@ function ReturnPalleteBoxHTML(pallete,x){
           <span class="pallete_choice pallete_choice--pure" data-display = "0" pallete_id = "${pallete.pallete_id}">See Custom Colors</span>
           <span class="pallete_choice"><a href ="/detail/${pallete.pallete_id}">See Details</a></span>
           <span class="pallete_choice pallete_choice--complementary" pallete_id = "${pallete.pallete_id}">Complementary Colors</span>
+          <span class="pallete_choice pallete_choice--ai" pallete_id = "${pallete.pallete_id}">
+          <a href ="/ai/${pallete.pallete_id}">AI Recommendations</a></span>
           <span class="pallete_choice pallete_choice--delete" pallete_id = "${pallete.pallete_id}">Delete</span>
 
         </div>
@@ -59,7 +61,7 @@ function ReturnPalleteBoxHTML(pallete,x){
         <p class="pallete_title"> ${ pallete.name }</p>
 
         <div class="img_holder content-holder">
-
+        <img src = "/${src}"/>
         </div>
         <br >
         <div class="color_container color-grid"></div>

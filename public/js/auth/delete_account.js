@@ -6,7 +6,7 @@ delete_account.addEventListener("click",async(e)=>{
 
   if(delete_prompt.replaceAll(" ","") == "DELETE"){
 
-    const {data} = await axios.post("/delete/user/perm");
+    const {data} = await axios.post("/profile/delete");
 
     if(data.feedback){
       window.location.assign("/")

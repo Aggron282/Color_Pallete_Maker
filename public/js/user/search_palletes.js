@@ -21,27 +21,37 @@ function ExitSearch(){
 
 async function SubmitSearch(){
 
-  var form = new FormData(search_colors_form);
-  var input = document.querySelector(".search_nav");
-  document.querySelector(".icon--active").classList.remove("icon--active")
-    document.querySelector(".underline--active").classList.remove("underline--active")
-    // document.querySelector(".add--active").classList.remove("add--active")
-  if(input.value.length < 1){
-    alert("Empty Value");
-  }
+  try{
+    var form = new FormData(search_colors_form);
+    var input = document.querySelector(".search_nav");
 
-  var {data} = await axios.post("/user/palletes/search",form);
+    var icon = document.querySelector(".icon--active");
+    var underline = document.querySelector(".underline--active");
+      // document.querySelector(".add--active").classList.remove("add--active")
+    if(icon && underline){
+      icon.classList.remove("icon--active")
+      underline.classList.remove("underline--active");
+    }
 
-  if(data){
-    RenderResult(data.found_palletes);
-  }
-  else if(!data){
-    alert("No Palletes Found");
-  }
-  else if(data.found_palletes.length <= 0){
-    alert("No Palletes Found");
-  }else{
-    alert("No Palletes Found");
+    if(input.value.length < 1){
+      alert("Empty Value");
+    }
+
+    var {data} = await axios.post("/user/palletes/search",form);
+
+    if(data){
+      RenderResult(data.found_palletes);
+    }
+    else if(!data){
+      alert("No Palletes Found");
+    }
+    else if(data.found_palletes.length <= 0){
+      alert("No Palletes Found");
+    }else{
+      alert("No Palletes Found");
+    }
+  }catch(err){
+    console.log(err)
   }
 
 }

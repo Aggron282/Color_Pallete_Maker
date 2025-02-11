@@ -20,7 +20,18 @@
     padding: 30px;
 }
  .color-answer{
+  animation: color_appear .4s ease-in 1;
   font-size:13px !important;
+}
+@keyframes color_appear{
+  0%{
+    transform:translateY(-20px);
+    opacity:0;
+  }
+  100%{
+    transform:translateY(0px);
+    opacity:1;
+  }
 }
 .pallete-box--converter .title{
   color:white;

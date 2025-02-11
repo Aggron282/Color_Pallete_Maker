@@ -20,33 +20,35 @@
     <link href = "/css/user/navbar.css" rel="stylesheet">
     <link href = "/css/user/add_pallete.css" rel="stylesheet">
     <link href = "/css/user/dashboard.css" rel="stylesheet">
-    <link href = "/css/converter.css" rel="stylesheet">
     <link href = "/css/footer.css" rel="stylesheet">
+    <link href = "/css/loader.css" rel="stylesheet">
+    <link href = "/css/converter.css" rel="stylesheet">
+    <link href = "/css/user/ai.css" rel="stylesheet">
 
   </head>
 
   <body>
 
     <main class="dashboard_container">
-      <%- include ("./layouts/popup.ejs") %>
 
-      <!-- <img class="logo_watermark" src = "/imgs/logo.png"/> -->
-      <%- include("./layouts/color_picker.ejs") %>
+      <%- include ("./layouts/popup.ejs") %>
       <%- include("./layouts/navbar.ejs") %>
-      <%- include("./layouts/add_pallete.ejs") %>
+
+      <div class="ai_container">
+      <%- include("./layouts/recommend_description.ejs") %>
+
+      <%- include("./layouts/recommend_palletes.ejs") %>
+      </div>
     </main>
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
     <script src="/js/color_util.js"></script>
+    <script src="/js/loaders.js"></script>
     <script src="/js/utils.js"></script>
-    <script src="/js/auth/auth.js"></script>
     <script src = '/js/user/navbar.js'></script>
-
     <script src="/js/color_pallete.js"></script>
-    <script src="/js/img_upload.js"></script>
-    <script src = "/js/user/color_picker.js"></script>
-    <script src = "/js/user/add_pallete.js"></script>
     <script src = '/js/auth/delete_account.js'></script>
+    <script src = '/js/user/ai.js'></script>
 
   </body>
 

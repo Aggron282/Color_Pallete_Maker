@@ -4,100 +4,67 @@ var Pallete = require("./../models/color_pallete.js")
 var User = require("./../models/user.js");
 var mysql = require("mysql2");
 var color_util = require("./colors.js");
-async function findOnePallete(user_id,pallete_id,cb){
 
-  const pallete = await Pallete.findOne({
-    where: {
-      pallete_id: pallete_id,
-      user_id:user_id
+async function findOnePallete(user_id, pallete_id, cb) {
+    try {
+        const pallete = await Pallete.findOne({
+            where: { pallete_id, user_id }
+        });
+
+        cb(pallete ? pallete.dataValues : false);
+    } catch (error) {
+        console.error("Error finding pallete:", error);
+        cb(false);
     }
-  });
-
-  if(pallete){
-    cb(pallete.dataValues);
-  }
-  else{
-    cb(false)
-  }
-
 }
 
-async function findPalletesByArraySearch(user_id,terms,cb){
 
-  var found_palletes = [];
-
-  for(var i =0; i < terms.length; i++){
-
-    var rgb = null
-
-    rgb = color_util.hexToRgb(terms[i]);
-
-    var search_term = rgb ? rgb : terms[i];
-
-    if(color_util.isRGB(search_term)){
-
-      var search_by_rgb = await Pallete.findAll(  {
-
-        where: {
-            user_id: user_id,
-          }
-
-        }
-
-      );
-
-      for(var z =0 ; z < search_by_rgb.length;z++){
-
-        var rgb_arr = search_by_rgb[z].rgbList.split(" ");
-
-        for(var x = 0; x < rgb_arr.length; x++){
-
-          if(rgb_arr[x] === search_term.trim()){
-            found_palletes.push(search_by_rgb[z])
-            break;
-          }
-
-        }
-
-      }
+async function findPalletesByArraySearch(user_id, terms, cb) {
+    if (!terms || terms.length === 0) {
+        return [];
     }
-    else if(terms[i]){
 
-      var search_by_category = await Pallete.findAll(  {
-          where: {
-            user_id: user_id,
-            category:terms[i].toLowerCase().trim()
-          }
+    let found_palletes = [];
+
+    await Promise.all(terms.map(async (term) => {
+        let rgb = color_util.hexToRgb(term);
+        let search_term = rgb ? rgb : term;
+
+        if (color_util.isRGB(search_term)) {
+            // Search by RGB
+            let search_by_rgb = await Pallete.findAll({ where: { user_id } });
+
+            search_by_rgb.forEach((pallete) => {
+                let rgb_arr = pallete.rgbList.split(" ");
+                if (rgb_arr.includes(search_term.trim())) {
+                    found_palletes.push(pallete);
+                }
+            });
+
+        } else if (term) {
+            // Search by category
+            let search_by_category = await Pallete.findAll({
+                where: {
+                    user_id,
+                    category: term.toLowerCase().trim()
+                }
+            });
+
+            found_palletes.push(...search_by_category);
+
+            // Search by name
+            let search_by_name = await Pallete.findAll({
+                where: {
+                    user_id,
+                    name: term.toLowerCase().trim()
+                }
+            });
+
+            found_palletes.push(...search_by_name.map(p => p.dataValues));
         }
-
-        );
-
-        for(var i = 0; i < search_by_category.length; i++){
-            found_palletes.push(search_by_category[i])
-        }
-
-        if(!terms[i]){
-          break;
-        }
-
-        var search_by_name = await Pallete.findAll({
-            where: {
-              user_id: user_id,
-              name:terms[i].toLowerCase().trim()
-            }
-          }
-        );
-
-        for(var i = 0; i < search_by_name.length; i++){
-          found_palletes.push(search_by_name[i].dataValues)
-        }
-
-      }
-
-    }
+    }));
 
     cb(found_palletes);
-
 }
 
 async function editPallete(user_id,pallete_id,config,cb){
@@ -158,39 +125,24 @@ async function findUser(username,cb){
 
 }
 
-async function deletePallete(user_id,pallete_id,cb){
-
-  const delete_exec = await Pallete.destroy({
-    where: {
-      user_id: user_id,
-      pallete_id:pallete_id
+async function deletePallete(user_id, pallete_id, cb) {
+    try {
+        const delete_exec = await Pallete.destroy({ where: { user_id, pallete_id } });
+        cb(delete_exec > 0);
+    } catch (error) {
+        console.error("Error deleting pallete:", error);
+        cb(false);
     }
-  });
-
-  if(delete_exec){
-    cb(true)
-  }
-  else{
-    cb(false)
-  }
-
 }
 
-async function deleteUser(user_id,cb){
-
-  const delete_exec = await User.destroy({
-    where: {
-      user_id: user_id,
+async function deleteUser(user_id, cb) {
+    try {
+        const delete_exec = await User.destroy({ where: { user_id } });
+        cb(delete_exec > 0);
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        cb(false);
     }
-  });
-
-  if(delete_exec){
-    cb(true)
-  }
-  else{
-    cb(false)
-  }
-
 }
 
 async function findUserPalletes(user_id,cb){

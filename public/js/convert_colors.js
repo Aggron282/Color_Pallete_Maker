@@ -1,7 +1,7 @@
 let type_form = "color";
 
 function InitColorConversionFeature(form_converter, form_button_converter) {
-
+  console.log(form_converter,form_button_converter)
     if (!form_converter || !form_button_converter) return;
 
     form_converter.addEventListener("submit", (e) => {
@@ -21,10 +21,13 @@ function InitColorPicker() {
     const form_converter = document.querySelector(".convert--form");
     const type_to_convert = document.querySelector(".type_conversion");
     const form_button_converter = document.querySelector(".submit-button--converter");
+    const type_boxes = type_converter_container.querySelectorAll(".type-box")
+
+    console.log(type_boxes)
 
     if (!type_converter_container || !form_converter || !type_to_convert) return;
 
-    type_converter_container.querySelectorAll(".type-box").forEach((box) => {
+    type_boxes.forEach((box) => {
         box.addEventListener("click", function (e) {
             e.stopPropagation();
             const type = e.target.dataset.type?.toLowerCase();
@@ -34,8 +37,10 @@ function InitColorPicker() {
             e.target.classList.add("type-box--active");
 
             type_form = ["rgb", "hsl", "hex"].includes(type) ? "color" : "filter";
+            console.log(type_form)
             type_to_convert.value = type;
         });
+
     });
 
     // Event listener for form submission
@@ -55,7 +60,10 @@ function InitColorPicker() {
 async function SubmitConversion() {
     const form = new FormData(document.querySelector(".convert--form"));
     const root = "/convert/";
-
+    const tri_container = document.querySelector(".color-grid--tri");
+    const comp_container = document.querySelector(".color-grid--comp");
+    RenderLoaderPalleteBoxes(tri_container,5)
+    RenderLoaderPalleteBoxes(comp_container,5)
     try {
         const { data } = await axios.post(root + type_form, form);
         const converted_color = data.color;
@@ -70,8 +78,8 @@ async function SubmitConversion() {
             Recommend("rec", converted_color),
         ]);
 
-        RenderColorPallete(document.querySelector(".color-grid--tri"), tri);
-        RenderColorPallete(document.querySelector(".color-grid--comp"), comp);
+        RenderColorPallete(tri_container, tri);
+        RenderColorPallete(comp_container, comp);
 
     }
     catch (error) {

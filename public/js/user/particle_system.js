@@ -17,6 +17,7 @@ class Particle {
         this.growthSpeed = growthSpeed || 0.0005; // Subtle acceleration
         this.angle = Math.random() * Math.PI * 2;
         this.orbitRadius = 250 + Math.random() * 100; // Larger orbit range
+        console.log(this);
     }
 
     draw() {
@@ -90,14 +91,15 @@ class Particle {
 
         this.x += this.speedX;
         this.y += this.speedY;
+
         if(this.behavior !== "bounce"){
           this.speedX *= 0.99998; // Apply friction
           this.speedY *= 0.99998;
-      }else{
-        this.speedX *= 0.999998; // Apply friction
-        this.speedY *= 0.990998;
-      }
-
+        }else{
+          this.speedX *= 0.999998; // Apply friction
+          this.speedY *= 0.990998;
+        }
+        console.log(this.speedX,this.speedY)
         if (this.behavior === "bounce") {
             if (this.x <= 0 || this.x >= canvasWidth) this.speedX *= -0.9; // Energy loss
             if (this.y <= 0 || this.y >= canvasHeight) this.speedY *= -0.9;
@@ -112,6 +114,7 @@ class ParticleSystem {
         this.particles = [];
         this.spawnInterval = null;
         this.animationRunning = false;
+        this.animationFrameId = null; // Track animation frame
         this.resizeCanvas();
         window.addEventListener("resize", () => this.resizeCanvas());
     }
@@ -123,6 +126,14 @@ class ParticleSystem {
 
     createParticles(config) {
         this.clearCanvas();
+
+        // Stop previous animation properly
+        this.animationRunning = false;
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
+
         this.particles = [];
 
         if (this.spawnInterval) clearInterval(this.spawnInterval);
@@ -141,7 +152,7 @@ class ParticleSystem {
 
     spawnParticles(config) {
         const spawnArea = getSpawnArea();
-        const centerX = spawnArea.x + spawnArea.width ;
+        const centerX = spawnArea.x + spawnArea.width;
         const centerY = spawnArea.y + spawnArea.height;
 
         for (let i = 0; i < config.amount; i++) {
@@ -155,10 +166,12 @@ class ParticleSystem {
             let image = config.image || null;
             let behavior = config.behavior || "none";
 
-            this.particles.push(new Particle(
+            var particle = new Particle(
                 x, y, size, speedX, speedY, color,
                 config.shape, image, config.glow, config.growthSize, config.growthSpeed, behavior, this.ctx
-            ));
+            );
+
+            this.particles.push(particle);
         }
 
         if (!this.animationRunning) {
@@ -169,22 +182,35 @@ class ParticleSystem {
 
     startAnimation(centerX, centerY) {
         const animate = () => {
+            if (!this.animationRunning) return; // Prevent multiple loops
+
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.particles = this.particles.filter(p => p.size > 0);
             this.particles.forEach(p => {
                 p.update(centerX, centerY, this.canvas.width, this.canvas.height);
                 p.draw();
             });
-            requestAnimationFrame(animate);
+
+            this.animationFrameId = requestAnimationFrame(animate);
         };
-        animate();
+
+        // Ensure only one animation loop is running
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+        }
+        this.animationFrameId = requestAnimationFrame(animate);
     }
 
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.particles = [];
         this.animationRunning = false;
+
         if (this.spawnInterval) clearInterval(this.spawnInterval);
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
     }
 }
 
@@ -239,12 +265,13 @@ document.getElementById("createParticle").addEventListener("click", () => {
 });
 
 function ToggleCopyPasteButton(btn,isOn){
-  if(isOn){
+  console.log(btn,isOn)
+  if(isOn && btn){
     btn.classList.add("copy_paste_button--active")
-    btn.setAttribite("isOn",1)
-  }else{
+    btn.setAttribute("isOn",1)
+  }else if(btn){
     btn.classList.remove("copy_paste_button--active")
-    btn.setAttribite("isOn",0)
+    btn.setAttribute("isOn",0)
   }
 }
 

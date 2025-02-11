@@ -112,10 +112,10 @@ const CreateAccount = async (req,res) => {
     res.json({feedback:false,msg:"Validation Error", validation_errors:errors})
     return;
   }
-
+  console.log(username);
   my_sequelize_util.findUser(username,async (found_user)=>{
     console.log(found_user);
-    if(found_user.length > 0){
+    if(found_user){
       res.json({feedback:false, msg: "User Already Exists"})
       return;
     }

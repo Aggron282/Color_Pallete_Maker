@@ -27,14 +27,15 @@ const validateAddPallete = [
 ];
 
 // Define routes and connect them to controller functions
-router.post("/search", palleteController.SearchPalletes);
+router.post("/user/palletes/search", palleteController.SearchPalletes);
 router.post("/user/pallete/single", palleteController.GetSinglePalleteData);
 router.post("/add-colors", palleteController.AddCustomColorsToPallete);
 router.post("/user/pallete/edit", palleteController.EditPallete);
 router.get("/user/palletes/organized", palleteController.GetOrganizedPalletes);
 router.get("/user-palletes", palleteController.GetUserPalletes);
 router.delete("/delete", palleteController.DeletePallete);
-
+router.post("/ai/recommend/pallete",palleteController.PalleteAIRecommendations);
 router.post("/save", validateAddPallete, palleteController.AddPallete);
+
 
 module.exports = router;

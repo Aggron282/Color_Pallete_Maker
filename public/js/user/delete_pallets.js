@@ -89,7 +89,7 @@ if(document.querySelector("#delete-pallete")){
         var pallete_id = e.target.getAttribute("_id");
         Delete(pallete_id,"/dashboard");
     });
-    
+
 }
 
 Init();

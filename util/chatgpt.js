@@ -27,11 +27,14 @@ module.exports.chatWithGPT = async function chatWithGPT(message) {
         let content = data.choices[0].message.content;
 
         content = content.replace(/```json\n|```/g, "");
+        try{
+          const json = JSON.parse(content);
 
-        const json = JSON.parse(content);
-
-        return json;
-
+          return json;
+        }catch(error){
+          console.log(error);
+          return content;
+        }
     } catch (error) {
       console.log(error)
         console.error("Error:", error.response ? error.response.data : error.message);

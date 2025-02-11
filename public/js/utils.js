@@ -6,6 +6,34 @@ const setInnerHTML = (container, content) => {
     if (container) container.innerHTML = content;
 };
 
+function getLastUrlSegment() {
+    const url = window.location.href;
+    const trimmedUrl = url.replace(/\/$/, "");
+    const segments = trimmedUrl.split("/");
+    return segments.pop();
+}
+
+function toFormData(data) {
+    const formData = new FormData();
+
+    Object.keys(data).forEach(key => {
+        if (Array.isArray(data[key])) {
+            // Append array values individually
+            data[key].forEach(value => formData.append(`${key}[]`, value));
+        } else if (data[key] instanceof File) {
+            // Handle File objects
+            formData.append(key, data[key]);
+        } else if (typeof data[key] === 'object' && data[key] !== null) {
+            // Convert objects to JSON strings
+            formData.append(key, JSON.stringify(data[key]));
+        } else {
+            formData.append(key, data[key]);
+        }
+    });
+
+    return formData;
+}
+
 
 function randomColor(colors) {
   return colors[Math.floor(Math.random() * colors.length)]

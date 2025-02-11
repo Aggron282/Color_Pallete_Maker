@@ -13,6 +13,7 @@ router.get("/category/:category", controller.GetAllInCategoryPage); // Palettes 
 router.get("/detail/:pallete", controller.GetPalleteDetailPage); // Palette details
 router.get("/login", controller.GetLoginPage); // Login page
 router.get("/create_account", controller.GetCreateAccountPage); // Create account page
+router.get("/ai/:pallete_id", controller.GetAIPage); // ai recommend page
 
 module.exports = router;
 

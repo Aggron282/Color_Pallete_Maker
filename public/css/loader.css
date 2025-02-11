@@ -1,0 +1,112 @@
+.loading-container {
+    position: relative;
+    padding:10px;
+    width: 100px;
+    height: 50px;
+    background: linear-gradient(to right, #111, #222);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+.loading_container .title{
+  color:white;
+  font-size: 18px;
+  font-weight: 300;
+  font-family: "Oswald"
+}
+.movie-thumbnails {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    animation: fade 3s infinite alternate;
+}
+
+@keyframes fade {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+}
+
+.loader {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.electron {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #00a8ff;
+    border-radius: 50%;
+    animation: orbit 1.5s linear infinite;
+}
+
+.electron:nth-child(1) {
+    top: 20%;
+    left: 50%;
+    animation-delay: 0s;
+}
+
+.electron:nth-child(2) {
+    top: 50%;
+    left: 50%;
+    animation-delay: 0.5s;
+}
+
+.electron:nth-child(3) {
+    top: 50%;
+    left: 50%;
+    animation-delay: 1s;
+}
+
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) translateX(30px) rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg) translateX(30px) rotate(-360deg);
+    }
+}
+
+.core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #00a8ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.loading-text {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+}
