@@ -23,9 +23,11 @@
     "sqlite3": "^5.1.7"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "npm prune --production"
+
   },
-  "engines": {
+    "engines": {
     "node": "v20.15.1",
     "npm": "10.7.0"
   },
