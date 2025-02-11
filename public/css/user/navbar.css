@@ -57,18 +57,18 @@ nav{
   opacity:1 !important;
   pointer-events: all !important;
 }
-
+/* 
 .profile_choice_container--logout{
   color:red;
   font-family: "Oswald";
-}
+} */
 
-.profile_choice_container--delete_account{
+/* .profile_choice_container--delete_account{
   color:maroon;
   font-family: "Oswald";
   font-size: 14px;
   font-weight: 300;
-}
+} */
 
 .add--active{
   opacity:1 !important;

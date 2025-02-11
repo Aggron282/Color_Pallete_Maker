@@ -70,18 +70,27 @@ const GetLoginPage = (req, res) => renderPage(res, "auth/login.ejs");
 const GetCreateAccountPage = (req, res) => renderPage(res, "auth/create_account.ejs");
 
 // 📊 Dashboard Page
-const GetDashboardPage = async (req, res) => {
-    try {
-        my_sequelize_util.findUserPalletes(req.user.user_id, async (colors) => {
-            const palletes = await color_util.ConfigurePalletes(colors);
-            const organized_palletes = category_util.CreatePalleteCategories(palletes);
-            renderPage(res, "user/dashboard.ejs", { user: req.user, path: "/dashboard", organized_palletes });
-        });
-    } catch (error) {
-        console.error("Error fetching dashboard data:", error);
-        res.status(500).send("Error loading dashboard.");
+async function GetDashboardPage(req, res) {
+  try {
+   console.log(req.session)
+    // if (!req.session || !req.session.user_id) {
+    //   return res.status(401).json({ error: "User not authenticated" });
+    // }
+
+    const userId = req.session.user_id;
+
+     await my_sequelize_util.findUser(req.session.user.username,(user)=>{
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      renderPage(res, "user/dashboard.ejs", { user: req.user, path: "/dashboard", pallete: null })
+    });
+    } catch (err) {
+      console.error("Error fetching dashboard data:", err);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-};
+}
+
 
 // ➕ Add Palette Page
 const GetAddPage = (req, res) => renderPage(res, "user/add.ejs", { user: req.user, path: "/add", pallete: null });
